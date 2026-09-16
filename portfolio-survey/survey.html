@@ -1,0 +1,980 @@
+<title>Portfolio Request</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+:root{
+  --bg:#EEF0F2; --surface:#FFFFFF; --surface-2:#F6F7F8;
+  --ink:#191C1F; --ink-soft:#5A626B; --ink-faint:#8A929A;
+  --line:#D9DDE1; --line-strong:#C2C8CD;
+  --accent:#E15B12; --accent-ink:#FFFFFF; --accent-soft:#FCE7D8;
+  --success:#2E8B57; --success-soft:#DFF3E7;
+  --danger:#C43D3D; --danger-soft:#FBE4E4;
+  --shadow:0 1px 2px rgba(25,28,31,.06), 0 10px 24px -12px rgba(25,28,31,.16);
+  --font-display:'Big Shoulders Display','Arial Narrow',sans-serif;
+  --font-body:'IBM Plex Sans',-apple-system,'Segoe UI',sans-serif;
+  --font-mono:'IBM Plex Mono','SFMono-Regular',Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#14171A; --surface:#1C2024; --surface-2:#22262A;
+    --ink:#ECEEEF; --ink-soft:#9BA3AB; --ink-faint:#6B747C;
+    --line:#2B3034; --line-strong:#3A4045;
+    --accent:#FF7A33; --accent-ink:#1A0E06; --accent-soft:#3A2415;
+    --success:#4CAF7D; --success-soft:#163526;
+    --danger:#E2685F; --danger-soft:#3A1E1E;
+    --shadow:0 1px 2px rgba(0,0,0,.5), 0 10px 24px -12px rgba(0,0,0,.6);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#14171A; --surface:#1C2024; --surface-2:#22262A;
+  --ink:#ECEEEF; --ink-soft:#9BA3AB; --ink-faint:#6B747C;
+  --line:#2B3034; --line-strong:#3A4045;
+  --accent:#FF7A33; --accent-ink:#1A0E06; --accent-soft:#3A2415;
+  --success:#4CAF7D; --success-soft:#163526;
+  --danger:#E2685F; --danger-soft:#3A1E1E;
+  --shadow:0 1px 2px rgba(0,0,0,.5), 0 10px 24px -12px rgba(0,0,0,.6);
+}
+*{box-sizing:border-box;}
+@media (prefers-reduced-motion: reduce){ *{transition:none!important; animation:none!important;} }
+body{
+  margin:0; background:var(--bg); color:var(--ink); font-family:var(--font-body);
+  padding-inline:16px; padding-block:36px; font-size:15px; line-height:1.5;
+}
+.wrap{max-width:760px; margin-inline:auto;}
+.topbar{display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:14px; flex-wrap:wrap;}
+.brand{font-family:var(--font-mono); font-size:12px; letter-spacing:.10em; color:var(--ink-faint); text-transform:uppercase;}
+.viewlink{font-family:var(--font-mono); font-size:12.5px; letter-spacing:.03em; color:var(--accent); background:none; border:1px solid var(--line-strong); border-radius:4px; padding:6px 11px; cursor:pointer;}
+.viewlink:hover{border-color:var(--accent);}
+.viewlink:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible, [tabindex]:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+
+.sheet{background:var(--surface); border:1px solid var(--line); border-radius:8px; box-shadow:var(--shadow); overflow:hidden;}
+.head{padding:26px 32px 22px; border-bottom:1px solid var(--line); display:flex; justify-content:space-between; gap:16px; align-items:flex-start; flex-wrap:wrap;}
+.head h1{font-family:var(--font-display); font-weight:800; font-size:clamp(28px,5vw,38px); text-transform:uppercase; letter-spacing:.01em; margin:2px 0 8px; text-wrap:balance;}
+.head p{margin:0; color:var(--ink-soft); max-width:46ch; font-size:14px;}
+.stamp{font-family:var(--font-mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; border:1px solid var(--line-strong); color:var(--ink-faint); border-radius:4px; padding:5px 10px; white-space:nowrap;}
+
+.station{padding:26px 32px; border-bottom:1px solid var(--line);}
+.station:last-of-type{border-bottom:none;}
+.station-head{display:flex; align-items:baseline; gap:11px; margin-bottom:14px;}
+.station-num{font-family:var(--font-mono); font-size:12.5px; font-weight:600; color:var(--accent); border:1px solid var(--accent); border-radius:3px; padding:2px 7px; letter-spacing:.04em; flex:none;}
+.station-title{font-family:var(--font-display); font-weight:700; font-size:19px; letter-spacing:.02em; text-transform:uppercase; text-wrap:balance;}
+.station-sub{font-size:13px; color:var(--ink-soft); margin:-8px 0 14px 0;}
+.optional-tag{font-family:var(--font-mono); font-size:10.5px; color:var(--ink-faint); text-transform:uppercase; letter-spacing:.06em; font-weight:400;}
+
+label.field-label{display:block; font-size:12.5px; font-weight:600; color:var(--ink-soft); margin-bottom:6px; text-transform:uppercase; letter-spacing:.03em;}
+input[type=text], input[type=number], textarea{
+  width:100%; background:var(--surface-2); border:1px solid var(--line-strong); border-radius:6px;
+  padding:10px 12px; font-family:var(--font-body); font-size:14.5px; color:var(--ink);
+}
+input[type=text]:focus, input[type=number]:focus, textarea:focus{ outline:2px solid var(--accent); outline-offset:1px; border-color:var(--accent); }
+textarea{min-height:92px; resize:vertical; line-height:1.5;}
+.hint{font-size:12px; color:var(--ink-faint); margin-top:6px;}
+.err{font-size:12.5px; color:var(--danger); margin-top:6px; display:none; font-weight:500;}
+.err.show{display:block;}
+.field.invalid input, .field.invalid textarea{border-color:var(--danger); background:var(--danger-soft);}
+
+.product-search{margin-bottom:12px;}
+.product-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(128px,1fr)); gap:9px;}
+.product-card{border:1px solid var(--line); border-radius:7px; padding:9px; cursor:pointer; background:var(--surface-2); display:flex; flex-direction:column; gap:6px; transition:border-color .12s,background .12s,transform .08s; text-align:left;}
+.product-card:hover{border-color:var(--line-strong);}
+.product-card.selected{border-color:var(--accent); background:var(--accent-soft); box-shadow:0 0 0 1px var(--accent) inset;}
+.product-card img{width:100%; aspect-ratio:1; object-fit:contain; background:#fff; border-radius:4px; border:1px solid var(--line);}
+.product-card .code{font-family:var(--font-mono); font-weight:600; font-size:12px; color:var(--accent); letter-spacing:.02em;}
+.product-card .name{font-size:11.5px; color:var(--ink-soft); line-height:1.3;}
+.product-card.new-card{align-items:center; justify-content:center; text-align:center; border-style:dashed; min-height:100%; gap:4px;}
+.product-card.new-card .plus{font-family:var(--font-display); font-size:26px; color:var(--ink-faint); line-height:1;}
+.product-card.new-card .name{font-family:var(--font-mono); text-transform:uppercase; letter-spacing:.04em; font-size:11px;}
+.product-card.hidden{display:none;}
+.new-name-wrap{margin-top:12px; display:none;}
+.new-name-wrap.show{display:block;}
+
+.chip-row{display:flex; flex-wrap:wrap; gap:8px;}
+.chip{font-family:var(--font-body); font-size:13px; border:1px solid var(--line-strong); background:var(--surface-2); color:var(--ink); border-radius:99px; padding:7px 14px; cursor:pointer; transition:border-color .12s,background .12s,color .12s;}
+.chip:hover{border-color:var(--accent);}
+.chip[aria-pressed="true"]{background:var(--accent); border-color:var(--accent); color:var(--accent-ink); font-weight:600;}
+.other-wrap{margin-top:12px; display:none;}
+.other-wrap.show{display:block;}
+
+.market-row{display:flex; align-items:center; justify-content:space-between; gap:14px; padding:10px 0; border-bottom:1px solid var(--line);}
+.market-row:last-of-type{border-bottom:none;}
+.market-check{display:flex; align-items:center; gap:10px; cursor:pointer; flex:1; min-width:0;}
+.market-check input{width:17px; height:17px; accent-color:var(--accent); flex:none;}
+.market-check span{font-size:14px;}
+.priority-group{display:flex; gap:5px; opacity:.35; pointer-events:none; transition:opacity .12s;}
+.priority-group.active{opacity:1; pointer-events:auto;}
+.pri-btn{width:28px; height:28px; border-radius:5px; border:1px solid var(--line-strong); background:var(--surface-2); font-family:var(--font-mono); font-size:12.5px; font-weight:600; color:var(--ink-soft); cursor:pointer;}
+.pri-btn[aria-pressed="true"]{background:var(--accent); border-color:var(--accent); color:var(--accent-ink);}
+.pri-hint{font-size:11px; color:var(--ink-faint); text-align:right; margin-top:8px;}
+
+.seg{display:inline-flex; border:1px solid var(--line-strong); border-radius:7px; overflow:hidden; margin-bottom:12px;}
+.seg button{font-family:var(--font-body); font-size:13px; font-weight:600; padding:8px 16px; border:none; background:var(--surface-2); color:var(--ink-soft); cursor:pointer;}
+.seg button[aria-pressed="true"]{background:var(--accent); color:var(--accent-ink);}
+.price-exact{display:flex; align-items:center; gap:8px; max-width:220px;}
+.price-exact span{font-family:var(--font-mono); font-size:16px; color:var(--ink-soft);}
+.price-exact input{font-family:var(--font-mono); font-size:15px;}
+.pricing-mode-panel{display:none;}
+.pricing-mode-panel.show{display:block;}
+
+.file-row{display:flex; align-items:center; gap:10px; flex-wrap:wrap;}
+input[type=file]{font-family:var(--font-body); font-size:13px; color:var(--ink-soft);}
+.file-chip{display:none; align-items:center; gap:8px; font-family:var(--font-mono); font-size:12.5px; background:var(--surface-2); border:1px solid var(--line-strong); border-radius:6px; padding:6px 10px;}
+.file-chip.show{display:inline-flex;}
+.file-chip button{border:none; background:none; color:var(--danger); cursor:pointer; font-size:14px; font-weight:700; padding:0;}
+
+.submit-area{padding:28px 32px 32px; text-align:center;}
+.submit-btn{font-family:var(--font-display); font-weight:700; font-size:19px; text-transform:uppercase; letter-spacing:.03em; background:var(--accent); color:var(--accent-ink); border:none; border-radius:7px; padding:15px 34px; cursor:pointer; box-shadow:var(--shadow);}
+.submit-btn:hover{filter:brightness(1.06);}
+.submit-note{font-size:12px; color:var(--ink-faint); margin-top:10px;}
+.form-err-banner{display:none; background:var(--danger-soft); color:var(--danger); border:1px solid var(--danger); border-radius:6px; padding:10px 14px; font-size:13px; font-weight:600; margin:0 32px 0; text-align:center;}
+.form-err-banner.show{display:block; margin-top:22px;}
+
+.confirm{padding:36px 32px; text-align:center; display:none;}
+.confirm.show{display:block;}
+.confirm .stampbox{display:inline-block; transform:rotate(-3deg); border:2px solid var(--success); color:var(--success); font-family:var(--font-mono); text-transform:uppercase; letter-spacing:.08em; font-weight:600; font-size:13px; padding:6px 16px; border-radius:5px; margin-bottom:16px;}
+.confirm h2{font-family:var(--font-display); font-weight:800; font-size:30px; text-transform:uppercase; margin:0 0 6px;}
+.confirm .ref{font-family:var(--font-mono); font-size:15px; color:var(--ink-soft); margin-bottom:6px;}
+.confirm .status-note{font-size:13.5px; color:var(--ink-soft); max-width:44ch; margin:0 auto 24px;}
+.confirm .status-note.warn{color:var(--danger);}
+.confirm-actions{display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-bottom:18px;}
+.action-btn{font-family:var(--font-body); font-weight:600; font-size:14px; border-radius:7px; padding:11px 20px; cursor:pointer; border:1px solid var(--line-strong); background:var(--surface-2); color:var(--ink); text-decoration:none; display:inline-flex; align-items:center; gap:8px;}
+.action-btn.primary{background:var(--accent); border-color:var(--accent); color:var(--accent-ink);}
+.action-btn:hover{border-color:var(--accent);}
+.toast{position:fixed; bottom:20px; left:50%; transform:translateX(-50%); background:var(--ink); color:var(--bg); font-size:13px; padding:9px 18px; border-radius:6px; opacity:0; pointer-events:none; transition:opacity .2s;}
+.toast.show{opacity:1;}
+.again-link{background:none; border:none; color:var(--accent); font-size:13px; font-weight:600; cursor:pointer; text-decoration:underline;}
+
+.draft-note{font-size:12px; color:var(--ink-faint); text-align:center; margin-top:10px;}
+.draft-note button{background:none; border:none; color:var(--accent); cursor:pointer; font-size:12px; text-decoration:underline; padding:0;}
+
+/* Admin log */
+#admin{display:none;}
+#admin.show{display:block;}
+#formscreen.hide{display:none;}
+.admin-head{display:flex; justify-content:space-between; align-items:center; gap:12px; padding:24px 28px; border-bottom:1px solid var(--line); flex-wrap:wrap;}
+.admin-head h2{font-family:var(--font-display); font-weight:800; font-size:24px; text-transform:uppercase; margin:0;}
+.admin-actions{display:flex; gap:10px; flex-wrap:wrap;}
+.admin-body{padding:18px 28px 28px;}
+.log-empty{color:var(--ink-faint); font-size:13.5px; padding:20px 0; text-align:center;}
+.log-table-wrap{overflow-x:auto; border:1px solid var(--line); border-radius:7px;}
+table.log{width:100%; border-collapse:collapse; font-size:13px; min-width:720px;}
+table.log th{font-family:var(--font-mono); font-size:11px; text-transform:uppercase; letter-spacing:.04em; color:var(--ink-faint); text-align:left; padding:9px 12px; border-bottom:1px solid var(--line); background:var(--surface-2); white-space:nowrap;}
+table.log td{padding:10px 12px; border-bottom:1px solid var(--line); vertical-align:top;}
+table.log tr:last-child td{border-bottom:none;}
+table.log tr.logrow{cursor:pointer;}
+table.log tr.logrow:hover{background:var(--surface-2);}
+.log-ref{font-family:var(--font-mono); font-size:12px; color:var(--accent);}
+.detail-row td{background:var(--surface-2); padding:0;}
+.detail-inner{padding:16px 18px; display:none; font-size:13px;}
+.detail-inner.show{display:grid; grid-template-columns:1fr 1fr; gap:14px;}
+.detail-inner .dfield{margin-bottom:2px;}
+.detail-inner .dfield b{display:block; font-size:11px; text-transform:uppercase; letter-spacing:.03em; color:var(--ink-faint); margin-bottom:3px; font-family:var(--font-mono); font-weight:600;}
+.detail-inner .full{grid-column:1/-1;}
+.count-tag{font-family:var(--font-mono); font-size:11px; color:var(--ink-faint);}
+
+@media (max-width:480px){
+  .head,.station,.submit-area,.confirm,.admin-head,.admin-body{padding-left:18px; padding-right:18px;}
+  .detail-inner.show{grid-template-columns:1fr;}
+}
+</style>
+
+<div class="wrap">
+  <div class="topbar">
+    <div class="brand">Balluff &middot; Sales Field Input</div>
+    <button class="viewlink" id="toAdminBtn" style="display:none;" type="button">View Submission Log &rarr;</button>
+  </div>
+
+  <div class="sheet" id="formscreen">
+    <div class="head">
+      <div>
+        <h1>Portfolio Request</h1>
+        <p>Flag a product gap or feature idea from the field. Takes about three minutes — every submission goes straight to the portfolio review log.</p>
+      </div>
+      <div class="stamp" id="formStamp">Draft</div>
+    </div>
+
+    <form id="theForm" novalidate>
+      <div class="station">
+        <div class="station-head"><span class="station-num">01</span><span class="station-title">Requested By</span></div>
+        <div class="field" id="field-name">
+          <label class="field-label" for="f-name">Your name</label>
+          <input type="text" id="f-name" autocomplete="name" placeholder="e.g. Jordan Reyes">
+          <div class="err" id="err-name">Enter your name so Austin knows who to follow up with.</div>
+        </div>
+      </div>
+
+      <div class="station">
+        <div class="station-head"><span class="station-num">02</span><span class="station-title">Product Match</span></div>
+        <div class="station-sub">Which product in our lineup is closest to what they're asking for? Pick the closest match, or flag it as something new.</div>
+        <div class="field" id="field-product">
+          <input type="text" class="product-search" id="product-search" placeholder="Search by code or name&hellip;">
+          <div class="product-grid" id="productGrid"></div>
+          <div class="new-name-wrap" id="newNameWrap">
+            <label class="field-label" for="f-newname">What would you call it? <span class="optional-tag">optional</span></label>
+            <input type="text" id="f-newname" placeholder="e.g. Alternative to Keyence LR-Z">
+          </div>
+          <div class="err" id="err-product">Pick a product match, or select "Something New".</div>
+        </div>
+      </div>
+
+      <div class="station">
+        <div class="station-head"><span class="station-num">03</span><span class="station-title">Technical Requirement</span></div>
+        <div class="field" id="field-req">
+          <label class="field-label" for="f-req">What needs to change — or what's the gap?</label>
+          <textarea id="f-req" placeholder="e.g. Same footprint as BOS but 2&times; the sensing range, IO-Link output&hellip; or: direct alternative to a Keyence LR-Z with a metal housing."></textarea>
+          <div class="err" id="err-req">Describe the requirement — even a sentence helps.</div>
+        </div>
+      </div>
+
+      <div class="station">
+        <div class="station-head"><span class="station-num">04</span><span class="station-title">Competitive Landscape</span><span class="optional-tag">optional</span></div>
+        <div class="station-sub">Which competitors would this go up against?</div>
+        <div class="chip-row" id="competitorChips"></div>
+        <div class="other-wrap" id="competitorOtherWrap">
+          <input type="text" id="f-competitor-other" placeholder="Other competitor(s)">
+        </div>
+      </div>
+
+      <div class="station">
+        <div class="station-head"><span class="station-num">05</span><span class="station-title">Market Application</span></div>
+        <div class="station-sub">Check every market that applies, then rank your top three — 3 is highest priority.</div>
+        <div class="field" id="field-markets">
+          <div id="marketList"></div>
+          <div class="other-wrap show" style="margin-top:14px;">
+            <input type="text" id="f-market-other" placeholder="Other market (optional)">
+          </div>
+          <div class="pri-hint">Tap 1&ndash;3 next to a checked market to rank it &middot; 3 = highest priority</div>
+          <div class="err" id="err-markets">Check at least one market and give it a priority.</div>
+        </div>
+      </div>
+
+      <div class="station">
+        <div class="station-head"><span class="station-num">06</span><span class="station-title">Commercial Target</span></div>
+        <div class="station-sub">What price point would win this business?</div>
+        <div class="field" id="field-price">
+          <div class="seg" id="priceModeSeg">
+            <button type="button" data-mode="exact" aria-pressed="true">Exact price</button>
+            <button type="button" data-mode="range" aria-pressed="false">Price range</button>
+          </div>
+          <div class="pricing-mode-panel show" id="priceExactPanel">
+            <div class="price-exact"><span>$</span><input type="number" id="f-price-exact" min="0" step="0.01" placeholder="0.00"></div>
+          </div>
+          <div class="pricing-mode-panel" id="priceRangePanel">
+            <div class="chip-row" id="priceRangeChips"></div>
+          </div>
+          <div class="err" id="err-price">Enter a target price or pick a range.</div>
+        </div>
+      </div>
+
+      <div class="station">
+        <div class="station-head"><span class="station-num">07</span><span class="station-title">Customer Count</span></div>
+        <div class="station-sub">How many customers would you see volume business with?</div>
+        <div class="field" id="field-custcount">
+          <div class="chip-row" id="custCountChips"></div>
+          <div class="err" id="err-custcount">Pick a range.</div>
+        </div>
+      </div>
+
+      <div class="station">
+        <div class="station-head"><span class="station-num">08</span><span class="station-title">Volume Outlook</span></div>
+        <div class="station-sub">Average expected annual volume, per target customer.</div>
+        <div class="field" id="field-volume">
+          <div class="chip-row" id="volumeChips"></div>
+          <div class="err" id="err-volume">Pick a range.</div>
+        </div>
+      </div>
+
+      <div class="station">
+        <div class="station-head"><span class="station-num">09</span><span class="station-title">Timeline</span></div>
+        <div class="station-sub">How soon is this needed?</div>
+        <div class="field" id="field-timeline">
+          <div class="chip-row" id="timelineChips"></div>
+          <div class="err" id="err-timeline">Pick a timeline.</div>
+        </div>
+      </div>
+
+      <div class="station">
+        <div class="station-head"><span class="station-num">10</span><span class="station-title">Attachment</span><span class="optional-tag">optional</span></div>
+        <div class="station-sub">Spec sheet, drawing, or photo — keep it under ~150&nbsp;KB.</div>
+        <div class="file-row">
+          <input type="file" id="f-attachment">
+          <span class="file-chip" id="fileChip"><span id="fileChipName"></span><button type="button" id="fileRemoveBtn" aria-label="Remove attachment">&times;</button></span>
+        </div>
+        <div class="err" id="err-attachment"></div>
+      </div>
+
+      <div class="form-err-banner" id="formErrBanner">Please fix the highlighted fields above.</div>
+
+      <div class="submit-area">
+        <button type="submit" class="submit-btn" id="submitBtn">Submit Request</button>
+        <div class="submit-note">Sends straight to the portfolio review log. Nothing else happens automatically.</div>
+        <div class="draft-note" id="draftNote" style="display:none;">Draft restored from your last visit. <button type="button" id="clearDraftBtn">Clear draft</button></div>
+      </div>
+    </form>
+
+    <div class="confirm" id="confirmScreen">
+      <div class="stampbox">Submitted</div>
+      <h2>Request Submitted</h2>
+      <div class="ref" id="confirmRef"></div>
+      <div class="status-note" id="confirmStatus"></div>
+      <div class="confirm-actions">
+        <a class="action-btn primary" id="emailBtn" href="#">Email Austin</a>
+        <button class="action-btn" id="teamsBtn" type="button">Copy summary for Teams</button>
+      </div>
+      <button class="again-link" id="againBtn" type="button">Submit another response</button>
+    </div>
+  </div>
+
+  <div class="sheet" id="admin">
+    <div class="admin-head">
+      <h2>Submission Log</h2>
+      <div class="admin-actions">
+        <span class="count-tag" id="logCount"></span>
+        <button class="action-btn" id="exportCsvBtn" type="button">Export CSV</button>
+        <button class="viewlink" id="toFormBtn" type="button">&larr; Back to Form</button>
+      </div>
+    </div>
+    <div class="admin-body">
+      <div class="log-empty" id="logEmpty">No submissions yet.</div>
+      <div class="log-table-wrap" id="logTableWrap" style="display:none;">
+        <table class="log">
+          <thead><tr><th>Ref</th><th>Date</th><th>From</th><th>Product</th><th>Top Market</th><th>Target Price</th><th>Timeline</th></tr></thead>
+          <tbody id="logTbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+"use strict";
+
+var PRODUCTS = [
+  {key:"bdg-position-indicator", code:"BDG", name:"Position Indicator", blurb:"Digital position/value display module", img:"photos/bdg-position-indicator.jpg"},
+  {key:"bdg-rotary-encoder", code:"BDG", name:"Rotary Encoder", blurb:"Absolute / incremental rotary encoder", img:"photos/bdg-rotary-encoder.jpg"},
+  {key:"bfo", code:"BFO", name:"Fiber Optics", blurb:"Fiber-optic amplifier + fiber cables", img:"photos/bfo.jpg"},
+  {key:"bgl", code:"BGL", name:"Fork Sensor", blurb:"Fork (slot) photoelectric sensor", img:"photos/bgl.jpg"},
+  {key:"bip", code:"BIP", name:"Inductive Positioning System", blurb:"Analog inductive linear positioning", img:"photos/bip.jpg"},
+  {key:"bir", code:"BIR", name:"Rapid Inductive Positioning System", blurb:"High-speed inductive positioning", img:"photos/bir.jpg"},
+  {key:"bla", code:"BLA", name:"Light Array", blurb:"Light grid / area sensing array", img:"photos/bla.jpg"},
+  {key:"bmf", code:"BMF", name:"Magnetic Cylinder Sensor", blurb:"Magnetic sensor for pneumatic cylinders", img:"photos/bmf.jpg"},
+  {key:"bml", code:"BML", name:"Magnetic Encoder", blurb:"Magnetic linear / rotary encoder", img:"photos/bml.jpg"},
+  {key:"bmp", code:"BMP", name:"Magnetic Cylinder Positioning System", blurb:"Continuous position sensing for cylinders", img:"photos/bmp.jpg"},
+  {key:"boh", code:"BOH", name:"Optical Head Sensor", blurb:"Fiber-optic sensor head", img:"photos/boh.jpg"},
+  {key:"bos", code:"BOS", name:"Photo Sensor", blurb:"Standard photoelectric sensor", img:"photos/bos.jpg"},
+  {key:"bsi", code:"BSI", name:"Inclination Sensor", blurb:"Tilt / inclination sensor", img:"photos/bsi.jpg"},
+  {key:"btl", code:"BTL", name:"Magnetostrictive Sensor - Linear Transducer", blurb:"Magnetostrictive linear position transducer", img:"photos/btl.jpg"}
+];
+
+var COMPETITORS = ["SICK","Keyence","Banner Engineering","Turck","ifm efector","Pepperl+Fuchs","Omron","Baumer","Contrinex","Autonics","Panasonic","Cognex"];
+
+var MARKETS = [
+  {key:"automotive", label:"Automotive"},
+  {key:"machine-tool", label:"Machine Tool & Metalworking"},
+  {key:"food-bev", label:"Food & Beverage"},
+  {key:"packaging", label:"Packaging"},
+  {key:"warehouse", label:"Warehouse & Logistics"},
+  {key:"semi-electronics", label:"Semiconductor & Electronics"},
+  {key:"life-sciences", label:"Life Sciences & Medical"},
+  {key:"plastics", label:"Plastics & Rubber"},
+  {key:"wood-furniture", label:"Wood & Furniture"},
+  {key:"robotics", label:"Robotics & Automation"},
+  {key:"primary-metals", label:"Primary Metals & Metal Forming"},
+  {key:"battery-ev", label:"Battery & EV Production"},
+  {key:"renewables", label:"Renewable Energy"}
+];
+
+var PRICE_RANGES = ["<$50","$50–$100","$100–$250","$250–$500","$500–$1,000","$1,000–$2,500","$2,500+"];
+var CUSTOMER_RANGES = ["1–2","3–5","6–10","11–25","26–50","50+"];
+var VOLUME_RANGES = ["<100","100–500","500–1,000","1,000–5,000","5,000–10,000","10,000+"];
+var TIMELINE = [
+  {key:"active", label:"Active deal — needed now"},
+  {key:"3-6mo", label:"Next 3–6 months"},
+  {key:"6-12mo", label:"6–12 months out"},
+  {key:"12mo+", label:"12+ months / roadmap idea"},
+  {key:"none", label:"Not tied to a deal"}
+];
+
+var EMAIL_TO = "austin.sirkin@balluff.com";
+var ATTACHMENT_MAX_BYTES = 150 * 1024;
+var DRAFT_KEY = "balluff_portfolio_survey_draft_v1";
+
+var state = {
+  product: null, newProductName: "",
+  competitors: {}, competitorOther: "",
+  markets: {}, marketOther: "",
+  priceMode: "exact",
+  attachment: null
+};
+
+function $(id){ return document.getElementById(id); }
+function esc(s){ return String(s==null?"":s).replace(/[&<>"']/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]; }); }
+
+/* ---------- render static pickers ---------- */
+function renderProducts(filter){
+  filter = (filter||"").toLowerCase();
+  var html = "";
+  PRODUCTS.forEach(function(p){
+    var match = !filter || (p.code+" "+p.name+" "+p.blurb).toLowerCase().indexOf(filter) !== -1;
+    var sel = state.product === p.key ? " selected" : "";
+    html += '<button type="button" class="product-card'+sel+(match?"":" hidden")+'" data-key="'+p.key+'">'+
+      '<img src="'+p.img+'" alt="'+esc(p.code+" "+p.name)+'" loading="lazy">'+
+      '<span class="code">'+esc(p.code)+'</span><span class="name">'+esc(p.name)+'</span></button>';
+  });
+  var newSel = state.product === "new" ? " selected" : "";
+  html += '<button type="button" class="product-card new-card'+newSel+'" data-key="new">'+
+    '<span class="plus">+</span><span class="name">Something New</span></button>';
+  $("productGrid").innerHTML = html;
+}
+function renderCompetitors(){
+  var html = "";
+  COMPETITORS.forEach(function(c){
+    html += '<button type="button" class="chip" data-key="'+esc(c)+'" aria-pressed="'+(!!state.competitors[c])+'">'+esc(c)+'</button>';
+  });
+  html += '<button type="button" class="chip" data-key="__other__" aria-pressed="'+(!!state.competitors.__other__)+'">Other</button>';
+  $("competitorChips").innerHTML = html;
+}
+function renderMarkets(){
+  var html = "";
+  MARKETS.forEach(function(m){
+    var v = state.markets[m.key];
+    var checked = v !== undefined && v !== null;
+    var pri = checked && v > 0 ? v : 0;
+    html += '<div class="market-row">'+
+      '<label class="market-check"><input type="checkbox" data-key="'+m.key+'" '+(checked?"checked":"")+'><span>'+esc(m.label)+'</span></label>'+
+      '<div class="priority-group'+(checked?" active":"")+'" data-key="'+m.key+'">'+
+        [1,2,3].map(function(n){ return '<button type="button" class="pri-btn" data-key="'+m.key+'" data-pri="'+n+'" aria-pressed="'+(pri===n)+'">'+n+'</button>'; }).join("")+
+      '</div></div>';
+  });
+  $("marketList").innerHTML = html;
+}
+function renderRangeChips(containerId, arr, stateKey){
+  var html = "";
+  arr.forEach(function(r){
+    html += '<button type="button" class="chip" data-val="'+esc(r)+'" aria-pressed="'+(state[stateKey]===r)+'">'+esc(r)+'</button>';
+  });
+  $(containerId).innerHTML = html;
+}
+function renderTimeline(){
+  var html = "";
+  TIMELINE.forEach(function(t){
+    html += '<button type="button" class="chip" data-val="'+t.key+'" aria-pressed="'+(state.timeline===t.key)+'">'+esc(t.label)+'</button>';
+  });
+  $("timelineChips").innerHTML = html;
+}
+
+renderProducts("");
+renderCompetitors();
+renderMarkets();
+renderRangeChips("priceRangeChips", PRICE_RANGES, "priceRange");
+renderRangeChips("custCountChips", CUSTOMER_RANGES, "custCount");
+renderRangeChips("volumeChips", VOLUME_RANGES, "volumeRange");
+renderTimeline();
+
+/* ---------- interactions ---------- */
+$("product-search").addEventListener("input", function(e){ renderProducts(e.target.value); });
+
+$("productGrid").addEventListener("click", function(e){
+  var card = e.target.closest(".product-card");
+  if(!card) return;
+  state.product = card.getAttribute("data-key");
+  clearFieldError("field-product");
+  renderProducts($("product-search").value);
+  $("newNameWrap").classList.toggle("show", state.product === "new");
+  saveDraftSoon();
+});
+
+$("competitorChips").addEventListener("click", function(e){
+  var chip = e.target.closest(".chip"); if(!chip) return;
+  var key = chip.getAttribute("data-key");
+  state.competitors[key] = !state.competitors[key];
+  renderCompetitors();
+  $("competitorOtherWrap").classList.toggle("show", !!state.competitors.__other__);
+  saveDraftSoon();
+});
+
+$("marketList").addEventListener("click", function(e){
+  var pri = e.target.closest(".pri-btn");
+  if(pri){
+    var key = pri.getAttribute("data-key"), n = parseInt(pri.getAttribute("data-pri"),10);
+    var wasPressed = pri.getAttribute("aria-pressed") === "true";
+    state.markets[key] = wasPressed ? -1 : n;
+    renderMarkets();
+    clearFieldError("field-markets");
+    saveDraftSoon();
+    return;
+  }
+  var check = e.target.closest('input[type="checkbox"]');
+  if(check){
+    var k = check.getAttribute("data-key");
+    if(check.checked){ if(!state.markets[k] || state.markets[k] < 1) state.markets[k] = -1; }
+    else { delete state.markets[k]; }
+    renderMarkets();
+    clearFieldError("field-markets");
+    saveDraftSoon();
+  }
+});
+
+$("priceModeSeg").addEventListener("click", function(e){
+  var btn = e.target.closest("button"); if(!btn) return;
+  state.priceMode = btn.getAttribute("data-mode");
+  Array.prototype.forEach.call($("priceModeSeg").children, function(b){ b.setAttribute("aria-pressed", b===btn); });
+  $("priceExactPanel").classList.toggle("show", state.priceMode==="exact");
+  $("priceRangePanel").classList.toggle("show", state.priceMode==="range");
+  clearFieldError("field-price");
+  saveDraftSoon();
+});
+$("priceRangeChips").addEventListener("click", function(e){
+  var chip = e.target.closest(".chip"); if(!chip) return;
+  state.priceRange = chip.getAttribute("data-val");
+  renderRangeChips("priceRangeChips", PRICE_RANGES, "priceRange");
+  clearFieldError("field-price");
+  saveDraftSoon();
+});
+$("custCountChips").addEventListener("click", function(e){
+  var chip = e.target.closest(".chip"); if(!chip) return;
+  state.custCount = chip.getAttribute("data-val");
+  renderRangeChips("custCountChips", CUSTOMER_RANGES, "custCount");
+  clearFieldError("field-custcount");
+  saveDraftSoon();
+});
+$("volumeChips").addEventListener("click", function(e){
+  var chip = e.target.closest(".chip"); if(!chip) return;
+  state.volumeRange = chip.getAttribute("data-val");
+  renderRangeChips("volumeChips", VOLUME_RANGES, "volumeRange");
+  clearFieldError("field-volume");
+  saveDraftSoon();
+});
+$("timelineChips").addEventListener("click", function(e){
+  var chip = e.target.closest(".chip"); if(!chip) return;
+  state.timeline = chip.getAttribute("data-val");
+  renderTimeline();
+  clearFieldError("field-timeline");
+  saveDraftSoon();
+});
+
+$("f-attachment").addEventListener("change", function(e){
+  var errEl = $("err-attachment");
+  var file = e.target.files && e.target.files[0];
+  errEl.classList.remove("show"); errEl.textContent = "";
+  if(!file) return;
+  if(file.size > ATTACHMENT_MAX_BYTES){
+    errEl.textContent = "That file is "+Math.round(file.size/1024)+" KB — keep it under 150 KB, or just email it to Austin directly with your reference number.";
+    errEl.classList.add("show");
+    e.target.value = "";
+    return;
+  }
+  var reader = new FileReader();
+  reader.onload = function(){
+    state.attachment = {name:file.name, type:file.type, sizeBytes:file.size, dataUrl:reader.result};
+    $("fileChipName").textContent = file.name+" ("+Math.round(file.size/1024)+" KB)";
+    $("fileChip").classList.add("show");
+  };
+  reader.readAsDataURL(file);
+});
+$("fileRemoveBtn").addEventListener("click", function(){
+  state.attachment = null;
+  $("f-attachment").value = "";
+  $("fileChip").classList.remove("show");
+});
+
+["f-name","f-req","f-newname","f-competitor-other","f-market-other","f-price-exact"].forEach(function(id){
+  $(id).addEventListener("input", function(){ clearFieldErrorForInput(id); saveDraftSoon(); });
+});
+
+function clearFieldError(fieldId){
+  var f = $(fieldId); if(!f) return;
+  f.classList.remove("invalid");
+  var err = f.querySelector(".err"); if(err) err.classList.remove("show");
+}
+function clearFieldErrorForInput(inputId){
+  var map = {"f-name":"field-name","f-req":"field-req"};
+  if(map[inputId]) clearFieldError(map[inputId]);
+}
+
+/* ---------- validation & submit ---------- */
+function marketsSelectedList(){
+  var out = [];
+  MARKETS.forEach(function(m){
+    var v = state.markets[m.key];
+    if(v && v > 0) out.push({key:m.key, label:m.label, priority:v});
+  });
+  return out;
+}
+function marketsHaveUnranked(){
+  return MARKETS.some(function(m){ return state.markets[m.key] === -1; });
+}
+
+function validate(){
+  var errors = [];
+  var name = $("f-name").value.trim();
+  if(!name){ errors.push("field-name"); }
+
+  if(!state.product){ errors.push("field-product"); }
+
+  var req = $("f-req").value.trim();
+  if(!req){ errors.push("field-req"); }
+
+  var mkts = marketsSelectedList();
+  if(mkts.length === 0 || marketsHaveUnranked()){ errors.push("field-markets"); }
+
+  if(state.priceMode === "exact"){
+    if(!$("f-price-exact").value){ errors.push("field-price"); }
+  } else if(!state.priceRange){ errors.push("field-price"); }
+
+  if(!state.custCount){ errors.push("field-custcount"); }
+  if(!state.volumeRange){ errors.push("field-volume"); }
+  if(!state.timeline){ errors.push("field-timeline"); }
+
+  errors.forEach(function(id){
+    var f = $(id); f.classList.add("invalid");
+    var err = f.querySelector(".err"); if(err) err.classList.add("show");
+  });
+  return errors;
+}
+
+function collectPayload(){
+  var mkts = marketsSelectedList();
+  var comp = Object.keys(state.competitors).filter(function(k){ return k!=="__other__" && state.competitors[k]; });
+  var product = PRODUCTS.find(function(p){ return p.key===state.product; });
+  return {
+    submitterName: $("f-name").value.trim(),
+    productKey: state.product,
+    productLabel: state.product==="new" ? ("Something New"+($("f-newname").value.trim()?" — "+$("f-newname").value.trim():"")) : (product ? product.code+" — "+product.name : ""),
+    newProductName: $("f-newname").value.trim(),
+    requirements: $("f-req").value.trim(),
+    competitors: comp,
+    competitorOther: $("f-competitor-other").value.trim(),
+    markets: mkts,
+    marketOther: $("f-market-other").value.trim(),
+    pricingMode: state.priceMode,
+    pricingExact: state.priceMode==="exact" ? parseFloat($("f-price-exact").value||"0") : null,
+    pricingRange: state.priceMode==="range" ? state.priceRange : null,
+    customerCountRange: state.custCount,
+    volumeRange: state.volumeRange,
+    timeline: state.timeline,
+    attachment: state.attachment
+  };
+}
+
+function makeRef(){
+  var d = new Date();
+  var ymd = d.toISOString().slice(2,10).replace(/-/g,"");
+  var rand = Math.random().toString(36).slice(2,6).toUpperCase();
+  return "PR-"+ymd+"-"+rand;
+}
+
+function summaryText(payload, ref){
+  var lines = [];
+  lines.push("Portfolio Request "+ref);
+  lines.push("From: "+payload.submitterName);
+  lines.push("Product: "+payload.productLabel);
+  lines.push("Requirement: "+payload.requirements.slice(0,400));
+  if(payload.competitors.length || payload.competitorOther){
+    lines.push("Competitors: "+payload.competitors.concat(payload.competitorOther?[payload.competitorOther]:[]).join(", "));
+  }
+  if(payload.markets.length){
+    var m = payload.markets.slice().sort(function(a,b){ return b.priority-a.priority; })
+      .map(function(x){ return x.label+" (P"+x.priority+")"; }).join(", ");
+    lines.push("Markets: "+m);
+  }
+  lines.push("Target price: "+(payload.pricingMode==="exact" ? ("$"+payload.pricingExact.toFixed(2)) : payload.pricingRange));
+  lines.push("Customers at volume: "+payload.customerCountRange);
+  lines.push("Expected volume/customer: "+payload.volumeRange);
+  lines.push("Timeline: "+(TIMELINE.find(function(t){return t.key===payload.timeline;})||{}).label);
+  return lines.join("\n");
+}
+
+var lastPayload = null, lastRef = null;
+
+$("theForm").addEventListener("submit", function(e){
+  e.preventDefault();
+  var errors = validate();
+  var banner = $("formErrBanner");
+  if(errors.length){
+    banner.classList.add("show");
+    $(errors[0]).scrollIntoView({behavior:"smooth", block:"center"});
+    return;
+  }
+  banner.classList.remove("show");
+
+  var payload, ref;
+  try{
+    payload = collectPayload();
+    ref = makeRef();
+  }catch(err){
+    banner.textContent = "Something went wrong reading the form — please try again.";
+    banner.classList.add("show");
+    return;
+  }
+  lastPayload = payload; lastRef = ref;
+
+  $("submitBtn").disabled = true;
+  $("submitBtn").textContent = "Submitting…";
+
+  showConfirm(payload, ref);
+
+  saveSubmission(payload, ref).then(function(status){
+    updateConfirmStatus(status);
+  }).catch(function(){
+    updateConfirmStatus("failed");
+  });
+});
+
+function withTimeout(promise, ms){
+  return new Promise(function(resolve){
+    var done = false;
+    var timer = setTimeout(function(){ if(!done){ done = true; resolve("timeout"); } }, ms);
+    promise.then(function(v){ if(!done){ done = true; clearTimeout(timer); resolve(v); } },
+                 function(){ if(!done){ done = true; clearTimeout(timer); resolve("failed"); } });
+  });
+}
+
+async function saveSubmission(payload, ref){
+  try{
+    if(!window.claude || !window.claude.use) return "unavailable";
+    var db = await withTimeout(window.claude.use("db"), 6000);
+    if(!db || db === "timeout") return "unavailable";
+    var doc = Object.assign({ref:ref, submittedAt:new Date().toISOString()}, payload);
+    await withTimeout(db.collection("submissions").doc(ref).set(doc), 6000);
+    return "ok";
+  }catch(err){
+    return "failed";
+  }
+}
+
+function showConfirm(payload, ref){
+  $("theForm").style.display = "none";
+  $("formStamp").textContent = "Submitted";
+  var c = $("confirmScreen");
+  c.classList.add("show");
+  $("confirmRef").textContent = "Reference "+ref;
+  var note = $("confirmStatus");
+  note.textContent = "Saving to the portfolio review board…";
+  note.classList.remove("warn");
+
+  try{
+    var text = summaryText(payload, ref);
+    var subject = "Portfolio Request "+ref+" — "+payload.productLabel;
+    $("emailBtn").href = "mailto:"+EMAIL_TO+"?subject="+encodeURIComponent(subject)+"&body="+encodeURIComponent(text);
+    $("teamsBtn").onclick = function(){
+      var teamsText = "**Portfolio Request "+ref+"**\n"+text.split("\n").slice(1).join("\n");
+      copyToClipboard(teamsText);
+      showToast("Copied — paste into Teams");
+    };
+  }catch(err){}
+
+  clearDraft();
+  window.scrollTo(0, 0);
+  c.scrollIntoView({block:"start"});
+}
+
+function updateConfirmStatus(status){
+  var note = $("confirmStatus");
+  if(status === "ok"){
+    note.textContent = "Logged to the portfolio review board. Send Austin a heads-up below so he doesn't miss it.";
+    note.classList.remove("warn");
+  } else if(status === "unavailable"){
+    note.textContent = "Heads up — live logging isn't available in this view. Please use Email or Teams below so this isn't lost.";
+    note.classList.add("warn");
+  } else {
+    note.textContent = "Couldn't save to the log automatically. Please use Email or Teams below so this isn't lost.";
+    note.classList.add("warn");
+  }
+}
+
+$("againBtn").addEventListener("click", function(){
+  location.reload();
+});
+
+function copyToClipboard(text){
+  try{
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(text);
+    } else {
+      var ta = document.createElement("textarea");
+      ta.value = text; ta.style.position="fixed"; ta.style.opacity="0";
+      document.body.appendChild(ta); ta.select();
+      document.execCommand("copy");
+      document.body.removeChild(ta);
+    }
+  }catch(e){}
+}
+function showToast(msg){
+  var t = $("toast"); t.textContent = msg; t.classList.add("show");
+  setTimeout(function(){ t.classList.remove("show"); }, 2200);
+}
+
+/* ---------- draft autosave ---------- */
+var draftTimer = null;
+function saveDraftSoon(){
+  clearTimeout(draftTimer);
+  draftTimer = setTimeout(function(){
+    try{
+      var data = {
+        name: $("f-name").value, newname: $("f-newname").value, req: $("f-req").value,
+        competitorOther: $("f-competitor-other").value, marketOther: $("f-market-other").value,
+        priceExact: $("f-price-exact").value, state: state
+      };
+      localStorage.setItem(DRAFT_KEY, JSON.stringify(data));
+    }catch(e){}
+  }, 400);
+}
+function clearDraft(){ try{ localStorage.removeItem(DRAFT_KEY); }catch(e){} }
+
+function loadDraft(){
+  try{
+    var raw = localStorage.getItem(DRAFT_KEY);
+    if(!raw) return;
+    var data = JSON.parse(raw);
+    $("f-name").value = data.name||"";
+    $("f-newname").value = data.newname||"";
+    $("f-req").value = data.req||"";
+    $("f-competitor-other").value = data.competitorOther||"";
+    $("f-market-other").value = data.marketOther||"";
+    $("f-price-exact").value = data.priceExact||"";
+    if(data.state) Object.assign(state, data.state);
+
+    renderProducts("");
+    renderCompetitors();
+    renderMarkets();
+    renderRangeChips("priceRangeChips", PRICE_RANGES, "priceRange");
+    renderRangeChips("custCountChips", CUSTOMER_RANGES, "custCount");
+    renderRangeChips("volumeChips", VOLUME_RANGES, "volumeRange");
+    renderTimeline();
+    $("newNameWrap").classList.toggle("show", state.product === "new");
+    $("competitorOtherWrap").classList.toggle("show", !!state.competitors.__other__);
+    Array.prototype.forEach.call($("priceModeSeg").children, function(b){ b.setAttribute("aria-pressed", b.getAttribute("data-mode")===state.priceMode); });
+    $("priceExactPanel").classList.toggle("show", state.priceMode==="exact");
+    $("priceRangePanel").classList.toggle("show", state.priceMode==="range");
+    if(state.attachment){
+      $("fileChipName").textContent = state.attachment.name+" ("+Math.round(state.attachment.sizeBytes/1024)+" KB)";
+      $("fileChip").classList.add("show");
+    }
+    $("draftNote").style.display = "block";
+  }catch(e){}
+}
+$("clearDraftBtn").addEventListener("click", function(){
+  clearDraft();
+  location.reload();
+});
+loadDraft();
+
+/* ---------- admin log (owner only) ---------- */
+var adminInited = false;
+var currentDocs = [];
+
+function fmtDate(iso){
+  try{ var d = new Date(iso); return d.toLocaleDateString(undefined,{month:"short",day:"numeric",year:"2-digit"}); }catch(e){ return iso; }
+}
+function topMarket(mkts){
+  if(!mkts || !mkts.length) return "—";
+  var top = mkts.slice().sort(function(a,b){return b.priority-a.priority;})[0];
+  return top.label+" (P"+top.priority+")";
+}
+function priceLabel(d){
+  return d.pricingMode==="exact" ? ("$"+(d.pricingExact||0).toFixed(2)) : (d.pricingRange||"—");
+}
+
+function renderLog(docs){
+  currentDocs = docs;
+  $("logCount").textContent = docs.length + (docs.length===1?" submission":" submissions");
+  if(!docs.length){
+    $("logEmpty").style.display = "block";
+    $("logTableWrap").style.display = "none";
+    return;
+  }
+  $("logEmpty").style.display = "none";
+  $("logTableWrap").style.display = "block";
+  var rows = "";
+  docs.forEach(function(d, i){
+    rows += '<tr class="logrow" data-i="'+i+'">'+
+      '<td class="log-ref">'+esc(d.ref)+'</td>'+
+      '<td>'+esc(fmtDate(d.submittedAt))+'</td>'+
+      '<td>'+esc(d.submitterName)+'</td>'+
+      '<td>'+esc(d.productLabel)+'</td>'+
+      '<td>'+esc(topMarket(d.markets))+'</td>'+
+      '<td>'+esc(priceLabel(d))+'</td>'+
+      '<td>'+esc((TIMELINE.find(function(t){return t.key===d.timeline;})||{}).label||d.timeline)+'</td>'+
+      '</tr>'+
+      '<tr class="detail-row" data-di="'+i+'"><td colspan="7"><div class="detail-inner" id="detail-'+i+'">'+
+        '<div class="dfield full"><b>Requirement</b>'+esc(d.requirements)+'</div>'+
+        '<div class="dfield"><b>Competitors</b>'+esc((d.competitors||[]).concat(d.competitorOther?[d.competitorOther]:[]).join(", ")||"—")+'</div>'+
+        '<div class="dfield"><b>Markets</b>'+esc((d.markets||[]).slice().sort(function(a,b){return b.priority-a.priority;}).map(function(m){return m.label+" (P"+m.priority+")";}).join(", ")||"—")+(d.marketOther?(" + "+esc(d.marketOther)):"")+'</div>'+
+        '<div class="dfield"><b>Customers at volume</b>'+esc(d.customerCountRange)+'</div>'+
+        '<div class="dfield"><b>Volume / customer</b>'+esc(d.volumeRange)+'</div>'+
+        (d.attachment ? '<div class="dfield full"><b>Attachment</b>'+esc(d.attachment.name)+' ('+Math.round(d.attachment.sizeBytes/1024)+' KB) &mdash; <a href="'+d.attachment.dataUrl+'" target="_blank" rel="noopener">open</a></div>' : '')+
+      '</div></td></tr>';
+  });
+  $("logTbody").innerHTML = rows;
+}
+
+$("logTbody").addEventListener("click", function(e){
+  var row = e.target.closest(".logrow"); if(!row) return;
+  var i = row.getAttribute("data-i");
+  var el = $("detail-"+i);
+  el.classList.toggle("show");
+});
+
+async function initAdmin(){
+  if(adminInited) return;
+  adminInited = true;
+  try{
+    var db = await window.claude.use("db");
+    if(!db){ $("logEmpty").textContent = "Log storage isn't available in this view."; return; }
+    db.collection("submissions").orderBy("submittedAt","desc").limit(500).onSnapshot(function(snap){
+      renderLog(snap.docs.map(function(d){ return d.data(); }));
+    }, function(err){
+      $("logEmpty").textContent = "Couldn't load the log right now.";
+      $("logEmpty").style.display = "block";
+    });
+  }catch(e){
+    $("logEmpty").textContent = "Log storage isn't available in this view.";
+  }
+}
+
+$("toAdminBtn").addEventListener("click", function(){
+  $("formscreen").classList.add("hide");
+  $("admin").classList.add("show");
+  initAdmin();
+});
+$("toFormBtn").addEventListener("click", function(){
+  $("admin").classList.remove("show");
+  $("formscreen").classList.remove("hide");
+});
+
+$("exportCsvBtn").addEventListener("click", async function(){
+  if(!currentDocs.length){ showToast("Nothing to export yet"); return; }
+  var headers = ["Ref","Date","From","Product","Requirement","Competitors","Markets","Target Price","Customers at Volume","Volume per Customer","Timeline"];
+  var rows = currentDocs.map(function(d){
+    var mkts = (d.markets||[]).slice().sort(function(a,b){return b.priority-a.priority;}).map(function(m){return m.label+" (P"+m.priority+")";}).join("; ");
+    var comp = (d.competitors||[]).concat(d.competitorOther?[d.competitorOther]:[]).join("; ");
+    return [d.ref, d.submittedAt, d.submitterName, d.productLabel, d.requirements, comp, mkts, priceLabel(d), d.customerCountRange, d.volumeRange, d.timeline]
+      .map(function(v){ v = String(v==null?"":v).replace(/"/g,'""'); return '"'+v+'"'; }).join(",");
+  });
+  var csv = headers.join(",")+"\n"+rows.join("\n");
+  try{
+    var downloads = window.claude && window.claude.use ? await window.claude.use("downloads") : null;
+    if(downloads){
+      await downloads.save({filename:"portfolio-survey-export.csv", data:csv});
+      return;
+    }
+  }catch(e){}
+  copyToClipboard(csv);
+  showToast("Download unavailable here — CSV copied to clipboard instead");
+});
+
+/* ---------- owner check ---------- */
+(async function(){
+  try{
+    if(!window.claude || !window.claude.use) return;
+    var user = await window.claude.use("user");
+    if(user && user.isOwner && user.isOwner()){
+      $("toAdminBtn").style.display = "inline-block";
+    }
+  }catch(e){}
+})();
+
+})();
+</script>
