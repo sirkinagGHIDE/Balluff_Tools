@@ -1,6 +1,15 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Portfolio Request</title>
+<meta name="description" content="Internal survey for Balluff sales reps to flag product gaps and portfolio requests.">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
 <style>
+html{color-scheme: light dark;}
+img{max-width:100%;}
+[hidden]{display:none!important;}
 :root{
   --bg:#EEF0F2; --surface:#FFFFFF; --surface-2:#F6F7F8;
   --ink:#191C1F; --ink-soft:#5A626B; --ink-faint:#8A929A;
@@ -42,9 +51,7 @@ body{
 .wrap{max-width:760px; margin-inline:auto;}
 .topbar{display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:14px; flex-wrap:wrap;}
 .brand{font-family:var(--font-mono); font-size:12px; letter-spacing:.10em; color:var(--ink-faint); text-transform:uppercase;}
-.viewlink{font-family:var(--font-mono); font-size:12.5px; letter-spacing:.03em; color:var(--accent); background:none; border:1px solid var(--line-strong); border-radius:4px; padding:6px 11px; cursor:pointer;}
-.viewlink:hover{border-color:var(--accent);}
-.viewlink:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible, [tabindex]:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+button:focus-visible, input:focus-visible, textarea:focus-visible, [tabindex]:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
 
 .sheet{background:var(--surface); border:1px solid var(--line); border-radius:8px; box-shadow:var(--shadow); overflow:hidden;}
 .head{padding:26px 32px 22px; border-bottom:1px solid var(--line); display:flex; justify-content:space-between; gap:16px; align-items:flex-start; flex-wrap:wrap;}
@@ -145,48 +152,23 @@ input[type=file]{font-family:var(--font-body); font-size:13px; color:var(--ink-s
 .draft-note{font-size:12px; color:var(--ink-faint); text-align:center; margin-top:10px;}
 .draft-note button{background:none; border:none; color:var(--accent); cursor:pointer; font-size:12px; text-decoration:underline; padding:0;}
 
-/* Admin log */
-#admin{display:none;}
-#admin.show{display:block;}
-#formscreen.hide{display:none;}
-.admin-head{display:flex; justify-content:space-between; align-items:center; gap:12px; padding:24px 28px; border-bottom:1px solid var(--line); flex-wrap:wrap;}
-.admin-head h2{font-family:var(--font-display); font-weight:800; font-size:24px; text-transform:uppercase; margin:0;}
-.admin-actions{display:flex; gap:10px; flex-wrap:wrap;}
-.admin-body{padding:18px 28px 28px;}
-.log-empty{color:var(--ink-faint); font-size:13.5px; padding:20px 0; text-align:center;}
-.log-table-wrap{overflow-x:auto; border:1px solid var(--line); border-radius:7px;}
-table.log{width:100%; border-collapse:collapse; font-size:13px; min-width:720px;}
-table.log th{font-family:var(--font-mono); font-size:11px; text-transform:uppercase; letter-spacing:.04em; color:var(--ink-faint); text-align:left; padding:9px 12px; border-bottom:1px solid var(--line); background:var(--surface-2); white-space:nowrap;}
-table.log td{padding:10px 12px; border-bottom:1px solid var(--line); vertical-align:top;}
-table.log tr:last-child td{border-bottom:none;}
-table.log tr.logrow{cursor:pointer;}
-table.log tr.logrow:hover{background:var(--surface-2);}
-.log-ref{font-family:var(--font-mono); font-size:12px; color:var(--accent);}
-.detail-row td{background:var(--surface-2); padding:0;}
-.detail-inner{padding:16px 18px; display:none; font-size:13px;}
-.detail-inner.show{display:grid; grid-template-columns:1fr 1fr; gap:14px;}
-.detail-inner .dfield{margin-bottom:2px;}
-.detail-inner .dfield b{display:block; font-size:11px; text-transform:uppercase; letter-spacing:.03em; color:var(--ink-faint); margin-bottom:3px; font-family:var(--font-mono); font-weight:600;}
-.detail-inner .full{grid-column:1/-1;}
-.count-tag{font-family:var(--font-mono); font-size:11px; color:var(--ink-faint);}
-
 @media (max-width:480px){
-  .head,.station,.submit-area,.confirm,.admin-head,.admin-body{padding-left:18px; padding-right:18px;}
-  .detail-inner.show{grid-template-columns:1fr;}
+  .head,.station,.submit-area,.confirm{padding-left:18px; padding-right:18px;}
 }
 </style>
+</head>
+<body>
 
 <div class="wrap">
   <div class="topbar">
     <div class="brand">Balluff &middot; Sales Field Input</div>
-    <button class="viewlink" id="toAdminBtn" style="display:none;" type="button">View Submission Log &rarr;</button>
   </div>
 
   <div class="sheet" id="formscreen">
     <div class="head">
       <div>
         <h1>Portfolio Request</h1>
-        <p>Flag a product gap or feature idea from the field. Takes about three minutes — every submission goes straight to the portfolio review log.</p>
+        <p>Flag a product gap or feature idea from the field. Takes about three minutes — hit submit and Austin gets an email immediately.</p>
       </div>
       <div class="stamp" id="formStamp">Draft</div>
     </div>
@@ -293,7 +275,7 @@ table.log tr.logrow:hover{background:var(--surface-2);}
 
       <div class="station">
         <div class="station-head"><span class="station-num">10</span><span class="station-title">Attachment</span><span class="optional-tag">optional</span></div>
-        <div class="station-sub">Spec sheet, drawing, or photo — keep it under ~150&nbsp;KB.</div>
+        <div class="station-sub">Spec sheet, drawing, or photo — keep it under 3&nbsp;MB.</div>
         <div class="file-row">
           <input type="file" id="f-attachment">
           <span class="file-chip" id="fileChip"><span id="fileChipName"></span><button type="button" id="fileRemoveBtn" aria-label="Remove attachment">&times;</button></span>
@@ -305,7 +287,7 @@ table.log tr.logrow:hover{background:var(--surface-2);}
 
       <div class="submit-area">
         <button type="submit" class="submit-btn" id="submitBtn">Submit Request</button>
-        <div class="submit-note">Sends straight to the portfolio review log. Nothing else happens automatically.</div>
+        <div class="submit-note">Emails Austin the instant you submit — no extra steps.</div>
         <div class="draft-note" id="draftNote" style="display:none;">Draft restored from your last visit. <button type="button" id="clearDraftBtn">Clear draft</button></div>
       </div>
     </form>
@@ -316,30 +298,10 @@ table.log tr.logrow:hover{background:var(--surface-2);}
       <div class="ref" id="confirmRef"></div>
       <div class="status-note" id="confirmStatus"></div>
       <div class="confirm-actions">
-        <a class="action-btn primary" id="emailBtn" href="#">Email Austin</a>
+        <a class="action-btn primary" id="emailBtn" href="#" style="display:none;">Email Austin</a>
         <button class="action-btn" id="teamsBtn" type="button">Copy summary for Teams</button>
       </div>
       <button class="again-link" id="againBtn" type="button">Submit another response</button>
-    </div>
-  </div>
-
-  <div class="sheet" id="admin">
-    <div class="admin-head">
-      <h2>Submission Log</h2>
-      <div class="admin-actions">
-        <span class="count-tag" id="logCount"></span>
-        <button class="action-btn" id="exportCsvBtn" type="button">Export CSV</button>
-        <button class="viewlink" id="toFormBtn" type="button">&larr; Back to Form</button>
-      </div>
-    </div>
-    <div class="admin-body">
-      <div class="log-empty" id="logEmpty">No submissions yet.</div>
-      <div class="log-table-wrap" id="logTableWrap" style="display:none;">
-        <table class="log">
-          <thead><tr><th>Ref</th><th>Date</th><th>From</th><th>Product</th><th>Top Market</th><th>Target Price</th><th>Timeline</th></tr></thead>
-          <tbody id="logTbody"></tbody>
-        </table>
-      </div>
     </div>
   </div>
 </div>
@@ -397,15 +359,15 @@ var TIMELINE = [
 ];
 
 var EMAIL_TO = "austin.sirkin@balluff.com";
-var ATTACHMENT_MAX_BYTES = 150 * 1024;
+var FORM_ENDPOINT = "https://formsubmit.co/ajax/" + EMAIL_TO;
+var ATTACHMENT_MAX_BYTES = 3 * 1024 * 1024;
 var DRAFT_KEY = "balluff_portfolio_survey_draft_v1";
 
 var state = {
   product: null, newProductName: "",
   competitors: {}, competitorOther: "",
   markets: {}, marketOther: "",
-  priceMode: "exact",
-  attachment: null
+  priceMode: "exact"
 };
 
 function $(id){ return document.getElementById(id); }
@@ -558,23 +520,18 @@ $("f-attachment").addEventListener("change", function(e){
   var errEl = $("err-attachment");
   var file = e.target.files && e.target.files[0];
   errEl.classList.remove("show"); errEl.textContent = "";
-  if(!file) return;
+  if(!file){ $("fileChip").classList.remove("show"); return; }
   if(file.size > ATTACHMENT_MAX_BYTES){
-    errEl.textContent = "That file is "+Math.round(file.size/1024)+" KB — keep it under 150 KB, or just email it to Austin directly with your reference number.";
+    errEl.textContent = "That file is "+(Math.round(file.size/1024/1024*10)/10)+" MB — keep it under 3 MB, or just email it to Austin directly.";
     errEl.classList.add("show");
     e.target.value = "";
+    $("fileChip").classList.remove("show");
     return;
   }
-  var reader = new FileReader();
-  reader.onload = function(){
-    state.attachment = {name:file.name, type:file.type, sizeBytes:file.size, dataUrl:reader.result};
-    $("fileChipName").textContent = file.name+" ("+Math.round(file.size/1024)+" KB)";
-    $("fileChip").classList.add("show");
-  };
-  reader.readAsDataURL(file);
+  $("fileChipName").textContent = file.name+" ("+Math.round(file.size/1024)+" KB)";
+  $("fileChip").classList.add("show");
 });
 $("fileRemoveBtn").addEventListener("click", function(){
-  state.attachment = null;
   $("f-attachment").value = "";
   $("fileChip").classList.remove("show");
 });
@@ -653,8 +610,7 @@ function collectPayload(){
     pricingRange: state.priceMode==="range" ? state.priceRange : null,
     customerCountRange: state.custCount,
     volumeRange: state.volumeRange,
-    timeline: state.timeline,
-    attachment: state.attachment
+    timeline: state.timeline
   };
 }
 
@@ -715,33 +671,52 @@ $("theForm").addEventListener("submit", function(e){
 
   showConfirm(payload, ref);
 
-  saveSubmission(payload, ref).then(function(status){
-    updateConfirmStatus(status);
+  sendEmail(payload, ref).then(function(){
+    updateConfirmStatus("ok");
   }).catch(function(){
     updateConfirmStatus("failed");
   });
 });
 
 function withTimeout(promise, ms){
-  return new Promise(function(resolve){
+  return new Promise(function(resolve, reject){
     var done = false;
-    var timer = setTimeout(function(){ if(!done){ done = true; resolve("timeout"); } }, ms);
+    var timer = setTimeout(function(){ if(!done){ done = true; reject(new Error("timeout")); } }, ms);
     promise.then(function(v){ if(!done){ done = true; clearTimeout(timer); resolve(v); } },
-                 function(){ if(!done){ done = true; clearTimeout(timer); resolve("failed"); } });
+                 function(e){ if(!done){ done = true; clearTimeout(timer); reject(e); } });
   });
 }
 
-async function saveSubmission(payload, ref){
-  try{
-    if(!window.claude || !window.claude.use) return "unavailable";
-    var db = await withTimeout(window.claude.use("db"), 6000);
-    if(!db || db === "timeout") return "unavailable";
-    var doc = Object.assign({ref:ref, submittedAt:new Date().toISOString()}, payload);
-    await withTimeout(db.collection("submissions").doc(ref).set(doc), 6000);
-    return "ok";
-  }catch(err){
-    return "failed";
+async function sendEmail(payload, ref){
+  var fd = new FormData();
+  fd.append("_subject", "Portfolio Request "+ref+" — "+payload.productLabel);
+  fd.append("_template", "table");
+  fd.append("_captcha", "false");
+  fd.append("Reference", ref);
+  fd.append("Submitted by", payload.submitterName);
+  fd.append("Product match", payload.productLabel);
+  if(payload.newProductName) fd.append("Proposed name", payload.newProductName);
+  fd.append("Technical requirement", payload.requirements);
+  fd.append("Competitors", payload.competitors.concat(payload.competitorOther?[payload.competitorOther]:[]).join(", ") || "—");
+  var mktText = payload.markets.slice().sort(function(a,b){return b.priority-a.priority;})
+    .map(function(m){return m.label+" (P"+m.priority+")";}).join(", ");
+  fd.append("Markets (ranked)", mktText || "—");
+  if(payload.marketOther) fd.append("Other market", payload.marketOther);
+  fd.append("Target price", payload.pricingMode==="exact" ? ("$"+payload.pricingExact.toFixed(2)) : payload.pricingRange);
+  fd.append("Customers at volume", payload.customerCountRange);
+  fd.append("Expected volume/customer", payload.volumeRange);
+  fd.append("Timeline", (TIMELINE.find(function(t){return t.key===payload.timeline;})||{}).label || payload.timeline);
+  var fileInput = $("f-attachment");
+  if(fileInput && fileInput.files && fileInput.files[0]){
+    fd.append("attachment", fileInput.files[0]);
   }
+
+  var res = await withTimeout(fetch(FORM_ENDPOINT, {
+    method: "POST",
+    body: fd,
+    headers: {"Accept": "application/json"}
+  }), 15000);
+  if(!res.ok) throw new Error("send failed");
 }
 
 function showConfirm(payload, ref){
@@ -751,8 +726,9 @@ function showConfirm(payload, ref){
   c.classList.add("show");
   $("confirmRef").textContent = "Reference "+ref;
   var note = $("confirmStatus");
-  note.textContent = "Saving to the portfolio review board…";
+  note.textContent = "Emailing Austin…";
   note.classList.remove("warn");
+  $("emailBtn").style.display = "none";
 
   try{
     var text = summaryText(payload, ref);
@@ -773,14 +749,13 @@ function showConfirm(payload, ref){
 function updateConfirmStatus(status){
   var note = $("confirmStatus");
   if(status === "ok"){
-    note.textContent = "Logged to the portfolio review board. Send Austin a heads-up below so he doesn't miss it.";
+    note.textContent = "Emailed to Austin — he'll have this in his inbox now.";
     note.classList.remove("warn");
-  } else if(status === "unavailable"){
-    note.textContent = "Heads up — live logging isn't available in this view. Please use Email or Teams below so this isn't lost.";
-    note.classList.add("warn");
+    $("emailBtn").style.display = "none";
   } else {
-    note.textContent = "Couldn't save to the log automatically. Please use Email or Teams below so this isn't lost.";
+    note.textContent = "Couldn't send automatically. Use the button below to email it directly, or copy the summary for Teams.";
     note.classList.add("warn");
+    $("emailBtn").style.display = "inline-flex";
   }
 }
 
@@ -848,10 +823,6 @@ function loadDraft(){
     Array.prototype.forEach.call($("priceModeSeg").children, function(b){ b.setAttribute("aria-pressed", b.getAttribute("data-mode")===state.priceMode); });
     $("priceExactPanel").classList.toggle("show", state.priceMode==="exact");
     $("priceRangePanel").classList.toggle("show", state.priceMode==="range");
-    if(state.attachment){
-      $("fileChipName").textContent = state.attachment.name+" ("+Math.round(state.attachment.sizeBytes/1024)+" KB)";
-      $("fileChip").classList.add("show");
-    }
     $("draftNote").style.display = "block";
   }catch(e){}
 }
@@ -861,120 +832,7 @@ $("clearDraftBtn").addEventListener("click", function(){
 });
 loadDraft();
 
-/* ---------- admin log (owner only) ---------- */
-var adminInited = false;
-var currentDocs = [];
-
-function fmtDate(iso){
-  try{ var d = new Date(iso); return d.toLocaleDateString(undefined,{month:"short",day:"numeric",year:"2-digit"}); }catch(e){ return iso; }
-}
-function topMarket(mkts){
-  if(!mkts || !mkts.length) return "—";
-  var top = mkts.slice().sort(function(a,b){return b.priority-a.priority;})[0];
-  return top.label+" (P"+top.priority+")";
-}
-function priceLabel(d){
-  return d.pricingMode==="exact" ? ("$"+(d.pricingExact||0).toFixed(2)) : (d.pricingRange||"—");
-}
-
-function renderLog(docs){
-  currentDocs = docs;
-  $("logCount").textContent = docs.length + (docs.length===1?" submission":" submissions");
-  if(!docs.length){
-    $("logEmpty").style.display = "block";
-    $("logTableWrap").style.display = "none";
-    return;
-  }
-  $("logEmpty").style.display = "none";
-  $("logTableWrap").style.display = "block";
-  var rows = "";
-  docs.forEach(function(d, i){
-    rows += '<tr class="logrow" data-i="'+i+'">'+
-      '<td class="log-ref">'+esc(d.ref)+'</td>'+
-      '<td>'+esc(fmtDate(d.submittedAt))+'</td>'+
-      '<td>'+esc(d.submitterName)+'</td>'+
-      '<td>'+esc(d.productLabel)+'</td>'+
-      '<td>'+esc(topMarket(d.markets))+'</td>'+
-      '<td>'+esc(priceLabel(d))+'</td>'+
-      '<td>'+esc((TIMELINE.find(function(t){return t.key===d.timeline;})||{}).label||d.timeline)+'</td>'+
-      '</tr>'+
-      '<tr class="detail-row" data-di="'+i+'"><td colspan="7"><div class="detail-inner" id="detail-'+i+'">'+
-        '<div class="dfield full"><b>Requirement</b>'+esc(d.requirements)+'</div>'+
-        '<div class="dfield"><b>Competitors</b>'+esc((d.competitors||[]).concat(d.competitorOther?[d.competitorOther]:[]).join(", ")||"—")+'</div>'+
-        '<div class="dfield"><b>Markets</b>'+esc((d.markets||[]).slice().sort(function(a,b){return b.priority-a.priority;}).map(function(m){return m.label+" (P"+m.priority+")";}).join(", ")||"—")+(d.marketOther?(" + "+esc(d.marketOther)):"")+'</div>'+
-        '<div class="dfield"><b>Customers at volume</b>'+esc(d.customerCountRange)+'</div>'+
-        '<div class="dfield"><b>Volume / customer</b>'+esc(d.volumeRange)+'</div>'+
-        (d.attachment ? '<div class="dfield full"><b>Attachment</b>'+esc(d.attachment.name)+' ('+Math.round(d.attachment.sizeBytes/1024)+' KB) &mdash; <a href="'+d.attachment.dataUrl+'" target="_blank" rel="noopener">open</a></div>' : '')+
-      '</div></td></tr>';
-  });
-  $("logTbody").innerHTML = rows;
-}
-
-$("logTbody").addEventListener("click", function(e){
-  var row = e.target.closest(".logrow"); if(!row) return;
-  var i = row.getAttribute("data-i");
-  var el = $("detail-"+i);
-  el.classList.toggle("show");
-});
-
-async function initAdmin(){
-  if(adminInited) return;
-  adminInited = true;
-  try{
-    var db = await window.claude.use("db");
-    if(!db){ $("logEmpty").textContent = "Log storage isn't available in this view."; return; }
-    db.collection("submissions").orderBy("submittedAt","desc").limit(500).onSnapshot(function(snap){
-      renderLog(snap.docs.map(function(d){ return d.data(); }));
-    }, function(err){
-      $("logEmpty").textContent = "Couldn't load the log right now.";
-      $("logEmpty").style.display = "block";
-    });
-  }catch(e){
-    $("logEmpty").textContent = "Log storage isn't available in this view.";
-  }
-}
-
-$("toAdminBtn").addEventListener("click", function(){
-  $("formscreen").classList.add("hide");
-  $("admin").classList.add("show");
-  initAdmin();
-});
-$("toFormBtn").addEventListener("click", function(){
-  $("admin").classList.remove("show");
-  $("formscreen").classList.remove("hide");
-});
-
-$("exportCsvBtn").addEventListener("click", async function(){
-  if(!currentDocs.length){ showToast("Nothing to export yet"); return; }
-  var headers = ["Ref","Date","From","Product","Requirement","Competitors","Markets","Target Price","Customers at Volume","Volume per Customer","Timeline"];
-  var rows = currentDocs.map(function(d){
-    var mkts = (d.markets||[]).slice().sort(function(a,b){return b.priority-a.priority;}).map(function(m){return m.label+" (P"+m.priority+")";}).join("; ");
-    var comp = (d.competitors||[]).concat(d.competitorOther?[d.competitorOther]:[]).join("; ");
-    return [d.ref, d.submittedAt, d.submitterName, d.productLabel, d.requirements, comp, mkts, priceLabel(d), d.customerCountRange, d.volumeRange, d.timeline]
-      .map(function(v){ v = String(v==null?"":v).replace(/"/g,'""'); return '"'+v+'"'; }).join(",");
-  });
-  var csv = headers.join(",")+"\n"+rows.join("\n");
-  try{
-    var downloads = window.claude && window.claude.use ? await window.claude.use("downloads") : null;
-    if(downloads){
-      await downloads.save({filename:"portfolio-survey-export.csv", data:csv});
-      return;
-    }
-  }catch(e){}
-  copyToClipboard(csv);
-  showToast("Download unavailable here — CSV copied to clipboard instead");
-});
-
-/* ---------- owner check ---------- */
-(async function(){
-  try{
-    if(!window.claude || !window.claude.use) return;
-    var user = await window.claude.use("user");
-    if(user && user.isOwner && user.isOwner()){
-      $("toAdminBtn").style.display = "inline-block";
-    }
-  }catch(e){}
-})();
-
 })();
 </script>
+</body>
+</html>
