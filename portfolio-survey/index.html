@@ -687,14 +687,14 @@ var SENSOR_TECHS = [
    so older drafts and email filters keep working. */
 var PRODUCTS = [
   // Sensors
-  {key:"bes", area:"sensors", tech:"inductive", seg:"inductive", code:"BES", name:"Inductive Sensor", blurb:"Inductive proximity sensor for metal targets"},
-  {key:"baw", area:"sensors", tech:"inductive", seg:"inductive", code:"BAW", name:"Analog Inductive Sensor", blurb:"Inductive distance measurement with analog output"},
+  {key:"bes", area:"sensors", tech:"inductive", seg:"inductive", code:"BES", name:"Inductive Sensor", blurb:"Inductive proximity sensor for metal targets", img:"photos/bes.jpg"},
+  {key:"baw", area:"sensors", tech:"inductive", seg:"inductive", code:"BAW", name:"Analog Inductive Sensor", blurb:"Inductive distance measurement with analog output", img:"photos/baw.jpg"},
   {key:"bip", area:"sensors", tech:"inductive", seg:"inductive", code:"BIP", name:"Inductive Positioning System", blurb:"Analog inductive linear positioning", img:"photos/bip.jpg"},
   {key:"bir", area:"sensors", tech:"inductive", seg:"inductive", code:"BIR", name:"Rapid Inductive Positioning System", blurb:"High-speed inductive positioning", img:"photos/bir.jpg"},
   {key:"bos", area:"sensors", tech:"photoelectric", seg:"photoelectric", code:"BOS", name:"Photoelectric Sensor", blurb:"Standard photoelectric sensor", img:"photos/bos.jpg"},
-  {key:"bod", area:"sensors", tech:"photoelectric", seg:"distance", code:"BOD", name:"Photoelectric Distance Sensor", blurb:"Laser / optical distance measurement"},
+  {key:"bod", area:"sensors", tech:"photoelectric", seg:"distance", code:"BOD", name:"Photoelectric Distance Sensor", blurb:"Laser / optical distance measurement", img:"photos/bod.jpg"},
   {key:"bgl", area:"sensors", tech:"photoelectric", seg:"photoelectric", code:"BGL", name:"Fork Sensor", blurb:"Fork (slot) photoelectric sensor", img:"photos/bgl.jpg"},
-  {key:"bow", area:"sensors", tech:"photoelectric", seg:"photoelectric", code:"BOW", name:"Optical Window", blurb:"Optical window sensor for detecting parts passing through"},
+  {key:"bow", area:"sensors", tech:"photoelectric", seg:"photoelectric", code:"BOW", name:"Optical Window", blurb:"Optical window sensor for detecting parts passing through", img:"photos/bow.jpg"},
   {key:"bla", area:"sensors", tech:"photoelectric", seg:"photoelectric", code:"BLA", name:"Light Array", blurb:"Light grid / area sensing array", img:"photos/bla.jpg"},
   {key:"bfo", area:"sensors", tech:"photoelectric", seg:"photoelectric", code:"BFO", name:"Fiber Optics", blurb:"Fiber-optic amplifier + fiber cables", img:"photos/bfo.jpg"},
   {key:"boh", area:"sensors", tech:"photoelectric", seg:"photoelectric", code:"BOH", name:"Optical Head Sensor", blurb:"Fiber-optic sensor head", img:"photos/boh.jpg"},
@@ -702,63 +702,63 @@ var PRODUCTS = [
   {key:"bmf", area:"sensors", tech:"magnetic-field", seg:"cylinder", code:"BMF", name:"Magnetic Cylinder Sensor", blurb:"Magnetic field sensor for pneumatic cylinders", img:"photos/bmf.jpg"},
   {key:"bmp", area:"sensors", tech:"magnetic-field", seg:"cylinder", code:"BMP", name:"Magnetic Cylinder Positioning System", blurb:"Continuous position sensing for cylinders", img:"photos/bmp.jpg"},
   {key:"bml", area:"sensors", tech:"magnetic-coded", seg:"linear", code:"BML", name:"Magnetic Encoder", blurb:"Magnetically coded linear / rotary encoder", img:"photos/bml.jpg"},
-  {key:"bcs", area:"sensors", tech:"capacitive", seg:"capacitive", code:"BCS", name:"Capacitive Sensor", blurb:"Capacitive sensing, level detection"},
-  {key:"bus", area:"sensors", tech:"ultrasonic", seg:"ultrasonic", code:"BUS", name:"Ultrasonic Sensor", blurb:"Ultrasonic detection and distance"},
-  {key:"bcm", area:"sensors", tech:"condition", seg:"condmon", code:"BCM", name:"Condition Monitoring Sensor", blurb:"Vibration, temperature, humidity monitoring"},
+  {key:"bcs", area:"sensors", tech:"capacitive", seg:"capacitive", code:"BCS", name:"Capacitive Sensor", blurb:"Capacitive sensing, level detection", img:"photos/bcs.jpg"},
+  {key:"bus", area:"sensors", tech:"ultrasonic", seg:"ultrasonic", code:"BUS", name:"Ultrasonic Sensor", blurb:"Ultrasonic detection and distance", img:"photos/bus.jpg"},
+  {key:"bcm", area:"sensors", tech:"condition", seg:"condmon", code:"BCM", name:"Condition Monitoring Sensor", blurb:"Vibration, temperature, humidity monitoring", img:"photos/bcm.jpg"},
   {key:"bdg-rotary-encoder", area:"sensors", tech:"encoders", seg:"encoder", code:"BDG", name:"Rotary Encoder", blurb:"Absolute / incremental rotary encoder", img:"photos/bdg-rotary-encoder.jpg"},
   {key:"bdg-position-indicator", area:"sensors", tech:"indicators", seg:"posindicator", code:"BDG", name:"Position Indicator", blurb:"Digital position/value display module", img:"photos/bdg-position-indicator.jpg"},
   {key:"bsi", area:"sensors", tech:"inclination", seg:"inclination", code:"BSI", name:"Inclination Sensor", blurb:"Tilt / inclination sensor", img:"photos/bsi.jpg"},
-  {key:"bsp", area:"sensors", tech:"pressure", seg:"pressure", code:"BSP", name:"Pressure Sensor", blurb:"Pressure sensing for fluids and gases"},
+  {key:"bsp", area:"sensors", tech:"pressure", seg:"pressure", code:"BSP", name:"Pressure Sensor", blurb:"Pressure sensing for fluids and gases", img:"photos/bsp.jpg"},
 
   // RFID systems
   {key:"bis-u", area:"rfid", seg:"rfid", code:"BIS U", name:"UHF RFID System", blurb:"Long-range identification, bulk reading"},
-  {key:"bis-m", area:"rfid", seg:"rfid", code:"BIS M", name:"HF RFID System", blurb:"13.56 MHz read/write identification"},
-  {key:"bis-c", area:"rfid", seg:"rfid", code:"BIS C", name:"LF RFID System", blurb:"Low-frequency identification, tool ID"},
-  {key:"bis-l", area:"rfid", seg:"rfid", code:"BIS L", name:"LF RFID System (BIS L)", blurb:"Low-frequency read-only / read-write"},
-  {key:"rfid-eval", area:"rfid", seg:"rfid", code:"BIS V", name:"Multi-Frequency RFID System", blurb:"One processor for LF, HF and UHF read/write heads"},
-  {key:"rfid-handheld", area:"rfid", seg:"rfid", code:"", name:"RFID Handheld", blurb:"Mobile readers for industrial RFID"},
+  {key:"bis-m", area:"rfid", seg:"rfid", code:"BIS M", name:"HF RFID System", blurb:"13.56 MHz read/write identification", img:"photos/bis-m.jpg"},
+  {key:"bis-c", area:"rfid", seg:"rfid", code:"BIS C", name:"LF RFID System", blurb:"Low-frequency identification, tool ID", img:"photos/bis-c.jpg"},
+  {key:"bis-l", area:"rfid", seg:"rfid", code:"BIS L", name:"LF RFID System (BIS L)", blurb:"Low-frequency read-only / read-write", img:"photos/bis-l.jpg"},
+  {key:"rfid-eval", area:"rfid", seg:"rfid", code:"BIS V", name:"Multi-Frequency RFID System", blurb:"One processor for LF, HF and UHF read/write heads", img:"photos/rfid-eval.jpg"},
+  {key:"rfid-handheld", area:"rfid", seg:"rfid", code:"BIS", name:"RFID Handheld", blurb:"Mobile readers for industrial RFID", img:"photos/rfid-handheld.jpg"},
 
   // Machine Vision and Optical Identification
-  {key:"vision-cameras", area:"vision", seg:"cameras", code:"", name:"Industrial Camera", blurb:"Area-scan cameras, GigE / USB3 Vision"},
-  {key:"vision-embedded", area:"vision", seg:"cameras", code:"", name:"Embedded Vision", blurb:"Board-level and embedded camera modules"},
-  {key:"vision-3d", area:"vision", seg:"vision3d", code:"", name:"3D Machine Vision", blurb:"3D sensing and measurement"},
-  {key:"vision-smart", area:"vision", seg:"smartvision", code:"BVS", name:"Smart Vision", blurb:"Smart cameras and vision sensors"},
-  {key:"vision-optid", area:"vision", seg:"codereader", code:"BVS ID", name:"Optical Identification", blurb:"1D/2D code readers"},
+  {key:"vision-cameras", area:"vision", seg:"cameras", code:"BVS", name:"Industrial Camera", blurb:"Area-scan cameras, GigE / USB3 Vision", img:"photos/vision-cameras.jpg"},
+  {key:"vision-embedded", area:"vision", seg:"cameras", code:"BVS", name:"Embedded Vision", blurb:"Board-level and embedded camera modules", img:"photos/vision-embedded.jpg"},
+  {key:"vision-3d", area:"vision", seg:"vision3d", code:"BVS", name:"3D Machine Vision", blurb:"3D sensing and measurement", img:"photos/vision-3d.png"},
+  {key:"vision-smart", area:"vision", seg:"smartvision", code:"BVS", name:"Smart Vision", blurb:"Smart cameras and vision sensors", img:"photos/vision-smart.jpg"},
+  {key:"vision-optid", area:"vision", seg:"codereader", code:"BVS ID", name:"Optical Identification", blurb:"1D/2D code readers", img:"photos/vision-optid.png"},
 
   // Industrial Communication
-  {key:"iol-wireless", area:"comms", seg:"iolink", code:"", name:"IO-Link Wireless", blurb:"Wireless IO-Link masters and hubs"},
-  {key:"bni-network", area:"comms", seg:"iolink", code:"BNI", name:"Network Block / IO-Link Master", blurb:"Fieldbus network blocks, IO-Link masters"},
-  {key:"comms-switches", area:"comms", seg:"ethswitch", code:"", name:"Industrial Switch", blurb:"Industrial Ethernet switches"},
+  {key:"iol-wireless", area:"comms", seg:"iolink", code:"BNI", name:"IO-Link Wireless", blurb:"Wireless IO-Link masters and hubs", img:"photos/iol-wireless.png"},
+  {key:"bni-network", area:"comms", seg:"iolink", code:"BNI", name:"Network Block / IO-Link Master", blurb:"Fieldbus network blocks, IO-Link masters", img:"photos/bni-network.jpg"},
+  {key:"comms-switches", area:"comms", seg:"ethswitch", code:"BNI", name:"Industrial Switch", blurb:"Industrial Ethernet switches", img:"photos/comms-switches.jpg"},
   {key:"bni-io", area:"comms", seg:"iolink", code:"BNI", name:"I/O Module / IO-Link Hub", blurb:"Distributed I/O and IO-Link hubs"},
-  {key:"bic", area:"comms", seg:"coupler", code:"BIC", name:"Inductive Coupler", blurb:"Contactless power and signal transfer"},
+  {key:"bic", area:"comms", seg:"coupler", code:"BIC", name:"Inductive Coupler", blurb:"Contactless power and signal transfer", img:"photos/bic.jpg"},
 
   // Connectivity
-  {key:"bcc-single", area:"connectivity", seg:"cordsets", code:"BCC", name:"Single-Ended Cordset", blurb:"Molded connector on one end"},
-  {key:"bcc-double", area:"connectivity", seg:"cordsets", code:"BCC", name:"Double-Ended Cordset", blurb:"Connector-to-connector cables"},
-  {key:"bcc-bulk", area:"connectivity", seg:"cordsets", code:"BCC", name:"Bulk Cable", blurb:"Cable by the meter"},
-  {key:"bcc-splitters", area:"connectivity", seg:"cordsets", code:"BCC", name:"Y-Splitter / Tee", blurb:"Signal splitting and branching"},
-  {key:"bcc-bulkheads", area:"connectivity", seg:"cordsets", code:"BCC", name:"Field Attachable / Bulkhead / Receptacle / Adapter", blurb:"Field-wireable connectors, panel feed-throughs, receptacles and adapters"},
-  {key:"junction-blocks", area:"connectivity", seg:"cordsets", code:"", name:"Junction Block", blurb:"Passive distribution boxes"},
+  {key:"bcc-single", area:"connectivity", seg:"cordsets", code:"BCC", name:"Single-Ended Cordset", blurb:"Molded connector on one end", img:"photos/bcc-single.jpg"},
+  {key:"bcc-double", area:"connectivity", seg:"cordsets", code:"BCC", name:"Double-Ended Cordset", blurb:"Connector-to-connector cables", img:"photos/bcc-double.jpg"},
+  {key:"bcc-bulk", area:"connectivity", seg:"cordsets", code:"BCC", name:"Bulk Cable", blurb:"Cable by the meter", img:"photos/bcc-bulk.jpg"},
+  {key:"bcc-splitters", area:"connectivity", seg:"cordsets", code:"BCC", name:"Y-Splitter / Tee", blurb:"Signal splitting and branching", img:"photos/bcc-splitters.jpg"},
+  {key:"bcc-bulkheads", area:"connectivity", seg:"cordsets", code:"BCC", name:"Field Attachable / Bulkhead / Receptacle / Adapter", blurb:"Field-wireable connectors, panel feed-throughs, receptacles and adapters", img:"photos/bcc-bulkheads.jpg"},
+  {key:"junction-blocks", area:"connectivity", seg:"cordsets", code:"BPI", name:"Junction Block", blurb:"Passive distribution boxes", img:"photos/junction-blocks.jpg"},
 
   // Control devices, indicator devices, LED machine lights
-  {key:"smartlight", area:"hmi", seg:"indicators", code:"", name:"LED Stack Light", blurb:"SmartLight IO-Link stack lights: segment, run-light and level modes"},
-  {key:"machine-lights", area:"hmi", seg:"machinelights", code:"", name:"Machine Lighting", blurb:"LED machine and work-area lights"},
+  {key:"smartlight", area:"hmi", seg:"indicators", code:"BNI", name:"LED Stack Light", blurb:"SmartLight IO-Link stack lights: segment, run-light and level modes", img:"photos/smartlight.jpg"},
+  {key:"machine-lights", area:"hmi", seg:"machinelights", code:"BAE", name:"Machine Lighting", blurb:"LED machine and work-area lights", img:"photos/machine-lights.png"},
 
   // Power supplies
-  {key:"bae-in-panel", area:"power", seg:"power", code:"BAE PS", name:"In-Panel Power Supply", blurb:"DIN-rail power supplies for the control cabinet, including Heartbeat and IO-Link versions"},
-  {key:"bae-machine-mount", area:"power", seg:"power", code:"BAE PS", name:"Machine-Mount Power Supply", blurb:"IP67 power supplies mounted on the machine, including Heartbeat and IO-Link versions"},
+  {key:"bae-in-panel", area:"power", seg:"power", code:"BAE PS", name:"In-Panel Power Supply", blurb:"DIN-rail power supplies for the control cabinet, including Heartbeat and IO-Link versions", img:"photos/bae-in-panel.jpg"},
+  {key:"bae-machine-mount", area:"power", seg:"power", code:"BAE PS", name:"Machine-Mount Power Supply", blurb:"IP67 power supplies mounted on the machine, including Heartbeat and IO-Link versions", img:"photos/bae-machine-mount.jpg"},
 
   // Accessories
-  {key:"bam-fastening", area:"accessories", seg:"mounting", code:"BAM", name:"Fastening Technology", blurb:"Mounting brackets, clamps, holders"},
-  {key:"bam-reflectors", area:"accessories", seg:"photoelectric", code:"BAM", name:"Reflectors, Fibers, Optics", blurb:"Reflectors and optical accessories"},
-  {key:"bam-protection", area:"accessories", seg:"mounting", code:"BAM", name:"Mechanical Protection", blurb:"Protective housings and covers"},
-  {key:"vision-optics-lighting", area:"accessories", seg:"visionoptlight", code:"", name:"Vision Optics / Lighting", blurb:"Lenses (C-mount, S-mount, liquid) and lights for vision systems"},
-  {key:"signal-converters", area:"accessories", seg:"converters", code:"", name:"Signal Converter / Comm. Adapter", blurb:"Signal conversion, communication adapters"},
+  {key:"bam-fastening", area:"accessories", seg:"mounting", code:"BAM", name:"Fastening Technology", blurb:"Mounting brackets, clamps, holders", img:"photos/bam-fastening.jpg"},
+  {key:"bam-reflectors", area:"accessories", seg:"photoelectric", code:"BAM", name:"Reflectors, Fibers, Optics", blurb:"Reflectors and optical accessories", img:"photos/bam-reflectors.png"},
+  {key:"bam-protection", area:"accessories", seg:"mounting", code:"BAM", name:"Mechanical Protection", blurb:"Protective housings and covers", img:"photos/bam-protection.png"},
+  {key:"vision-optics-lighting", area:"accessories", seg:"visionoptlight", code:"BAM", name:"Vision Optics / Lighting", blurb:"Lenses (C-mount, S-mount, liquid) and lights for vision systems", img:"photos/vision-optics-lighting.jpg"},
+  {key:"signal-converters", area:"accessories", seg:"converters", code:"BNI", name:"Signal Converter / Comm. Adapter", blurb:"Signal conversion, communication adapters", img:"photos/signal-converters.png"},
 
   // Systems solutions & Software
-  {key:"cmtk", area:"solutions", seg:"cmtk", code:"CMTK", name:"Condition Monitoring Toolkit", blurb:"Condition monitoring with IO-Link sensors, data collection and dashboards"},
-  {key:"guided-gcs", area:"solutions", seg:"gcs", code:"GCS", name:"Guided Changeover Solution", blurb:"Operator-guided format changeover with position verification"},
-  {key:"bet", area:"solutions", seg:"bet", code:"BET", name:"Balluff Engineering Tool", blurb:"IO-Link device setup, parameterization and diagnostics"}
+  {key:"cmtk", area:"solutions", seg:"cmtk", code:"CMTK", name:"Condition Monitoring Toolkit", blurb:"Condition monitoring with IO-Link sensors, data collection and dashboards", img:"photos/cmtk.jpg"},
+  {key:"guided-gcs", area:"solutions", seg:"gcs", code:"GCS", name:"Guided Changeover Solution", blurb:"Operator-guided format changeover with position verification", img:"photos/guided-gcs.jpg"},
+  {key:"bet", area:"solutions", seg:"bet", code:"BET", name:"Balluff Engineering Tool", blurb:"IO-Link device setup, parameterization and diagnostics", img:"photos/bet.jpg"}
 ];
 
 /* Competitors per product segment. A product's `seg` picks its list; for
