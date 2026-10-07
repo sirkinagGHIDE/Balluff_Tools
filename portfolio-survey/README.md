@@ -2,7 +2,12 @@
 
 Internal survey where sales reps flag product gaps and portfolio requests for review. It covers the full Balluff portfolio: all 10 product areas from balluff.com (Sensors, RFID, Machine Vision & Optical ID, Industrial Communication, Connectivity, Control & Machine Lights, Power Supplies, Accessories, Systems Solutions, Software), 62 product families.
 
-Reps filter by product area or search by code, pick the closest family, and describe the technical requirement. They also tag competitors (the list adapts to the selected product area), rank target markets, and give pricing and volume expectations. Submitting emails Austin directly. No extra step.
+Reps filter by product area or search by code, pick the closest family, and describe the technical requirement. They also tag competitors, rank target markets, give pricing and volume expectations, and can attach a file or add links.
+
+- The competitor list is driven by the product picked.
+- Pricing, customer count and volume each accept a preset range or a custom value.
+
+Submitting emails the Product Marketing Manager for that portfolio. No extra step.
 
 **Live page:** https://sirkinagghide.github.io/Balluff_Tools/portfolio-survey/
 
@@ -29,20 +34,62 @@ The page follows `design.md` / `tokens.css` in ai-marketing2:
 
 ## Editing the lists
 
-All picker data is at the top of the `<script>` block in `index.html`:
+All configuration is at the top of the `<script>` block in `index.html`:
 
+- `ROUTING`: who receives each request (see below)
 - `AREAS`: the 10 product areas (balluff.com taxonomy) and their fallback icon
-- `PRODUCTS`: product families. Each has `key`, `area`, `code`, `name`, `blurb` and an optional `img`. Don't rename existing `key` values; email filters and saved drafts rely on them.
-- `COMPETITORS`: each competitor is tagged with the `areas` it competes in
+- `PRODUCTS`: product families. Each has `key`, `area`, `seg`, `code`, `name`, `blurb` and an optional `img`. Don't rename existing `key` values; email filters and saved drafts rely on them.
+- `COMPETITOR_SETS`: the competitor list for each `seg` (product segment)
+  - A product shows its segment's list.
+  - "Something new" shows every competitor for the chosen area.
+  - With no product picked, the list stays empty until the rep picks one or opens the full list.
 - `MARKETS`, `PRICE_RANGES`, `CUSTOMER_RANGES`, `VOLUME_RANGES`, `TIMELINE`
+- `FILE_TYPES`, `BLOCKED_HINTS`, `ATTACHMENT_MAX_BYTES`, `MAX_LINKS`: attachment and link rules
+
+## Routing to Product Marketing Managers
+
+Every request currently goes to `ROUTING.fallback`. To give a colleague their portfolio, fill in their entry in `index.html`:
+
+```js
+var ROUTING = {
+  fallback: {role:"Product Marketing Manager", email:"austin.sirkin@balluff.com"},
+  byArea:   { rfid: {role:"Product Marketing Manager", email:"first.last@balluff.com"}, ... },
+  byProduct:{ btl:  {role:"Product Marketing Manager", email:"first.last@balluff.com"} }
+};
+```
+
+The most specific match wins: `byProduct`, then `byArea`, then `fallback`. The recipient is used for both the automatic email and the "Email Product Marketing" fallback button.
+
+**Each new address must be activated once in FormSubmit.** The first submission sent to a new address triggers a FormSubmit confirmation email, and that person has to click it before delivery starts. Send one test request per new address before you announce it.
+
+## Attachments and links
+
+Reps can attach **one file up to 3 MB** and add **up to 5 links**.
+
+**Accepted file types:**
+- **Documents:** .pdf, .docx, .xlsx, .pptx, .csv, .txt
+- **Images:** .jpg, .jpeg, .png
+- **CAD:** .step, .stp, .dxf
+
+**Not accepted, with the reason shown to the rep:**
+- Macro-enabled Office files (.docm, .xlsm, .pptm)
+- Legacy Office formats (.doc, .xls, .ppt), which can carry macros
+- Archives (.zip, .rar, .7z), which can't be inspected
+- Programs and scripts (.exe, .bat, .ps1, .js, …)
+- Web files (.html, .svg), which can contain script
+- Uncommon image formats
+
+**How a file is checked:** extension allowlist, then the browser-reported MIME type, then the file's leading "magic" bytes. A renamed `.exe` won't pass as a `.pdf`.
+
+**Links:** only `http://` and `https://` addresses are accepted. `javascript:`, `data:`, `file:` and links with embedded usernames or passwords are rejected. A bare address like `balluff.sharepoint.com/...` gets `https://` added. Links are sent as plain text.
+
+These checks run in the browser. They are a guardrail against honest mistakes and casual misuse, not a virus scan. Anyone can bypass a client-side check, so recipients should still treat attachments with normal caution.
 
 ## How submission works
 
-The form posts to [FormSubmit](https://formsubmit.co/) (`https://formsubmit.co/ajax/austin.sirkin@balluff.com`), which emails the submission directly. There's no backend of our own.
+The form posts to [FormSubmit](https://formsubmit.co/) (`https://formsubmit.co/ajax/<recipient>`), which emails the submission directly. There's no backend of our own.
 
-FormSubmit requires a one-time confirmation. The *first* submission ever sent to this address triggers an activation email from FormSubmit, and someone has to click it before delivery starts. After that, every submission is delivered automatically.
-
-The email subject is `Portfolio Request <ref> — <product area> — <product>`. The body includes a **Product area** field so requests can be routed to the right product manager.
+The email subject is `Portfolio Request <ref> — <product area> — <product>`. The body includes a **Product area** field. Markets are listed as `Name (High, P3)`, and custom values are marked `(custom)`.
 
 There's no separate dashboard or log; each submission is one email. To keep them organized, set up a filter in your email client for subjects starting with `Portfolio Request`, or one per product area.
 
