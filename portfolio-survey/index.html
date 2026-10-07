@@ -175,31 +175,49 @@ button:focus-visible, a:focus-visible, .chip:focus-visible, .product-card:focus-
 .new-name-wrap{margin-top:24px; display:none;}
 .new-name-wrap.show{display:block;}
 
-/* ---------- Markets + priority ---------- */
-.market-legend{display:flex; justify-content:space-between; align-items:center; gap:16px; flex-wrap:wrap; padding-bottom:12px; font-size:12px; color:var(--color-gray-600); text-transform:uppercase; letter-spacing:.06em; font-weight:600;}
-.legend-scale{display:flex; align-items:center; gap:8px; text-transform:none; letter-spacing:0; font-weight:500; font-size:12px;}
+/* ---------- Markets + priority (compact two-column grid) ---------- */
+.market-legend{display:flex; justify-content:flex-end; align-items:center; padding-bottom:8px;}
+.legend-scale{display:flex; align-items:center; gap:8px; font-weight:500; font-size:12px; color:var(--color-gray-600);}
 .legend-scale .ramp{display:flex; align-items:flex-end; gap:2px;}
 .legend-scale .ramp i{display:block; width:5px; background:var(--color-gray-800);}
-.market-list{border-top:1px solid var(--color-gray-200);}
-.market-row{display:flex; align-items:center; justify-content:space-between; gap:8px 16px; padding:12px 0; border-bottom:1px solid var(--color-gray-200); flex-wrap:wrap;}
-.market-check{display:flex; align-items:center; gap:12px; cursor:pointer; flex:1 1 220px; min-width:0; font-size:16px;}
+.market-list{display:grid; grid-template-columns:1fr; column-gap:24px; border-top:1px solid var(--color-gray-200);}
+@media (min-width:768px){ .market-list{grid-template-columns:1fr 1fr;} }
+.market-row{display:flex; align-items:center; justify-content:space-between; gap:8px; min-height:48px; padding:6px 0; border-bottom:1px solid var(--color-gray-200);}
+.market-check{display:flex; align-items:center; gap:10px; cursor:pointer; flex:1; min-width:0; font-size:15px; line-height:1.3;}
 .market-check input{width:18px; height:18px; accent-color:var(--color-balluff-red); flex:none; margin:0;}
-.priority-group{display:flex; gap:4px; opacity:.35; pointer-events:none; transition:opacity .12s;}
-.priority-group.active{opacity:1; pointer-events:auto;}
+.priority-group{display:none; gap:2px; flex:none;}
+.priority-group.active{display:flex;}
 .pri-btn{
-  display:inline-flex; align-items:center; gap:8px; min-width:84px; height:36px; padding:0 12px;
+  display:inline-flex; align-items:center; gap:5px; height:32px; padding:0 8px;
   border-radius:var(--radius-sm); border:1px solid var(--color-gray-200); background:var(--color-balluff-white);
-  font-size:14px; font-weight:500; color:var(--color-gray-800); cursor:pointer;
+  font-size:12px; font-weight:500; color:var(--color-gray-800); cursor:pointer;
 }
 .pri-btn:hover{border-color:var(--color-gray-400);}
-.pri-btn .bars{display:flex; align-items:flex-end; gap:2px; height:14px;}
-.pri-btn .bars i{display:block; width:4px; background:currentColor; opacity:.25;}
+.pri-btn .bars{display:flex; align-items:flex-end; gap:1px; height:12px;}
+.pri-btn .bars i{display:block; width:3px; background:currentColor; opacity:.25;}
 .pri-btn .bars i.on{opacity:1;}
-.pri-btn .bars i:nth-child(1){height:5px;} .pri-btn .bars i:nth-child(2){height:9px;} .pri-btn .bars i:nth-child(3){height:14px;}
+.pri-btn .bars i:nth-child(1){height:4px;} .pri-btn .bars i:nth-child(2){height:8px;} .pri-btn .bars i:nth-child(3){height:12px;}
 .pri-btn[data-pri="3"]{font-weight:700;}
 .pri-btn[aria-pressed="true"]{background:var(--color-balluff-red); border-color:var(--color-balluff-red); color:var(--color-balluff-white);}
 .market-row.ranked .market-check span{font-weight:600;}
-@media (max-width:480px){ .priority-group{width:100%; padding-left:30px;} .pri-btn{flex:1; min-width:0; justify-content:center;} }
+.market-row.unranked .priority-group{outline:1px dashed var(--color-gray-400); outline-offset:2px;}
+
+/* ---------- Sensor technology filter (sub-row under the area chips) ---------- */
+.tech-filter{display:none; padding:12px 0 0 12px; border-left:2px solid var(--color-gray-200);}
+.tech-filter.show{display:block;}
+.tech-filter .tech-label{font-size:12px; font-weight:600; color:var(--color-gray-600); text-transform:uppercase; letter-spacing:.06em; margin:0 0 8px;}
+.tech-filter .chip{font-size:13px; padding:6px 12px;}
+
+/* ---------- Competitor typeahead ---------- */
+.combo{margin-top:16px; max-width:420px;}
+.combo-field{position:relative;}
+.combo-list{position:absolute; z-index:5; left:0; right:0; top:calc(100% + 4px); margin:0; padding:4px 0; list-style:none; background:var(--color-balluff-white); border:1px solid var(--color-gray-200); box-shadow:var(--shadow-md, 0 4px 16px rgba(0,0,0,.08)); max-height:260px; overflow:auto;}
+.combo-list li{padding:8px 16px; font-size:14px; cursor:pointer;}
+.combo-list li[aria-selected="true"], .combo-list li:hover{background:var(--color-gray-50);}
+.combo-list li mark{background:none; color:inherit; font-weight:700;}
+.combo-list li .note{color:var(--color-gray-600); font-size:12px; margin-left:6px;}
+.chip.custom-comp{background:var(--color-balluff-red); color:var(--color-balluff-white); font-weight:600; display:inline-flex; align-items:center; gap:6px;}
+.chip.custom-comp span{opacity:.8; font-size:16px; line-height:1;}
 
 /* ---------- Pricing segmented control ---------- */
 .seg{display:inline-flex; border:1px solid var(--color-gray-200); border-radius:var(--radius-sm); overflow:hidden; margin-bottom:16px;}
@@ -338,6 +356,10 @@ input[type=file]::file-selector-button:hover{background:var(--color-gray-50);}
           <div class="field" id="field-product">
             <div class="picker-tools">
               <div class="chip-row area-chips" id="areaChips" role="group" aria-label="Filter by product area"></div>
+              <div class="tech-filter" id="techFilter">
+                <p class="tech-label" id="tech-label">Sensor technology</p>
+                <div class="chip-row" id="techChips" role="group" aria-labelledby="tech-label"></div>
+              </div>
               <div>
                 <label class="visually-hidden" for="product-search">Search products</label>
                 <input type="search" id="product-search" placeholder="Search by code or name, e.g. BTL" autocomplete="off">
@@ -379,9 +401,13 @@ input[type=file]::file-selector-button:hover{background:var(--color-gray-50);}
         <div>
           <div class="chip-row" id="competitorChips"></div>
           <button type="button" class="text-btn" id="competitorToggle"></button>
-          <div class="other-wrap" id="competitorOtherWrap">
-            <label class="visually-hidden" for="f-competitor-other">Other competitors</label>
-            <input type="text" id="f-competitor-other" placeholder="Other competitor(s)">
+          <div class="combo">
+            <label class="field-label" for="f-competitor-search">Add a competitor</label>
+            <div class="combo-field">
+              <input type="text" id="f-competitor-search" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="competitorSuggest" autocomplete="off" spellcheck="false" placeholder="Start typing, e.g. Temposonics">
+              <ul class="combo-list" id="competitorSuggest" role="listbox" aria-label="Competitor suggestions" hidden></ul>
+            </div>
+            <p class="hint">Pick a suggestion, or press Enter to add a name that isn't listed.</p>
           </div>
         </div>
       </section>
@@ -391,12 +417,10 @@ input[type=file]::file-selector-button:hover{background:var(--color-gray-50);}
           <div class="section-num">05</div>
           <h2 class="section-title" id="t-05">Market application<span class="req" aria-hidden="true">*</span></h2>
           <p class="section-sub">Check every market that applies, then set a priority for each one.</p>
-          <p class="section-sub"><strong>High (3)</strong> is the top priority, ahead of Medium (2) and Low (1).</p>
         </div>
         <div>
           <div class="field" id="field-markets">
             <div class="market-legend" aria-hidden="true">
-              <span>Market</span>
               <span class="legend-scale">Priority: Low
                 <span class="ramp"><i style="height:5px"></i><i style="height:9px"></i><i style="height:14px"></i></span>
                 High</span>
@@ -612,7 +636,7 @@ var ROUTING = {
   fallback: {role:"Product Marketing Manager", email:"austin.sirkin@balluff.com"},
   byArea: {
     sensors:null, rfid:null, vision:null, comms:null, connectivity:null,
-    hmi:null, power:null, accessories:null, systems:null, software:null
+    hmi:null, power:null, accessories:null, solutions:null
   },
   byProduct: {
     // e.g. btl: {role:"Product Marketing Manager", email:"first.last@balluff.com"}
@@ -624,7 +648,8 @@ function recipientFor(productKey, areaKey){
          ROUTING.fallback;
 }
 
-/* Product areas follow the balluff.com/en-us/products taxonomy (10 areas). */
+/* Product areas follow the balluff.com/en-us/products taxonomy, with Systems
+   Solutions and Software combined into one area of named solutions. */
 var AREAS = [
   {key:"sensors",      label:"Sensors",                                   icon:"target"},
   {key:"rfid",         label:"RFID systems",                              icon:"recognition-of-devices"},
@@ -634,8 +659,25 @@ var AREAS = [
   {key:"hmi",          label:"Control, Indicator Devices & Machine Lights", short:"Control & Machine Lights", icon:"led-diagnosis"},
   {key:"power",        label:"Power Supplies",                            icon:"high-voltage"},
   {key:"accessories",  label:"Accessories",                               icon:"pin-setting"},
-  {key:"systems",      label:"Systems Solutions",                         icon:"logic-blocks"},
-  {key:"software",     label:"Software",                                  icon:"software"}
+  {key:"solutions",    label:"Systems Solutions & Software",              short:"Solutions & Software", icon:"logic-blocks"}
+];
+
+/* Sensor technologies — the balluff.com Sensors groups. Each sensor family
+   carries a `tech` key; the sub-filter under the area chips uses it. */
+var SENSOR_TECHS = [
+  {key:"inductive",        label:"Inductive"},
+  {key:"photoelectric",    label:"Photoelectric"},
+  {key:"capacitive",       label:"Capacitive"},
+  {key:"ultrasonic",       label:"Ultrasonic"},
+  {key:"magnetostrictive", label:"Magnetostrictive"},
+  {key:"magnetic-field",   label:"Magnetic field"},
+  {key:"magnetic-coded",   label:"Magnetically coded"},
+  {key:"condition",        label:"Condition monitoring"},
+  {key:"encoders",         label:"Encoders"},
+  {key:"indicators",       label:"Position indicators"},
+  {key:"cam-switches",     label:"Mechanical cam switches"},
+  {key:"inclination",      label:"Inclination"},
+  {key:"pressure",         label:"Pressure"}
 ];
 
 /* Product families. `img` = real product photo in photos/; families without a photo
@@ -644,27 +686,27 @@ var AREAS = [
    so older drafts and email filters keep working. */
 var PRODUCTS = [
   // Sensors
-  {key:"bes", area:"sensors", seg:"inductive", code:"BES", name:"Inductive Sensor", blurb:"Inductive proximity sensor for metal targets"},
-  {key:"bip", area:"sensors", seg:"inductive", code:"BIP", name:"Inductive Positioning System", blurb:"Analog inductive linear positioning", img:"photos/bip.jpg"},
-  {key:"bir", area:"sensors", seg:"inductive", code:"BIR", name:"Rapid Inductive Positioning System", blurb:"High-speed inductive positioning", img:"photos/bir.jpg"},
-  {key:"bos", area:"sensors", seg:"photoelectric", code:"BOS", name:"Photoelectric Sensor", blurb:"Standard photoelectric sensor", img:"photos/bos.jpg"},
-  {key:"bod", area:"sensors", seg:"distance", code:"BOD", name:"Optoelectronic Distance Sensor", blurb:"Laser / optical distance measurement"},
-  {key:"bgl", area:"sensors", seg:"photoelectric", code:"BGL", name:"Fork Sensor", blurb:"Fork (slot) photoelectric sensor", img:"photos/bgl.jpg"},
-  {key:"bla", area:"sensors", seg:"photoelectric", code:"BLA", name:"Light Array", blurb:"Light grid / area sensing array", img:"photos/bla.jpg"},
-  {key:"bfo", area:"sensors", seg:"photoelectric", code:"BFO", name:"Fiber Optics", blurb:"Fiber-optic amplifier + fiber cables", img:"photos/bfo.jpg"},
-  {key:"boh", area:"sensors", seg:"photoelectric", code:"BOH", name:"Optical Head Sensor", blurb:"Fiber-optic sensor head", img:"photos/boh.jpg"},
-  {key:"btl", area:"sensors", seg:"linear", code:"BTL", name:"Magnetostrictive Linear Transducer", blurb:"Magnetostrictive linear position transducer", img:"photos/btl.jpg"},
-  {key:"bmf", area:"sensors", seg:"cylinder", code:"BMF", name:"Magnetic Cylinder Sensor", blurb:"Magnetic field sensor for pneumatic cylinders", img:"photos/bmf.jpg"},
-  {key:"bmp", area:"sensors", seg:"cylinder", code:"BMP", name:"Magnetic Cylinder Positioning System", blurb:"Continuous position sensing for cylinders", img:"photos/bmp.jpg"},
-  {key:"bml", area:"sensors", seg:"linear", code:"BML", name:"Magnetic Encoder", blurb:"Magnetically coded linear / rotary encoder", img:"photos/bml.jpg"},
-  {key:"bcs", area:"sensors", seg:"capacitive", code:"BCS", name:"Capacitive Sensor", blurb:"Capacitive sensing, level detection"},
-  {key:"bus", area:"sensors", seg:"ultrasonic", code:"BUS", name:"Ultrasonic Sensor", blurb:"Ultrasonic detection and distance"},
-  {key:"bcm", area:"sensors", seg:"condmon", code:"BCM", name:"Condition Monitoring Sensor", blurb:"Vibration, temperature, humidity monitoring"},
-  {key:"bdg-rotary-encoder", area:"sensors", seg:"encoder", code:"BDG", name:"Rotary Encoder", blurb:"Absolute / incremental rotary encoder", img:"photos/bdg-rotary-encoder.jpg"},
-  {key:"bdg-position-indicator", area:"sensors", seg:"posindicator", code:"BDG", name:"Position Indicator", blurb:"Digital position/value display module", img:"photos/bdg-position-indicator.jpg"},
-  {key:"bns", area:"sensors", seg:"camswitch", code:"BNS", name:"Mechanical Cam Switch", blurb:"Single and multiple-position limit switches"},
-  {key:"bsi", area:"sensors", seg:"inclination", code:"BSI", name:"Inclination Sensor", blurb:"Tilt / inclination sensor", img:"photos/bsi.jpg"},
-  {key:"bsp", area:"sensors", seg:"pressure", code:"BSP", name:"Pressure Sensor", blurb:"Pressure sensing for fluids and gases"},
+  {key:"bes", area:"sensors", tech:"inductive", seg:"inductive", code:"BES", name:"Inductive Sensor", blurb:"Inductive proximity sensor for metal targets"},
+  {key:"bip", area:"sensors", tech:"inductive", seg:"inductive", code:"BIP", name:"Inductive Positioning System", blurb:"Analog inductive linear positioning", img:"photos/bip.jpg"},
+  {key:"bir", area:"sensors", tech:"inductive", seg:"inductive", code:"BIR", name:"Rapid Inductive Positioning System", blurb:"High-speed inductive positioning", img:"photos/bir.jpg"},
+  {key:"bos", area:"sensors", tech:"photoelectric", seg:"photoelectric", code:"BOS", name:"Photoelectric Sensor", blurb:"Standard photoelectric sensor", img:"photos/bos.jpg"},
+  {key:"bod", area:"sensors", tech:"photoelectric", seg:"distance", code:"BOD", name:"Optoelectronic Distance Sensor", blurb:"Laser / optical distance measurement"},
+  {key:"bgl", area:"sensors", tech:"photoelectric", seg:"photoelectric", code:"BGL", name:"Fork Sensor", blurb:"Fork (slot) photoelectric sensor", img:"photos/bgl.jpg"},
+  {key:"bla", area:"sensors", tech:"photoelectric", seg:"photoelectric", code:"BLA", name:"Light Array", blurb:"Light grid / area sensing array", img:"photos/bla.jpg"},
+  {key:"bfo", area:"sensors", tech:"photoelectric", seg:"photoelectric", code:"BFO", name:"Fiber Optics", blurb:"Fiber-optic amplifier + fiber cables", img:"photos/bfo.jpg"},
+  {key:"boh", area:"sensors", tech:"photoelectric", seg:"photoelectric", code:"BOH", name:"Optical Head Sensor", blurb:"Fiber-optic sensor head", img:"photos/boh.jpg"},
+  {key:"btl", area:"sensors", tech:"magnetostrictive", seg:"linear", code:"BTL", name:"Magnetostrictive Linear Transducer", blurb:"Magnetostrictive linear position transducer", img:"photos/btl.jpg"},
+  {key:"bmf", area:"sensors", tech:"magnetic-field", seg:"cylinder", code:"BMF", name:"Magnetic Cylinder Sensor", blurb:"Magnetic field sensor for pneumatic cylinders", img:"photos/bmf.jpg"},
+  {key:"bmp", area:"sensors", tech:"magnetic-field", seg:"cylinder", code:"BMP", name:"Magnetic Cylinder Positioning System", blurb:"Continuous position sensing for cylinders", img:"photos/bmp.jpg"},
+  {key:"bml", area:"sensors", tech:"magnetic-coded", seg:"linear", code:"BML", name:"Magnetic Encoder", blurb:"Magnetically coded linear / rotary encoder", img:"photos/bml.jpg"},
+  {key:"bcs", area:"sensors", tech:"capacitive", seg:"capacitive", code:"BCS", name:"Capacitive Sensor", blurb:"Capacitive sensing, level detection"},
+  {key:"bus", area:"sensors", tech:"ultrasonic", seg:"ultrasonic", code:"BUS", name:"Ultrasonic Sensor", blurb:"Ultrasonic detection and distance"},
+  {key:"bcm", area:"sensors", tech:"condition", seg:"condmon", code:"BCM", name:"Condition Monitoring Sensor", blurb:"Vibration, temperature, humidity monitoring"},
+  {key:"bdg-rotary-encoder", area:"sensors", tech:"encoders", seg:"encoder", code:"BDG", name:"Rotary Encoder", blurb:"Absolute / incremental rotary encoder", img:"photos/bdg-rotary-encoder.jpg"},
+  {key:"bdg-position-indicator", area:"sensors", tech:"indicators", seg:"posindicator", code:"BDG", name:"Position Indicator", blurb:"Digital position/value display module", img:"photos/bdg-position-indicator.jpg"},
+  {key:"bns", area:"sensors", tech:"cam-switches", seg:"camswitch", code:"BNS", name:"Mechanical Cam Switch", blurb:"Single and multiple-position limit switches"},
+  {key:"bsi", area:"sensors", tech:"inclination", seg:"inclination", code:"BSI", name:"Inclination Sensor", blurb:"Tilt / inclination sensor", img:"photos/bsi.jpg"},
+  {key:"bsp", area:"sensors", tech:"pressure", seg:"pressure", code:"BSP", name:"Pressure Sensor", blurb:"Pressure sensing for fluids and gases"},
 
   // RFID systems
   {key:"bis-u", area:"rfid", seg:"rfid", code:"BIS U", name:"UHF RFID System", blurb:"Long-range identification, bulk reading"},
@@ -718,10 +760,10 @@ var PRODUCTS = [
   {key:"bam-protection", area:"accessories", seg:"mounting", code:"BAM", name:"Mechanical Protection", blurb:"Protective housings and covers"},
   {key:"signal-converters", area:"accessories", seg:"converters", code:"", name:"Signal Converter / Comm. Adapter", blurb:"Signal conversion, communication adapters"},
 
-  // Systems solutions + Software
-  {key:"systems", area:"systems", seg:"systems", code:"", name:"Systems Solution", blurb:"Engineered system packages built from Balluff components"},
-  {key:"sw-monitoring", area:"software", seg:"software", code:"", name:"Monitoring Software", blurb:"Condition and process monitoring"},
-  {key:"sw-setup", area:"software", seg:"software", code:"", name:"Setup & Configuration Software", blurb:"Device setup, parameterization, IO-Link configuration"}
+  // Systems solutions & Software
+  {key:"cmtk", area:"solutions", seg:"cmtk", code:"CMTK", name:"Condition Monitoring Toolkit", blurb:"Condition monitoring with IO-Link sensors, data collection and dashboards"},
+  {key:"guided-gcs", area:"solutions", seg:"gcs", code:"GCS", name:"Guided Changeover Solution", blurb:"Operator-guided format changeover with position verification"},
+  {key:"bet", area:"solutions", seg:"bet", code:"BET", name:"Balluff Engineering Tool", blurb:"IO-Link device setup, parameterization and diagnostics"}
 ];
 
 /* Competitors per product segment. A product's `seg` picks its list; for
@@ -757,9 +799,12 @@ var COMPETITOR_SETS = {
   power:         ["PULS","Phoenix Contact","Siemens","Murrelektronik","Mean Well","TDK-Lambda","Rockwell Automation","Weidmüller","Turck"],
   mounting:      ["SICK","Keyence","Banner Engineering","ifm efector","Pepperl+Fuchs","Turck"],
   converters:    ["Turck","Pepperl+Fuchs","Phoenix Contact","Murrelektronik","Weidmüller","ifm efector"],
-  systems:       ["Siemens","Rockwell Automation","Turck","ifm efector","SICK","Cognex"],
-  software:      ["Siemens","Rockwell Automation","Turck","ifm efector","SICK","Cognex","PTC"]
+  cmtk:          ["ifm efector","Banner Engineering","SKF","Turck","Siemens","Schaeffler","Emerson","Rockwell Automation","PTC"],
+  gcs:           ["SIKO","Festo","Siemens","Rockwell Automation","Turck","Banner Engineering","ifm efector"],
+  bet:           ["ifm efector","Turck","Siemens","Pepperl+Fuchs","TMG","Murrelektronik","Rockwell Automation","Beckhoff"]
 };
+/* Only this many competitors show per product; the rest sit behind "Show all". */
+var COMPETITOR_TOP_N = 10;
 var ALL_COMPETITORS = (function(){
   var seen = {}, out = [];
   Object.keys(COMPETITOR_SETS).forEach(function(k){
@@ -770,23 +815,24 @@ var ALL_COMPETITORS = (function(){
 
 var MARKETS = [
   {key:"automotive", label:"Automotive"},
-  {key:"battery-ev", label:"Battery & EV Production"},
-  {key:"machine-tool", label:"Machine Tool & Metalworking"},
-  {key:"primary-metals", label:"Primary Metals & Metal Forming"},
+  {key:"battery-ev", label:"Battery / EV"},
+  {key:"machine-tool", label:"Metalworking"},
+  {key:"primary-metals", label:"Metallurgy"},
   {key:"food-bev", label:"Food & Beverage"},
   {key:"packaging", label:"Packaging"},
   {key:"warehouse", label:"Warehouse & Logistics"},
   {key:"semi-electronics", label:"Semiconductor & Electronics"},
-  {key:"life-sciences", label:"Life Sciences & Medical"},
+  {key:"life-sciences", label:"Life Science"},
   {key:"plastics", label:"Plastics & Rubber"},
-  {key:"wood-furniture", label:"Wood & Furniture"},
+  {key:"wood-furniture", label:"Lumber"},
   {key:"robotics", label:"Robotics & Automation"},
   {key:"fluid-power", label:"Fluid Power & Hydraulics"},
   {key:"mobile-equipment", label:"Mobile Equipment & Agriculture"},
   {key:"aerospace", label:"Aerospace & Defense"},
-  {key:"renewables", label:"Renewable Energy"}
+  {key:"renewables", label:"Energy"}
 ];
 var PRIORITY_LABELS = {1:"Low", 2:"Medium", 3:"High"};
+var PRIORITY_SHORT  = {1:"Low", 2:"Med", 3:"High"};
 
 var CUSTOM = "__custom__";
 var PRICE_RANGES = ["<$50","$50–$100","$100–$250","$250–$500","$500–$1,000","$1,000–$2,500","$2,500–$10,000","$10,000+"];
@@ -828,13 +874,13 @@ var BLOCKED_HINTS = [
 ];
 var MAX_LINKS = 5;
 
-var DRAFT_KEY = "balluff_portfolio_survey_draft_v3";
+var DRAFT_KEY = "balluff_portfolio_survey_draft_v4";
 var ARROW_SVG = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg>';
 
 var state = {
-  area: "all",
+  area: "all", tech: "all",
   product: null,
-  competitors: {}, showAllCompetitors: false,
+  competitors: {}, customCompetitors: [], showAllCompetitors: false,
   markets: {},
   priceMode: "exact",
   links: [""]
@@ -870,6 +916,22 @@ function renderAreaChips(){
     html += '<button type="button" class="chip" data-area="'+a.key+'" aria-pressed="'+(state.area===a.key)+'">'+esc(a.short||a.label)+'<span class="count">'+n+'</span></button>';
   });
   $("areaChips").innerHTML = html;
+  renderTechChips();
+}
+
+/* Sensor technology sub-filter: shown under the area chips while All or Sensors is active. */
+function renderTechChips(){
+  var show = state.area === "all" || state.area === "sensors";
+  $("techFilter").classList.toggle("show", show);
+  if(!show) return;
+  var sensors = PRODUCTS.filter(function(p){ return p.area === "sensors"; });
+  var html = '<button type="button" class="chip" data-tech="all" aria-pressed="'+(state.area==="sensors" && state.tech==="all")+'">All sensors<span class="count">'+sensors.length+'</span></button>';
+  SENSOR_TECHS.forEach(function(t){
+    var n = sensors.filter(function(p){ return p.tech === t.key; }).length;
+    if(!n) return;
+    html += '<button type="button" class="chip" data-tech="'+t.key+'" aria-pressed="'+(state.tech===t.key)+'">'+esc(t.label)+'<span class="count">'+n+'</span></button>';
+  });
+  $("techChips").innerHTML = html;
 }
 
 function mediaHtml(p){
@@ -904,6 +966,7 @@ function renderProducts(){
   areas.forEach(function(a){
     var items = PRODUCTS.filter(function(p){
       if(p.area !== a.key) return false;
+      if(state.tech !== "all" && p.area === "sensors" && p.tech !== state.tech) return false;
       if(!filter) return true;
       return (p.code+" "+p.name+" "+p.blurb+" "+a.label).toLowerCase().indexOf(filter) !== -1;
     });
@@ -944,14 +1007,22 @@ function competitorContext(){
   }
   var area = activeArea();
   if(area){
-    var seen = {}, list = [];
+    // "Something new" in an area: rank by how many of the area's segments list each competitor
+    var score = {}, order = [];
     PRODUCTS.forEach(function(q){
       if(q.area !== area) return;
-      (COMPETITOR_SETS[q.seg]||[]).forEach(function(n){ if(!seen[n]){ seen[n]=1; list.push(n); } });
+      (COMPETITOR_SETS[q.seg]||[]).forEach(function(n, i){
+        if(!(n in score)){ score[n] = 0; order.push(n); }
+        score[n] += 100 - i;
+      });
     });
-    return {list: list, label: areaLabel(area)};
+    order.sort(function(a,b){ return score[b] - score[a]; });
+    return {list: order, label: areaLabel(area)};
   }
   return null;
+}
+function selectedCompetitors(){
+  return Object.keys(state.competitors).filter(function(n){ return state.competitors[n]; });
 }
 function renderCompetitors(){
   var ctx = competitorContext();
@@ -959,34 +1030,77 @@ function renderCompetitors(){
   if(state.showAllCompetitors){
     list = ALL_COMPETITORS.slice();
   } else {
-    list = ctx ? ctx.list.slice() : [];
-    // keep anything already picked visible, even if it's outside the current set
-    Object.keys(state.competitors).forEach(function(n){
-      if(n !== "__other__" && state.competitors[n] && list.indexOf(n) === -1) list.push(n);
-    });
+    list = ctx ? ctx.list.slice(0, COMPETITOR_TOP_N) : [];
+    // keep anything already picked visible, even if it's outside the top list
+    selectedCompetitors().forEach(function(n){ if(list.indexOf(n) === -1) list.push(n); });
   }
   var html = "";
   list.forEach(function(n){
     html += '<button type="button" class="chip" data-key="'+esc(n)+'" aria-pressed="'+(!!state.competitors[n])+'">'+esc(n)+'</button>';
   });
-  html += '<button type="button" class="chip" data-key="__other__" aria-pressed="'+(!!state.competitors.__other__)+'">Other</button>';
+  state.customCompetitors.forEach(function(n, i){
+    html += '<button type="button" class="chip custom-comp" data-custom="'+i+'" aria-label="Remove '+esc(n)+'">'+esc(n)+'<span aria-hidden="true">&times;</span></button>';
+  });
   $("competitorChips").innerHTML = html;
 
   var sub = $("competitorSub"), toggle = $("competitorToggle");
-  if(!ctx){
-    sub.textContent = state.showAllCompetitors
-      ? "Showing all competitors. Which would this go up against?"
-      : "Pick a product match in 02 and the competitors for that product appear here.";
-    toggle.hidden = false;
-    toggle.innerHTML = (state.showAllCompetitors ? "Hide the full list" : "Show all "+ALL_COMPETITORS.length+" competitors") + ARROW_SVG;
+  var hidden = ctx ? Math.max(0, ALL_COMPETITORS.length - Math.min(ctx.list.length, COMPETITOR_TOP_N)) : ALL_COMPETITORS.length;
+  if(state.showAllCompetitors){
+    sub.textContent = "Showing all "+ALL_COMPETITORS.length+" competitors. Which would this go up against?";
+    toggle.innerHTML = (ctx ? "Show the top "+COMPETITOR_TOP_N+" for "+esc(ctx.label) : "Hide the full list") + ARROW_SVG;
+  } else if(ctx){
+    sub.textContent = "Top competitors for "+ctx.label+". Which would this go up against?";
+    toggle.innerHTML = "Show all competitors ("+hidden+" more)" + ARROW_SVG;
   } else {
-    sub.textContent = state.showAllCompetitors
-      ? "Showing all competitors. Which would this go up against?"
-      : "Competitors for "+ctx.label+". Which would this go up against?";
-    toggle.hidden = false;
-    toggle.innerHTML = (state.showAllCompetitors ? "Show competitors for "+esc(ctx.label)+" only" : "Show all "+ALL_COMPETITORS.length+" competitors") + ARROW_SVG;
+    sub.textContent = "Pick a product match in 02 and its top competitors appear here. Or type a name below.";
+    toggle.innerHTML = "Show all "+ALL_COMPETITORS.length+" competitors" + ARROW_SVG;
   }
-  $("competitorOtherWrap").classList.toggle("show", !!state.competitors.__other__);
+  toggle.hidden = false;
+}
+
+/* ---------- competitor typeahead ---------- */
+var combo = {items: [], active: -1};
+function closeSuggest(){
+  $("competitorSuggest").hidden = true;
+  $("f-competitor-search").setAttribute("aria-expanded", "false");
+  $("f-competitor-search").removeAttribute("aria-activedescendant");
+  combo.active = -1;
+}
+function renderSuggest(){
+  var q = $("f-competitor-search").value.trim();
+  if(!q){ closeSuggest(); return; }
+  var ql = q.toLowerCase();
+  var matches = ALL_COMPETITORS.filter(function(n){ return n.toLowerCase().indexOf(ql) !== -1 && !state.competitors[n]; })
+    .sort(function(a,b){ return (b.toLowerCase().indexOf(ql)===0) - (a.toLowerCase().indexOf(ql)===0); })
+    .slice(0, 8);
+  var exact = ALL_COMPETITORS.some(function(n){ return n.toLowerCase() === ql; }) ||
+              state.customCompetitors.some(function(n){ return n.toLowerCase() === ql; });
+  combo.items = matches.map(function(n){ return {name:n}; });
+  if(!exact) combo.items.push({name:q, custom:true});
+  if(combo.active >= combo.items.length) combo.active = combo.items.length - 1;
+  var re = new RegExp("("+ql.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")+")", "i");
+  $("competitorSuggest").innerHTML = combo.items.map(function(it, i){
+    var label = it.custom ? 'Add “'+esc(it.name)+'”<span class="note">not in the list</span>'
+                          : esc(it.name).replace(re, "<mark>$1</mark>");
+    return '<li role="option" id="comp-opt-'+i+'" data-i="'+i+'" aria-selected="'+(i===combo.active)+'">'+label+'</li>';
+  }).join("");
+  $("competitorSuggest").hidden = false;
+  $("f-competitor-search").setAttribute("aria-expanded", "true");
+  if(combo.active >= 0) $("f-competitor-search").setAttribute("aria-activedescendant", "comp-opt-"+combo.active);
+  else $("f-competitor-search").removeAttribute("aria-activedescendant");
+}
+function addCompetitor(name, isCustom){
+  name = String(name||"").trim().slice(0, 60);
+  if(!name) return;
+  var known = ALL_COMPETITORS.find(function(n){ return n.toLowerCase() === name.toLowerCase(); });
+  if(known){ state.competitors[known] = true; }
+  else if(isCustom !== false && !state.customCompetitors.some(function(n){ return n.toLowerCase() === name.toLowerCase(); })){
+    state.customCompetitors.push(name);
+  }
+  $("f-competitor-search").value = "";
+  closeSuggest();
+  renderCompetitors();
+  saveDraftSoon();
 }
 
 /* ---------- markets ---------- */
@@ -999,13 +1113,14 @@ function renderMarkets(){
     var v = state.markets[m.key];
     var checked = v !== undefined && v !== null;
     var pri = checked && v > 0 ? v : 0;
-    html += '<div class="market-row'+(pri?" ranked":"")+'">'+
+    // priority buttons only appear once a market is checked, which keeps the list short
+    html += '<div class="market-row'+(pri?" ranked":(checked?" unranked":""))+'">'+
       '<label class="market-check"><input type="checkbox" data-key="'+m.key+'" '+(checked?"checked":"")+'><span>'+esc(m.label)+'</span></label>'+
       '<div class="priority-group'+(checked?" active":"")+'" role="group" aria-label="Priority for '+esc(m.label)+'">'+
-        [1,2,3].map(function(n){
-          return '<button type="button" class="pri-btn" data-key="'+m.key+'" data-pri="'+n+'" aria-pressed="'+(pri===n)+'" aria-label="'+PRIORITY_LABELS[n]+' priority ('+n+')"'+(checked?"":" tabindex=\"-1\"")+'>'+
-            barsHtml(n)+'<span>'+PRIORITY_LABELS[n]+'</span></button>';
-        }).join("")+
+        (checked ? [1,2,3].map(function(n){
+          return '<button type="button" class="pri-btn" data-key="'+m.key+'" data-pri="'+n+'" aria-pressed="'+(pri===n)+'" aria-label="'+PRIORITY_LABELS[n]+' priority ('+n+')">'+
+            barsHtml(n)+'<span>'+PRIORITY_SHORT[n]+'</span></button>';
+        }).join("") : "")+
       '</div></div>';
   });
   $("marketList").innerHTML = html;
@@ -1084,6 +1199,18 @@ renderAll();
 $("areaChips").addEventListener("click", function(e){
   var chip = e.target.closest(".chip"); if(!chip) return;
   state.area = chip.getAttribute("data-area");
+  state.tech = "all";
+  renderAreaChips();
+  renderProducts();
+  renderCompetitors();
+  saveDraftSoon();
+});
+
+$("techChips").addEventListener("click", function(e){
+  var chip = e.target.closest(".chip"); if(!chip) return;
+  var tech = chip.getAttribute("data-tech");
+  state.area = "sensors";
+  state.tech = (tech === state.tech && tech !== "all") ? "all" : tech;
   renderAreaChips();
   renderProducts();
   renderCompetitors();
@@ -1107,14 +1234,46 @@ $("productGroups").addEventListener("click", function(e){
 
 $("competitorChips").addEventListener("click", function(e){
   var chip = e.target.closest(".chip"); if(!chip) return;
-  var key = chip.getAttribute("data-key");
-  state.competitors[key] = !state.competitors[key];
+  if(chip.hasAttribute("data-custom")){
+    state.customCompetitors.splice(+chip.getAttribute("data-custom"), 1);
+  } else {
+    var key = chip.getAttribute("data-key");
+    state.competitors[key] = !state.competitors[key];
+  }
   renderCompetitors();
   saveDraftSoon();
 });
 $("competitorToggle").addEventListener("click", function(){
   state.showAllCompetitors = !state.showAllCompetitors;
   renderCompetitors();
+});
+
+var compInput = $("f-competitor-search");
+compInput.addEventListener("input", function(){ combo.active = -1; renderSuggest(); });
+compInput.addEventListener("keydown", function(e){
+  var open = !$("competitorSuggest").hidden;
+  if(e.key === "ArrowDown"){
+    e.preventDefault();
+    if(!open) renderSuggest();
+    if(combo.items.length){ combo.active = (combo.active + 1) % combo.items.length; renderSuggest(); }
+  } else if(e.key === "ArrowUp"){
+    e.preventDefault();
+    if(combo.items.length){ combo.active = combo.active <= 0 ? combo.items.length - 1 : combo.active - 1; renderSuggest(); }
+  } else if(e.key === "Enter"){
+    e.preventDefault();   // never submit the form from this box
+    var it = combo.active >= 0 ? combo.items[combo.active] : (combo.items.length && !combo.items[0].custom ? combo.items[0] : null);
+    if(it) addCompetitor(it.name, !!it.custom);
+    else if(compInput.value.trim()) addCompetitor(compInput.value, true);
+  } else if(e.key === "Escape"){
+    closeSuggest();
+  }
+});
+compInput.addEventListener("blur", function(){ setTimeout(closeSuggest, 120); });
+$("competitorSuggest").addEventListener("mousedown", function(e){
+  var li = e.target.closest("li"); if(!li) return;
+  e.preventDefault();   // keep focus in the input
+  var it = combo.items[+li.getAttribute("data-i")];
+  if(it) addCompetitor(it.name, !!it.custom);
 });
 
 $("marketList").addEventListener("click", function(e){
@@ -1293,7 +1452,7 @@ $("addLinkBtn").addEventListener("click", function(){
   $("f-link-"+(state.links.length-1)).focus();
 });
 
-["f-name","f-req","f-newname","f-competitor-other","f-market-other","f-price-exact","f-price-min","f-price-max","f-custcount-custom","f-volume-custom"].forEach(function(id){
+["f-name","f-req","f-newname","f-market-other","f-price-exact","f-price-min","f-price-max","f-custcount-custom","f-volume-custom"].forEach(function(id){
   $(id).addEventListener("input", function(){ clearFieldErrorForInput(id); saveDraftSoon(); });
 });
 
@@ -1367,7 +1526,7 @@ function validate(){
 }
 
 function collectPayload(){
-  var comp = Object.keys(state.competitors).filter(function(k){ return k!=="__other__" && state.competitors[k]; });
+  var comp = selectedCompetitors();
   var product = productOf(state.product);
   var newName = $("f-newname").value.trim();
   var area = activeArea();
@@ -1384,7 +1543,7 @@ function collectPayload(){
     newProductName: newName,
     requirements: $("f-req").value.trim(),
     competitors: comp,
-    competitorOther: state.competitors.__other__ ? $("f-competitor-other").value.trim() : "",
+    competitorOther: state.customCompetitors.join(", "),
     markets: marketsSelectedList(),
     marketOther: $("f-market-other").value.trim(),
     price: price,
@@ -1578,7 +1737,7 @@ function showToast(msg){
 }
 
 /* ---------- draft autosave (attachments are never saved) ---------- */
-var DRAFT_INPUTS = ["f-name","f-newname","f-req","f-competitor-other","f-market-other","f-price-exact","f-price-min","f-price-max","f-custcount-custom","f-volume-custom"];
+var DRAFT_INPUTS = ["f-name","f-newname","f-req","f-market-other","f-price-exact","f-price-min","f-price-max","f-custcount-custom","f-volume-custom"];
 var draftTimer = null;
 function saveDraftSoon(){
   clearTimeout(draftTimer);
@@ -1602,6 +1761,9 @@ function loadDraft(){
     if(data.state) Object.assign(state, data.state);
     if(state.product && state.product !== "new" && !productOf(state.product)) state.product = null;
     if(state.area !== "all" && !areaOf(state.area)) state.area = "all";
+    if(!SENSOR_TECHS.some(function(t){ return t.key === state.tech; })) state.tech = "all";
+    if(!Array.isArray(state.customCompetitors)) state.customCompetitors = [];
+    delete state.competitors.__other__;
     if(!Array.isArray(state.links) || !state.links.length) state.links = [""];
     state.links = state.links.slice(0, MAX_LINKS).map(String);
     renderAll();
