@@ -1,6 +1,6 @@
 # Portfolio Request survey
 
-Internal survey where sales reps flag product gaps and portfolio requests for review. It covers the full Balluff portfolio: 9 product areas based on balluff.com (Sensors, RFID, Machine Vision & Optical ID, Industrial Communication, Connectivity, Control & Machine Lights, Power Supplies, Accessories, and Systems Solutions & Software), 56 product families. Systems Solutions & Software lists the named solutions: CMTK (Condition Monitoring Toolkit), Guided GCS (Changeover Solution) and BET (Balluff Engineering Tool). Sensors can be narrowed further by technology (inductive, photoelectric, capacitive and so on).
+Internal survey where sales reps flag product gaps and portfolio requests for review. It covers the full Balluff portfolio: 9 product areas based on balluff.com (Sensors, RFID, Machine Vision & Optical ID, Industrial Communication, Connectivity, Control & Machine Lights, Power Supplies, Accessories, and Systems Solutions & Software), 57 product families. Systems Solutions & Software lists the named solutions: CMTK (Condition Monitoring Toolkit), Guided GCS (Changeover Solution) and BET (Balluff Engineering Tool). Sensors can be narrowed further by technology (inductive, photoelectric, capacitive and so on).
 
 Reps filter by product area or search by code, pick the closest family, and describe the technical requirement. They also tag competitors, rank target markets, give pricing and volume expectations, and can attach a file or add links.
 
