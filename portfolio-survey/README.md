@@ -1,10 +1,10 @@
 # Portfolio Request survey
 
-Internal survey where sales reps flag product gaps and portfolio requests for review. It covers the full Balluff portfolio: all 10 product areas from balluff.com (Sensors, RFID, Machine Vision & Optical ID, Industrial Communication, Connectivity, Control & Machine Lights, Power Supplies, Accessories, Systems Solutions, Software), 62 product families.
+Internal survey where sales reps flag product gaps and portfolio requests for review. It covers the full Balluff portfolio: 9 product areas based on balluff.com (Sensors, RFID, Machine Vision & Optical ID, Industrial Communication, Connectivity, Control & Machine Lights, Power Supplies, Accessories, and Systems Solutions & Software), 62 product families. Systems Solutions & Software lists the named solutions: CMTK (Condition Monitoring Toolkit), Guided GCS (Changeover Solution) and BET (Balluff Engineering Tool). Sensors can be narrowed further by technology (inductive, photoelectric, capacitive and so on).
 
 Reps filter by product area or search by code, pick the closest family, and describe the technical requirement. They also tag competitors, rank target markets, give pricing and volume expectations, and can attach a file or add links.
 
-- The competitor list is driven by the product picked.
+- The competitor list shows the top 10 for the product picked; the rest are behind "Show all", and a type-ahead box adds any competitor, listed or not.
 - Pricing, customer count and volume each accept a preset range or a custom value.
 
 Submitting emails the Product Marketing Manager for that portfolio. No extra step.
@@ -37,12 +37,13 @@ The page follows `design.md` / `tokens.css` in ai-marketing2:
 All configuration is at the top of the `<script>` block in `index.html`:
 
 - `ROUTING`: who receives each request (see below)
-- `AREAS`: the 10 product areas (balluff.com taxonomy) and their fallback icon
-- `PRODUCTS`: product families. Each has `key`, `area`, `seg`, `code`, `name`, `blurb` and an optional `img`. Don't rename existing `key` values; email filters and saved drafts rely on them.
-- `COMPETITOR_SETS`: the competitor list for each `seg` (product segment)
+- `AREAS`: the 9 product areas and their fallback icon
+- `SENSOR_TECHS`: the sensor technology sub-filter; each sensor family has a matching `tech` key
+- `PRODUCTS`: product families. Each has `key`, `area`, `seg`, `code`, `name`, `blurb`, an optional `img`, and (for sensors) `tech`. Don't rename existing `key` values; email filters and saved drafts rely on them.
+- `COMPETITOR_SETS`: the competitor list for each `seg` (product segment), most relevant first. Only the first `COMPETITOR_TOP_N` (10) show by default.
   - A product shows its segment's list.
   - "Something new" shows every competitor for the chosen area.
-  - With no product picked, the list stays empty until the rep picks one or opens the full list.
+  - With no product picked, the list stays empty until the rep picks one, opens the full list, or types a name.
 - `MARKETS`, `PRICE_RANGES`, `CUSTOMER_RANGES`, `VOLUME_RANGES`, `TIMELINE`
 - `FILE_TYPES`, `BLOCKED_HINTS`, `ATTACHMENT_MAX_BYTES`, `MAX_LINKS`: attachment and link rules
 
