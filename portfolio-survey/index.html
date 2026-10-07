@@ -205,7 +205,7 @@ button:focus-visible, a:focus-visible, .chip:focus-visible, .product-card:focus-
 /* ---------- Sensor technology filter (sub-row under the area chips) ---------- */
 .tech-filter{display:none; padding:12px 0 0 12px; border-left:2px solid var(--color-gray-200);}
 .tech-filter.show{display:block;}
-.tech-filter .tech-label{font-size:12px; font-weight:600; color:var(--color-gray-600); text-transform:uppercase; letter-spacing:.06em; margin:0 0 8px;}
+.filter-label{font-size:12px; font-weight:600; color:var(--color-gray-600); text-transform:uppercase; letter-spacing:.06em; margin:0 0 8px;}
 .tech-filter .chip{font-size:13px; padding:6px 12px;}
 
 /* ---------- Competitor typeahead ---------- */
@@ -335,7 +335,6 @@ input[type=file]::file-selector-button:hover{background:var(--color-gray-50);}
         <div>
           <div class="section-num">01</div>
           <h2 class="section-title" id="t-01">Requested by</h2>
-          <p class="section-sub">So the Product Marketing Manager knows who to follow up with.</p>
         </div>
         <div>
           <div class="field" id="field-name">
@@ -355,9 +354,12 @@ input[type=file]::file-selector-button:hover{background:var(--color-gray-50);}
         <div>
           <div class="field" id="field-product">
             <div class="picker-tools">
-              <div class="chip-row area-chips" id="areaChips" role="group" aria-label="Filter by product area"></div>
+              <div>
+                <p class="filter-label" id="area-label">Product area</p>
+                <div class="chip-row area-chips" id="areaChips" role="group" aria-labelledby="area-label"></div>
+              </div>
               <div class="tech-filter" id="techFilter">
-                <p class="tech-label" id="tech-label">Sensor technology</p>
+                <p class="filter-label" id="tech-label">Sensor technology</p>
                 <div class="chip-row" id="techChips" role="group" aria-labelledby="tech-label"></div>
               </div>
               <div>
@@ -402,7 +404,7 @@ input[type=file]::file-selector-button:hover{background:var(--color-gray-50);}
           <div class="chip-row" id="competitorChips"></div>
           <button type="button" class="text-btn" id="competitorToggle"></button>
           <div class="combo">
-            <label class="field-label" for="f-competitor-search">Add a competitor</label>
+            <label class="field-label" for="f-competitor-search">Competitor Search</label>
             <div class="combo-field">
               <input type="text" id="f-competitor-search" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="competitorSuggest" autocomplete="off" spellcheck="false" placeholder="Start typing, e.g. Temposonics">
               <ul class="combo-list" id="competitorSuggest" role="listbox" aria-label="Competitor suggestions" hidden></ul>
@@ -675,7 +677,6 @@ var SENSOR_TECHS = [
   {key:"condition",        label:"Condition monitoring"},
   {key:"encoders",         label:"Encoders"},
   {key:"indicators",       label:"Position indicators"},
-  {key:"cam-switches",     label:"Mechanical cam switches"},
   {key:"inclination",      label:"Inclination"},
   {key:"pressure",         label:"Pressure"}
 ];
@@ -687,11 +688,13 @@ var SENSOR_TECHS = [
 var PRODUCTS = [
   // Sensors
   {key:"bes", area:"sensors", tech:"inductive", seg:"inductive", code:"BES", name:"Inductive Sensor", blurb:"Inductive proximity sensor for metal targets"},
+  {key:"baw", area:"sensors", tech:"inductive", seg:"inductive", code:"BAW", name:"Analog Inductive Sensor", blurb:"Inductive distance measurement with analog output"},
   {key:"bip", area:"sensors", tech:"inductive", seg:"inductive", code:"BIP", name:"Inductive Positioning System", blurb:"Analog inductive linear positioning", img:"photos/bip.jpg"},
   {key:"bir", area:"sensors", tech:"inductive", seg:"inductive", code:"BIR", name:"Rapid Inductive Positioning System", blurb:"High-speed inductive positioning", img:"photos/bir.jpg"},
   {key:"bos", area:"sensors", tech:"photoelectric", seg:"photoelectric", code:"BOS", name:"Photoelectric Sensor", blurb:"Standard photoelectric sensor", img:"photos/bos.jpg"},
-  {key:"bod", area:"sensors", tech:"photoelectric", seg:"distance", code:"BOD", name:"Optoelectronic Distance Sensor", blurb:"Laser / optical distance measurement"},
+  {key:"bod", area:"sensors", tech:"photoelectric", seg:"distance", code:"BOD", name:"Photoelectric Distance Sensor", blurb:"Laser / optical distance measurement"},
   {key:"bgl", area:"sensors", tech:"photoelectric", seg:"photoelectric", code:"BGL", name:"Fork Sensor", blurb:"Fork (slot) photoelectric sensor", img:"photos/bgl.jpg"},
+  {key:"bow", area:"sensors", tech:"photoelectric", seg:"photoelectric", code:"BOW", name:"Optical Window", blurb:"Optical window sensor for detecting parts passing through"},
   {key:"bla", area:"sensors", tech:"photoelectric", seg:"photoelectric", code:"BLA", name:"Light Array", blurb:"Light grid / area sensing array", img:"photos/bla.jpg"},
   {key:"bfo", area:"sensors", tech:"photoelectric", seg:"photoelectric", code:"BFO", name:"Fiber Optics", blurb:"Fiber-optic amplifier + fiber cables", img:"photos/bfo.jpg"},
   {key:"boh", area:"sensors", tech:"photoelectric", seg:"photoelectric", code:"BOH", name:"Optical Head Sensor", blurb:"Fiber-optic sensor head", img:"photos/boh.jpg"},
@@ -704,7 +707,6 @@ var PRODUCTS = [
   {key:"bcm", area:"sensors", tech:"condition", seg:"condmon", code:"BCM", name:"Condition Monitoring Sensor", blurb:"Vibration, temperature, humidity monitoring"},
   {key:"bdg-rotary-encoder", area:"sensors", tech:"encoders", seg:"encoder", code:"BDG", name:"Rotary Encoder", blurb:"Absolute / incremental rotary encoder", img:"photos/bdg-rotary-encoder.jpg"},
   {key:"bdg-position-indicator", area:"sensors", tech:"indicators", seg:"posindicator", code:"BDG", name:"Position Indicator", blurb:"Digital position/value display module", img:"photos/bdg-position-indicator.jpg"},
-  {key:"bns", area:"sensors", tech:"cam-switches", seg:"camswitch", code:"BNS", name:"Mechanical Cam Switch", blurb:"Single and multiple-position limit switches"},
   {key:"bsi", area:"sensors", tech:"inclination", seg:"inclination", code:"BSI", name:"Inclination Sensor", blurb:"Tilt / inclination sensor", img:"photos/bsi.jpg"},
   {key:"bsp", area:"sensors", tech:"pressure", seg:"pressure", code:"BSP", name:"Pressure Sensor", blurb:"Pressure sensing for fluids and gases"},
 
@@ -713,9 +715,8 @@ var PRODUCTS = [
   {key:"bis-m", area:"rfid", seg:"rfid", code:"BIS M", name:"HF RFID System", blurb:"13.56 MHz read/write identification"},
   {key:"bis-c", area:"rfid", seg:"rfid", code:"BIS C", name:"LF RFID System", blurb:"Low-frequency identification, tool ID"},
   {key:"bis-l", area:"rfid", seg:"rfid", code:"BIS L", name:"LF RFID System (BIS L)", blurb:"Low-frequency read-only / read-write"},
-  {key:"rfid-eval", area:"rfid", seg:"rfid", code:"BIS V", name:"RFID Evaluation Unit", blurb:"Processors and controllers for RFID heads"},
+  {key:"rfid-eval", area:"rfid", seg:"rfid", code:"BIS V", name:"Multi-Frequency RFID System", blurb:"One processor for LF, HF and UHF read/write heads"},
   {key:"rfid-handheld", area:"rfid", seg:"rfid", code:"", name:"RFID Handheld", blurb:"Mobile readers for industrial RFID"},
-  {key:"rfid-tags", area:"rfid", seg:"rfid", code:"", name:"RFID Tags / Data Carriers", blurb:"Tags for LF, HF and UHF systems"},
 
   // Machine Vision and Optical Identification
   {key:"vision-cameras", area:"vision", seg:"cameras", code:"", name:"Industrial Camera", blurb:"Area-scan cameras, GigE / USB3 Vision"},
@@ -779,7 +780,6 @@ var COMPETITOR_SETS = {
   condmon:       ["ifm efector","Banner Engineering","SKF","Turck","Schaeffler","Siemens","Emerson"],
   encoder:       ["SICK","Baumer","Heidenhain","Kübler","Pepperl+Fuchs","Encoder Products Co.","Dynapar","Hengstler","POSITAL","Turck"],
   posindicator:  ["SIKO","Kübler","Baumer","Elesa+Ganter"],
-  camswitch:     ["Schmersal","Euchner","Pizzato","Omron","steute","Bernstein","Honeywell"],
   inclination:   ["SICK","Turck","Pepperl+Fuchs","Baumer","ifm efector","POSITAL","TE Connectivity"],
   pressure:      ["ifm efector","WIKA","Danfoss","SICK","Turck","Keyence","Baumer","Gems Sensors","Banner Engineering"],
   rfid:          ["SICK","Turck","Pepperl+Fuchs","ifm efector","Siemens","Zebra","Keyence","Datalogic","Omron","FEIG"],
