@@ -724,9 +724,6 @@ var PRODUCTS = [
   {key:"vision-3d", area:"vision", seg:"vision3d", code:"", name:"3D Machine Vision", blurb:"3D sensing and measurement"},
   {key:"vision-smart", area:"vision", seg:"smartvision", code:"BVS", name:"Smart Vision", blurb:"Smart cameras and vision sensors"},
   {key:"vision-optid", area:"vision", seg:"codereader", code:"BVS ID", name:"Optical Identification", blurb:"1D/2D code readers"},
-  {key:"vision-software", area:"vision", seg:"visionsw", code:"", name:"Machine Vision Software", blurb:"Image processing and vision software"},
-  {key:"vision-optics", area:"vision", seg:"optics", code:"", name:"Optics", blurb:"C-mount, S-mount, liquid lenses"},
-  {key:"vision-lights", area:"vision", seg:"visionlights", code:"", name:"Vision Lighting", blurb:"Lights for vision systems and machines"},
 
   // Industrial Communication
   {key:"iol-wireless", area:"comms", seg:"iolink", code:"", name:"IO-Link Wireless", blurb:"Wireless IO-Link masters and hubs"},
@@ -738,27 +735,24 @@ var PRODUCTS = [
   // Connectivity
   {key:"bcc-single", area:"connectivity", seg:"cordsets", code:"BCC", name:"Single-Ended Cordset", blurb:"Molded connector on one end"},
   {key:"bcc-double", area:"connectivity", seg:"cordsets", code:"BCC", name:"Double-Ended Cordset", blurb:"Connector-to-connector cables"},
-  {key:"bcc-bulk", area:"connectivity", seg:"cordsets", code:"BCC", name:"Bulk Cable / Field Attachable", blurb:"Cable by the meter, field-wireable connectors"},
+  {key:"bcc-bulk", area:"connectivity", seg:"cordsets", code:"BCC", name:"Bulk Cable", blurb:"Cable by the meter"},
   {key:"bcc-splitters", area:"connectivity", seg:"cordsets", code:"BCC", name:"Y-Splitter / Tee", blurb:"Signal splitting and branching"},
-  {key:"bcc-bulkheads", area:"connectivity", seg:"cordsets", code:"BCC", name:"Bulkhead / Receptacle / Adapter", blurb:"Panel feed-throughs, receptacles, adapters"},
-  {key:"bcc-terminators", area:"connectivity", seg:"cordsets", code:"BCC", name:"Terminating Resistor", blurb:"Bus termination"},
+  {key:"bcc-bulkheads", area:"connectivity", seg:"cordsets", code:"BCC", name:"Field Attachable / Bulkhead / Receptacle / Adapter", blurb:"Field-wireable connectors, panel feed-throughs, receptacles and adapters"},
   {key:"junction-blocks", area:"connectivity", seg:"cordsets", code:"", name:"Junction Block", blurb:"Passive distribution boxes"},
 
   // Control devices, indicator devices, LED machine lights
-  {key:"smartlight", area:"hmi", seg:"indicators", code:"", name:"SmartLight LED Stack Light", blurb:"IO-Link stack lights, run-light, level mode"},
-  {key:"machine-lights", area:"hmi", seg:"machinelights", code:"", name:"LED Machine Light", blurb:"Machine and work-area lighting"},
-  {key:"iol-control-panel", area:"hmi", seg:"indicators", code:"", name:"IO-Link Control Panel", blurb:"Operator buttons and controls on IO-Link"},
+  {key:"smartlight", area:"hmi", seg:"indicators", code:"", name:"LED Stack Light", blurb:"SmartLight IO-Link stack lights: segment, run-light and level modes"},
+  {key:"machine-lights", area:"hmi", seg:"machinelights", code:"", name:"Machine Lighting", blurb:"LED machine and work-area lights"},
 
   // Power supplies
-  {key:"bae-heartbeat", area:"power", seg:"power", code:"BAE PS", name:"Heartbeat Power Supply", blurb:"Power supply with condition monitoring"},
-  {key:"bae-heartbeat-iol", area:"power", seg:"power", code:"BAE PS", name:"Heartbeat Power Supply, IO-Link", blurb:"Heartbeat with IO-Link interface"},
-  {key:"bae-cabinet", area:"power", seg:"power", code:"BAE PS", name:"Control Cabinet Power Supply", blurb:"DIN-rail power supplies"},
-  {key:"bae-field", area:"power", seg:"power", code:"BAE PS", name:"Field Power Supply, IO-Link", blurb:"IP67 power supplies in the field"},
+  {key:"bae-in-panel", area:"power", seg:"power", code:"BAE PS", name:"In-Panel Power Supply", blurb:"DIN-rail power supplies for the control cabinet, including Heartbeat and IO-Link versions"},
+  {key:"bae-machine-mount", area:"power", seg:"power", code:"BAE PS", name:"Machine-Mount Power Supply", blurb:"IP67 power supplies mounted on the machine, including Heartbeat and IO-Link versions"},
 
   // Accessories
   {key:"bam-fastening", area:"accessories", seg:"mounting", code:"BAM", name:"Fastening Technology", blurb:"Mounting brackets, clamps, holders"},
   {key:"bam-reflectors", area:"accessories", seg:"photoelectric", code:"BAM", name:"Reflectors, Fibers, Optics", blurb:"Reflectors and optical accessories"},
   {key:"bam-protection", area:"accessories", seg:"mounting", code:"BAM", name:"Mechanical Protection", blurb:"Protective housings and covers"},
+  {key:"vision-optics-lighting", area:"accessories", seg:"visionoptlight", code:"", name:"Vision Optics / Lighting", blurb:"Lenses (C-mount, S-mount, liquid) and lights for vision systems"},
   {key:"signal-converters", area:"accessories", seg:"converters", code:"", name:"Signal Converter / Comm. Adapter", blurb:"Signal conversion, communication adapters"},
 
   // Systems solutions & Software
@@ -787,9 +781,7 @@ var COMPETITOR_SETS = {
   vision3d:      ["LMI Technologies","SICK","Keyence","Cognex","Zivid","Photoneo","Teledyne"],
   smartvision:   ["Cognex","Keyence","SICK","Omron","Datalogic","Banner Engineering","Zebra"],
   codereader:    ["Cognex","Keyence","SICK","Datalogic","Zebra","Omron","Banner Engineering","Leuze"],
-  visionsw:      ["Cognex","MVTec","Zebra","Teledyne","Keyence"],
-  optics:        ["Computar","Edmund Optics","Fujinon","Kowa","Optotune","Navitar"],
-  visionlights:  ["Smart Vision Lights","CCS","Advanced Illumination","Banner Engineering","Metaphase"],
+  visionoptlight:["Computar","Edmund Optics","Smart Vision Lights","CCS","Advanced Illumination","Fujinon","Kowa","Banner Engineering","Optotune","Metaphase","Navitar"],
   iolink:        ["Turck","ifm efector","Murrelektronik","Siemens","Rockwell Automation","Pepperl+Fuchs","Belden / Lumberg","Phoenix Contact","Banner Engineering","Beckhoff"],
   ethswitch:     ["Siemens","Phoenix Contact","Moxa","Belden / Hirschmann","Rockwell Automation","Turck"],
   coupler:       ["Turck","Pepperl+Fuchs","ifm efector","Murrelektronik"],
