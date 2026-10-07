@@ -80,25 +80,28 @@ h1{
 .section-num{font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--color-gray-600); font-weight:600; margin-bottom:8px; font-variant-numeric:tabular-nums;}
 .section-title{margin:0 0 8px; font-size:24px; line-height:1.3; font-weight:720; font-variation-settings:"wdth" 92;}
 .section-sub{margin:0; font-size:14px; line-height:1.5; color:var(--color-gray-600); max-width:30em;}
+.section-sub + .section-sub{margin-top:8px;}
 .optional{font-size:12px; font-weight:500; color:var(--color-gray-600); text-transform:uppercase; letter-spacing:.06em; margin-left:8px; vertical-align:middle;}
 .req{color:var(--color-balluff-red); margin-left:2px;}
 
 /* ---------- Form controls (design.md § Forms) ---------- */
 .field-label{display:block; font-size:14px; font-weight:500; color:var(--color-gray-800); margin-bottom:8px;}
-input[type=text], input[type=number], input[type=search], textarea{
+input[type=text], input[type=number], input[type=search], input[type=url], textarea{
   width:100%; min-height:40px; background:var(--color-balluff-white);
   border:1px solid var(--color-gray-200); border-radius:var(--radius-sm);
   padding:12px 16px; font-size:16px; line-height:1.4; color:var(--color-gray-900);
 }
 input::placeholder, textarea::placeholder{color:var(--color-gray-400);}
 input:focus, textarea:focus{outline:none; border:2px solid var(--color-balluff-red); padding:11px 15px;}
+input[type=number]{font-variant-numeric:tabular-nums;}
 textarea{min-height:120px; resize:vertical; line-height:1.6;}
 .hint{font-size:12px; line-height:1.4; color:var(--color-gray-600); margin-top:8px;}
 .err{font-size:14px; color:var(--color-error); margin-top:8px; display:none;}
 .err.show{display:block;}
-.field.invalid input[type=text], .field.invalid input[type=number], .field.invalid textarea{border:2px solid var(--color-error); padding:11px 15px;}
+.field.invalid input[type=text], .field.invalid textarea{border:2px solid var(--color-error); padding:11px 15px;}
+.field.invalid input[type=number]:not(:disabled), .field.invalid input[type=url].bad{border:2px solid var(--color-error); padding:11px 15px;}
 .field.invalid .product-grid, .field.invalid .market-list{outline:2px solid var(--color-error); outline-offset:4px;}
-.field + .field{margin-top:24px;}
+.field + .field{margin-top:32px;}
 
 button:focus-visible, a:focus-visible, .chip:focus-visible, .product-card:focus-visible, input[type=checkbox]:focus-visible{
   outline:2px solid var(--color-balluff-red); outline-offset:2px;
@@ -113,14 +116,28 @@ button:focus-visible, a:focus-visible, .chip:focus-visible, .product-card:focus-
 }
 .chip:hover{border-color:var(--color-gray-400);}
 .chip[aria-pressed="true"]{background:var(--color-balluff-red); color:var(--color-balluff-white); font-weight:600;}
+.chip.custom{background:var(--color-balluff-white); border:1px dashed var(--color-gray-400);}
+.chip.custom[aria-pressed="true"]{background:var(--color-balluff-red); border-color:var(--color-balluff-red); border-style:solid;}
 .chip .count{color:var(--color-gray-600); font-variant-numeric:tabular-nums; margin-left:4px; font-size:12px;}
 .chip[aria-pressed="true"] .count{color:rgba(255,255,255,.8);}
 .other-wrap{margin-top:16px; display:none;}
 .other-wrap.show{display:block;}
 .text-btn{background:none; border:none; padding:0; margin-top:16px; color:var(--color-balluff-red); font-size:14px; font-weight:500; cursor:pointer; display:inline-flex; align-items:center; gap:6px;}
 .text-btn:hover{text-decoration:underline;}
+.text-btn:disabled{color:var(--color-gray-400); cursor:not-allowed; text-decoration:none;}
 .text-btn svg{transition:transform .12s;}
 .text-btn:hover svg{transform:translateX(4px);}
+
+/* ---------- Custom value panels (06 / 07 / 08) ---------- */
+.custom-panel{margin-top:16px; padding:16px; background:var(--color-gray-50); display:none;}
+.custom-panel.show{display:block;}
+.inline-inputs{display:flex; flex-wrap:wrap; gap:16px; align-items:flex-end;}
+.inline-inputs .unit-input{display:flex; flex-direction:column; width:180px; max-width:100%;}
+.inline-inputs .dash{padding-bottom:10px; color:var(--color-gray-600);}
+.money{position:relative;}
+.money span{position:absolute; left:14px; top:50%; transform:translateY(-50%); color:var(--color-gray-600); pointer-events:none;}
+.money input, .money input:focus{padding-left:28px;}
+.suffix{font-size:14px; color:var(--color-gray-600); padding-bottom:10px;}
 
 /* ---------- Product picker ---------- */
 .picker-tools{display:grid; gap:16px; margin-bottom:24px;}
@@ -158,40 +175,61 @@ button:focus-visible, a:focus-visible, .chip:focus-visible, .product-card:focus-
 .new-name-wrap{margin-top:24px; display:none;}
 .new-name-wrap.show{display:block;}
 
-/* ---------- Markets ---------- */
+/* ---------- Markets + priority ---------- */
+.market-legend{display:flex; justify-content:space-between; align-items:center; gap:16px; flex-wrap:wrap; padding-bottom:12px; font-size:12px; color:var(--color-gray-600); text-transform:uppercase; letter-spacing:.06em; font-weight:600;}
+.legend-scale{display:flex; align-items:center; gap:8px; text-transform:none; letter-spacing:0; font-weight:500; font-size:12px;}
+.legend-scale .ramp{display:flex; align-items:flex-end; gap:2px;}
+.legend-scale .ramp i{display:block; width:5px; background:var(--color-gray-800);}
 .market-list{border-top:1px solid var(--color-gray-200);}
-.market-row{display:flex; align-items:center; justify-content:space-between; gap:16px; padding:12px 0; border-bottom:1px solid var(--color-gray-200);}
-.market-check{display:flex; align-items:center; gap:12px; cursor:pointer; flex:1; min-width:0; font-size:16px;}
+.market-row{display:flex; align-items:center; justify-content:space-between; gap:8px 16px; padding:12px 0; border-bottom:1px solid var(--color-gray-200); flex-wrap:wrap;}
+.market-check{display:flex; align-items:center; gap:12px; cursor:pointer; flex:1 1 220px; min-width:0; font-size:16px;}
 .market-check input{width:18px; height:18px; accent-color:var(--color-balluff-red); flex:none; margin:0;}
 .priority-group{display:flex; gap:4px; opacity:.35; pointer-events:none; transition:opacity .12s;}
 .priority-group.active{opacity:1; pointer-events:auto;}
-.pri-btn{width:32px; height:32px; border-radius:var(--radius-sm); border:1px solid var(--color-gray-200); background:var(--color-balluff-white); font-size:14px; font-weight:600; color:var(--color-gray-800); cursor:pointer; font-variant-numeric:tabular-nums;}
+.pri-btn{
+  display:inline-flex; align-items:center; gap:8px; min-width:84px; height:36px; padding:0 12px;
+  border-radius:var(--radius-sm); border:1px solid var(--color-gray-200); background:var(--color-balluff-white);
+  font-size:14px; font-weight:500; color:var(--color-gray-800); cursor:pointer;
+}
 .pri-btn:hover{border-color:var(--color-gray-400);}
+.pri-btn .bars{display:flex; align-items:flex-end; gap:2px; height:14px;}
+.pri-btn .bars i{display:block; width:4px; background:currentColor; opacity:.25;}
+.pri-btn .bars i.on{opacity:1;}
+.pri-btn .bars i:nth-child(1){height:5px;} .pri-btn .bars i:nth-child(2){height:9px;} .pri-btn .bars i:nth-child(3){height:14px;}
+.pri-btn[data-pri="3"]{font-weight:700;}
 .pri-btn[aria-pressed="true"]{background:var(--color-balluff-red); border-color:var(--color-balluff-red); color:var(--color-balluff-white);}
+.market-row.ranked .market-check span{font-weight:600;}
+@media (max-width:480px){ .priority-group{width:100%; padding-left:30px;} .pri-btn{flex:1; min-width:0; justify-content:center;} }
 
 /* ---------- Pricing segmented control ---------- */
 .seg{display:inline-flex; border:1px solid var(--color-gray-200); border-radius:var(--radius-sm); overflow:hidden; margin-bottom:16px;}
 .seg button{font-size:14px; font-weight:500; padding:8px 16px; border:none; background:var(--color-balluff-white); color:var(--color-gray-800); cursor:pointer; min-height:40px;}
 .seg button + button{border-left:1px solid var(--color-gray-200);}
 .seg button[aria-pressed="true"]{background:var(--color-gray-900); color:var(--color-balluff-white);}
-.price-exact{display:flex; align-items:center; gap:8px; max-width:240px;}
-.price-exact span{font-size:18px; color:var(--color-gray-600);}
-.price-exact input{font-variant-numeric:tabular-nums;}
 .pricing-mode-panel{display:none;}
 .pricing-mode-panel.show{display:block;}
 
-/* ---------- Attachment ---------- */
+/* ---------- Attachments + links ---------- */
 .file-row{display:flex; align-items:center; gap:12px; flex-wrap:wrap;}
-input[type=file]{font-size:14px; color:var(--color-gray-600);}
+input[type=file]{font-size:14px; color:var(--color-gray-600); max-width:100%;}
 input[type=file]::file-selector-button{
   font:inherit; font-size:14px; font-weight:500; margin-right:12px; cursor:pointer;
   background:transparent; color:var(--color-gray-900); border:1px solid var(--color-gray-800);
   border-radius:var(--radius-sm); padding:8px 16px; min-height:40px;
 }
 input[type=file]::file-selector-button:hover{background:var(--color-gray-50);}
-.file-chip{display:none; align-items:center; gap:8px; font-size:14px; background:var(--color-gray-50); border-radius:var(--radius-full); padding:6px 8px 6px 14px;}
+.file-chip{display:none; align-items:center; gap:8px; font-size:14px; background:var(--color-gray-50); border-radius:var(--radius-full); padding:6px 8px 6px 14px; max-width:100%;}
 .file-chip.show{display:inline-flex;}
+.file-chip span{overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
 .file-chip button{border:none; background:none; color:var(--color-gray-600); cursor:pointer; font-size:18px; line-height:1; padding:0 6px;}
+.type-list{margin:12px 0 0; padding:0; list-style:none; font-size:12px; line-height:1.5; color:var(--color-gray-600); display:grid; gap:2px;}
+.type-list strong{color:var(--color-gray-800); font-weight:600;}
+.link-list{display:grid; gap:8px;}
+.link-row{display:flex; gap:8px; align-items:center;}
+.link-row input{flex:1;}
+.link-row .remove{flex:none; width:40px; height:40px; border:1px solid var(--color-gray-200); border-radius:var(--radius-sm); background:var(--color-balluff-white); color:var(--color-gray-600); font-size:18px; cursor:pointer;}
+.link-row .remove:hover{border-color:var(--color-gray-400);}
+.link-err{font-size:12px; color:var(--color-error); margin:2px 0 0;}
 
 /* ---------- Submit ---------- */
 .submit-area{border-top:1px solid var(--color-gray-200); padding-block:40px 80px; display:grid; gap:16px 48px;}
@@ -199,7 +237,7 @@ input[type=file]::file-selector-button:hover{background:var(--color-gray-50);}
 .btn-primary{
   display:inline-flex; align-items:center; gap:12px; background:var(--color-balluff-red); color:var(--color-balluff-white);
   border:none; border-radius:var(--radius-sm); padding:14px 28px; min-height:48px; font-size:16px; font-weight:700;
-  cursor:pointer; white-space:nowrap; transition:background .12s;
+  cursor:pointer; white-space:nowrap; transition:background .12s; text-decoration:none;
 }
 .btn-primary:hover{background:var(--color-balluff-red-hover);}
 .btn-primary:disabled{background:var(--color-gray-200); color:var(--color-gray-400); cursor:not-allowed;}
@@ -270,7 +308,7 @@ input[type=file]::file-selector-button:hover{background:var(--color-gray-50);}
     <div class="page-head" id="pageHead">
       <nav class="crumbs" aria-label="Breadcrumb"><span>Balluff Tools</span><span class="sep" aria-hidden="true">&rsaquo;</span><span class="current">Portfolio Request</span></nav>
       <h1>Portfolio Request</h1>
-      <p class="lede">Flag a product gap or a feature request from the field. It covers every Balluff product area, takes about three minutes, and goes straight to Austin's inbox.</p>
+      <p class="lede">Flag a product gap or a feature request from the field. It covers every Balluff product area, takes about three minutes, and goes straight to the Product Marketing Manager for that portfolio.</p>
       <div class="page-facts" id="pageFacts"></div>
     </div>
 
@@ -279,7 +317,7 @@ input[type=file]::file-selector-button:hover{background:var(--color-gray-50);}
         <div>
           <div class="section-num">01</div>
           <h2 class="section-title" id="t-01">Requested by</h2>
-          <p class="section-sub">So Austin knows who to follow up with.</p>
+          <p class="section-sub">So the Product Marketing Manager knows who to follow up with.</p>
         </div>
         <div>
           <div class="field" id="field-name">
@@ -310,7 +348,7 @@ input[type=file]::file-selector-button:hover{background:var(--color-gray-50);}
             <div class="new-name-wrap" id="newNameWrap">
               <label class="field-label" for="f-newname">What would you call it? <span class="optional">Optional</span></label>
               <input type="text" id="f-newname" placeholder="e.g. Alternative to Keyence LR-Z">
-              <p class="hint">Pick a product area above as well. It routes the request to the right product manager.</p>
+              <p class="hint">Pick a product area above as well. It routes the request to the right Product Marketing Manager and narrows the competitor list.</p>
             </div>
             <div class="err" id="err-product">Pick a product match, or choose Something new.</div>
           </div>
@@ -352,10 +390,17 @@ input[type=file]::file-selector-button:hover{background:var(--color-gray-50);}
         <div>
           <div class="section-num">05</div>
           <h2 class="section-title" id="t-05">Market application<span class="req" aria-hidden="true">*</span></h2>
-          <p class="section-sub">Check every market that applies, then rank each one: 3 is the highest priority.</p>
+          <p class="section-sub">Check every market that applies, then set a priority for each one.</p>
+          <p class="section-sub"><strong>High (3)</strong> is the top priority, ahead of Medium (2) and Low (1).</p>
         </div>
         <div>
           <div class="field" id="field-markets">
+            <div class="market-legend" aria-hidden="true">
+              <span>Market</span>
+              <span class="legend-scale">Priority: Low
+                <span class="ramp"><i style="height:5px"></i><i style="height:9px"></i><i style="height:14px"></i></span>
+                High</span>
+            </div>
             <div class="market-list" id="marketList"></div>
             <div class="other-wrap show">
               <label class="visually-hidden" for="f-market-other">Other market</label>
@@ -379,10 +424,28 @@ input[type=file]::file-selector-button:hover{background:var(--color-gray-50);}
               <button type="button" data-mode="range" aria-pressed="false">Price range</button>
             </div>
             <div class="pricing-mode-panel show" id="priceExactPanel">
-              <div class="price-exact"><span aria-hidden="true">$</span><label class="visually-hidden" for="f-price-exact">Target price in USD</label><input type="number" id="f-price-exact" min="0" step="0.01" placeholder="0.00"></div>
+              <div class="inline-inputs">
+                <div class="unit-input">
+                  <label class="field-label" for="f-price-exact">Target unit price</label>
+                  <div class="money"><span aria-hidden="true">$</span><input type="number" id="f-price-exact" min="0" step="0.01" inputmode="decimal" placeholder="0.00"></div>
+                </div>
+              </div>
             </div>
             <div class="pricing-mode-panel" id="priceRangePanel">
               <div class="chip-row" id="priceRangeChips"></div>
+              <div class="custom-panel" id="priceCustomPanel">
+                <div class="inline-inputs">
+                  <div class="unit-input">
+                    <label class="field-label" for="f-price-min">Minimum</label>
+                    <div class="money"><span aria-hidden="true">$</span><input type="number" id="f-price-min" min="0" step="0.01" inputmode="decimal" placeholder="0.00"></div>
+                  </div>
+                  <span class="dash" aria-hidden="true">&ndash;</span>
+                  <div class="unit-input">
+                    <label class="field-label" for="f-price-max">Maximum</label>
+                    <div class="money"><span aria-hidden="true">$</span><input type="number" id="f-price-max" min="0" step="0.01" inputmode="decimal" placeholder="0.00"></div>
+                  </div>
+                </div>
+              </div>
             </div>
             <div class="err" id="err-price">Enter a target price or pick a range.</div>
           </div>
@@ -393,12 +456,20 @@ input[type=file]::file-selector-button:hover{background:var(--color-gray-50);}
         <div>
           <div class="section-num">07</div>
           <h2 class="section-title" id="t-07">Customer count<span class="req" aria-hidden="true">*</span></h2>
-          <p class="section-sub">How many customers would buy this in volume?</p>
+          <p class="section-sub">How many customers would buy this in volume? Pick a range, or enter an exact count.</p>
         </div>
         <div>
           <div class="field" id="field-custcount">
             <div class="chip-row" id="custCountChips"></div>
-            <div class="err" id="err-custcount">Pick a range.</div>
+            <div class="custom-panel" id="custCountCustomPanel">
+              <div class="inline-inputs">
+                <div class="unit-input">
+                  <label class="field-label" for="f-custcount-custom">Number of target customers</label>
+                  <input type="number" id="f-custcount-custom" min="1" step="1" inputmode="numeric" placeholder="e.g. 7">
+                </div>
+              </div>
+            </div>
+            <div class="err" id="err-custcount">Pick a range or enter a whole number of customers.</div>
           </div>
         </div>
       </section>
@@ -407,12 +478,21 @@ input[type=file]::file-selector-button:hover{background:var(--color-gray-50);}
         <div>
           <div class="section-num">08</div>
           <h2 class="section-title" id="t-08">Volume outlook<span class="req" aria-hidden="true">*</span></h2>
-          <p class="section-sub">Expected annual units per target customer, on average.</p>
+          <p class="section-sub">Expected annual units per target customer, on average. Pick a range, or enter a quantity.</p>
         </div>
         <div>
           <div class="field" id="field-volume">
             <div class="chip-row" id="volumeChips"></div>
-            <div class="err" id="err-volume">Pick a range.</div>
+            <div class="custom-panel" id="volumeCustomPanel">
+              <div class="inline-inputs">
+                <div class="unit-input">
+                  <label class="field-label" for="f-volume-custom">Average annual quantity</label>
+                  <input type="number" id="f-volume-custom" min="1" step="1" inputmode="numeric" placeholder="e.g. 2500">
+                </div>
+                <span class="suffix">units per customer per year</span>
+              </div>
+            </div>
+            <div class="err" id="err-volume">Pick a range or enter a whole-number quantity.</div>
           </div>
         </div>
       </section>
@@ -434,16 +514,28 @@ input[type=file]::file-selector-button:hover{background:var(--color-gray-50);}
       <section class="section" aria-labelledby="t-10">
         <div>
           <div class="section-num">10</div>
-          <h2 class="section-title" id="t-10">Attachment<span class="optional">Optional</span></h2>
-          <p class="section-sub">Spec sheet, drawing or photo, up to 3&nbsp;MB.</p>
+          <h2 class="section-title" id="t-10">Attachment &amp; links<span class="optional">Optional</span></h2>
+          <p class="section-sub">Attach one spec sheet, drawing or photo, up to 3&nbsp;MB. For anything larger, or a different format, share a link instead (SharePoint, OneDrive, a datasheet URL).</p>
         </div>
         <div>
-          <div class="file-row">
-            <label class="visually-hidden" for="f-attachment">Attachment</label>
-            <input type="file" id="f-attachment">
-            <span class="file-chip" id="fileChip"><span id="fileChipName"></span><button type="button" id="fileRemoveBtn" aria-label="Remove attachment">&times;</button></span>
+          <div class="field" id="field-attachment">
+            <label class="field-label" for="f-attachment">File</label>
+            <div class="file-row">
+              <input type="file" id="f-attachment">
+              <span class="file-chip" id="fileChip"><span id="fileChipName"></span><button type="button" id="fileRemoveBtn" aria-label="Remove attachment">&times;</button></span>
+            </div>
+            <ul class="type-list" id="typeList"></ul>
+            <div class="err" id="err-attachment"></div>
           </div>
-          <div class="err" id="err-attachment"></div>
+          <div class="field" id="field-links">
+            <span class="field-label" id="links-label">Links</span>
+            <div class="link-list" id="linkList" aria-labelledby="links-label"></div>
+            <button type="button" class="text-btn" id="addLinkBtn">Add a link
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+            </button>
+            <p class="hint">Web addresses only (http:// or https://), up to 5. Links go into the email as plain text; this form never opens them.</p>
+            <div class="err" id="err-links">Fix the highlighted links. Only http:// or https:// web addresses are accepted.</div>
+          </div>
         </div>
       </section>
 
@@ -458,7 +550,7 @@ input[type=file]::file-selector-button:hover{background:var(--color-gray-50);}
             <span id="submitLabel">Submit request</span>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg>
           </button>
-          <p class="submit-note">Submitting emails Austin directly. No extra steps.</p>
+          <p class="submit-note">Submitting emails the Product Marketing Manager for this portfolio. No extra steps.</p>
           <p class="draft-note" id="draftNote" hidden>Draft restored from your last visit. <button type="button" id="clearDraftBtn">Clear draft</button></p>
         </div>
       </div>
@@ -474,10 +566,10 @@ input[type=file]::file-selector-button:hover{background:var(--color-gray-50);}
         <div>
           <div class="alert alert-pending" id="confirmAlert">
             <p class="alert-title" id="confirmAlertTitle">Sending</p>
-            <p id="confirmStatus">Emailing Austin&hellip;</p>
+            <p id="confirmStatus">Emailing the Product Marketing Manager&hellip;</p>
           </div>
           <div class="confirm-actions">
-            <a class="btn-primary" id="emailBtn" href="#" hidden>Email Austin
+            <a class="btn-primary" id="emailBtn" href="#" hidden>Email Product Marketing
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg>
             </a>
             <button class="btn-secondary" id="teamsBtn" type="button">Copy summary for Teams</button>
@@ -508,6 +600,30 @@ input[type=file]::file-selector-button:hover{background:var(--color-gray-50);}
 (function(){
 "use strict";
 
+/* ===================================================================
+ * ROUTING — who receives each request.
+ * Every request currently goes to `fallback`. To hand an area (or a single
+ * product family) to another Product Marketing Manager, fill in their entry
+ * below. Each new address must be activated once in FormSubmit: the first
+ * submission to it triggers a confirmation email they have to click.
+ * Most specific wins: byProduct, then byArea, then fallback.
+ * =================================================================== */
+var ROUTING = {
+  fallback: {role:"Product Marketing Manager", email:"austin.sirkin@balluff.com"},
+  byArea: {
+    sensors:null, rfid:null, vision:null, comms:null, connectivity:null,
+    hmi:null, power:null, accessories:null, systems:null, software:null
+  },
+  byProduct: {
+    // e.g. btl: {role:"Product Marketing Manager", email:"first.last@balluff.com"}
+  }
+};
+function recipientFor(productKey, areaKey){
+  return (productKey && ROUTING.byProduct[productKey]) ||
+         (areaKey && ROUTING.byArea[areaKey]) ||
+         ROUTING.fallback;
+}
+
 /* Product areas follow the balluff.com/en-us/products taxonomy (10 areas). */
 var AREAS = [
   {key:"sensors",      label:"Sensors",                                   icon:"target"},
@@ -523,126 +639,134 @@ var AREAS = [
 ];
 
 /* Product families. `img` = real product photo in photos/; families without a photo
-   fall back to a text tile (code) or the area's Balluff icon. Keys of the original
-   14 entries are unchanged so older drafts and email filters keep working. */
+   fall back to a text tile (code) or the area's Balluff icon. `seg` picks the
+   competitor set in COMPETITOR_SETS. Keys of the original 14 entries are unchanged
+   so older drafts and email filters keep working. */
 var PRODUCTS = [
   // Sensors
-  {key:"bes", area:"sensors", code:"BES", name:"Inductive Sensor", blurb:"Inductive proximity sensor for metal targets"},
-  {key:"bip", area:"sensors", code:"BIP", name:"Inductive Positioning System", blurb:"Analog inductive linear positioning", img:"photos/bip.jpg"},
-  {key:"bir", area:"sensors", code:"BIR", name:"Rapid Inductive Positioning System", blurb:"High-speed inductive positioning", img:"photos/bir.jpg"},
-  {key:"bos", area:"sensors", code:"BOS", name:"Photoelectric Sensor", blurb:"Standard photoelectric sensor", img:"photos/bos.jpg"},
-  {key:"bod", area:"sensors", code:"BOD", name:"Optoelectronic Distance Sensor", blurb:"Laser / optical distance measurement"},
-  {key:"bgl", area:"sensors", code:"BGL", name:"Fork Sensor", blurb:"Fork (slot) photoelectric sensor", img:"photos/bgl.jpg"},
-  {key:"bla", area:"sensors", code:"BLA", name:"Light Array", blurb:"Light grid / area sensing array", img:"photos/bla.jpg"},
-  {key:"bfo", area:"sensors", code:"BFO", name:"Fiber Optics", blurb:"Fiber-optic amplifier + fiber cables", img:"photos/bfo.jpg"},
-  {key:"boh", area:"sensors", code:"BOH", name:"Optical Head Sensor", blurb:"Fiber-optic sensor head", img:"photos/boh.jpg"},
-  {key:"btl", area:"sensors", code:"BTL", name:"Magnetostrictive Linear Transducer", blurb:"Magnetostrictive linear position transducer", img:"photos/btl.jpg"},
-  {key:"bmf", area:"sensors", code:"BMF", name:"Magnetic Cylinder Sensor", blurb:"Magnetic field sensor for pneumatic cylinders", img:"photos/bmf.jpg"},
-  {key:"bmp", area:"sensors", code:"BMP", name:"Magnetic Cylinder Positioning System", blurb:"Continuous position sensing for cylinders", img:"photos/bmp.jpg"},
-  {key:"bml", area:"sensors", code:"BML", name:"Magnetic Encoder", blurb:"Magnetically coded linear / rotary encoder", img:"photos/bml.jpg"},
-  {key:"bcs", area:"sensors", code:"BCS", name:"Capacitive Sensor", blurb:"Capacitive sensing, level detection"},
-  {key:"bus", area:"sensors", code:"BUS", name:"Ultrasonic Sensor", blurb:"Ultrasonic detection and distance"},
-  {key:"bcm", area:"sensors", code:"BCM", name:"Condition Monitoring Sensor", blurb:"Vibration, temperature, humidity monitoring"},
-  {key:"bdg-rotary-encoder", area:"sensors", code:"BDG", name:"Rotary Encoder", blurb:"Absolute / incremental rotary encoder", img:"photos/bdg-rotary-encoder.jpg"},
-  {key:"bdg-position-indicator", area:"sensors", code:"BDG", name:"Position Indicator", blurb:"Digital position/value display module", img:"photos/bdg-position-indicator.jpg"},
-  {key:"bns", area:"sensors", code:"BNS", name:"Mechanical Cam Switch", blurb:"Single and multiple-position limit switches"},
-  {key:"bsi", area:"sensors", code:"BSI", name:"Inclination Sensor", blurb:"Tilt / inclination sensor", img:"photos/bsi.jpg"},
-  {key:"bsp", area:"sensors", code:"BSP", name:"Pressure Sensor", blurb:"Pressure sensing for fluids and gases"},
+  {key:"bes", area:"sensors", seg:"inductive", code:"BES", name:"Inductive Sensor", blurb:"Inductive proximity sensor for metal targets"},
+  {key:"bip", area:"sensors", seg:"inductive", code:"BIP", name:"Inductive Positioning System", blurb:"Analog inductive linear positioning", img:"photos/bip.jpg"},
+  {key:"bir", area:"sensors", seg:"inductive", code:"BIR", name:"Rapid Inductive Positioning System", blurb:"High-speed inductive positioning", img:"photos/bir.jpg"},
+  {key:"bos", area:"sensors", seg:"photoelectric", code:"BOS", name:"Photoelectric Sensor", blurb:"Standard photoelectric sensor", img:"photos/bos.jpg"},
+  {key:"bod", area:"sensors", seg:"distance", code:"BOD", name:"Optoelectronic Distance Sensor", blurb:"Laser / optical distance measurement"},
+  {key:"bgl", area:"sensors", seg:"photoelectric", code:"BGL", name:"Fork Sensor", blurb:"Fork (slot) photoelectric sensor", img:"photos/bgl.jpg"},
+  {key:"bla", area:"sensors", seg:"photoelectric", code:"BLA", name:"Light Array", blurb:"Light grid / area sensing array", img:"photos/bla.jpg"},
+  {key:"bfo", area:"sensors", seg:"photoelectric", code:"BFO", name:"Fiber Optics", blurb:"Fiber-optic amplifier + fiber cables", img:"photos/bfo.jpg"},
+  {key:"boh", area:"sensors", seg:"photoelectric", code:"BOH", name:"Optical Head Sensor", blurb:"Fiber-optic sensor head", img:"photos/boh.jpg"},
+  {key:"btl", area:"sensors", seg:"linear", code:"BTL", name:"Magnetostrictive Linear Transducer", blurb:"Magnetostrictive linear position transducer", img:"photos/btl.jpg"},
+  {key:"bmf", area:"sensors", seg:"cylinder", code:"BMF", name:"Magnetic Cylinder Sensor", blurb:"Magnetic field sensor for pneumatic cylinders", img:"photos/bmf.jpg"},
+  {key:"bmp", area:"sensors", seg:"cylinder", code:"BMP", name:"Magnetic Cylinder Positioning System", blurb:"Continuous position sensing for cylinders", img:"photos/bmp.jpg"},
+  {key:"bml", area:"sensors", seg:"linear", code:"BML", name:"Magnetic Encoder", blurb:"Magnetically coded linear / rotary encoder", img:"photos/bml.jpg"},
+  {key:"bcs", area:"sensors", seg:"capacitive", code:"BCS", name:"Capacitive Sensor", blurb:"Capacitive sensing, level detection"},
+  {key:"bus", area:"sensors", seg:"ultrasonic", code:"BUS", name:"Ultrasonic Sensor", blurb:"Ultrasonic detection and distance"},
+  {key:"bcm", area:"sensors", seg:"condmon", code:"BCM", name:"Condition Monitoring Sensor", blurb:"Vibration, temperature, humidity monitoring"},
+  {key:"bdg-rotary-encoder", area:"sensors", seg:"encoder", code:"BDG", name:"Rotary Encoder", blurb:"Absolute / incremental rotary encoder", img:"photos/bdg-rotary-encoder.jpg"},
+  {key:"bdg-position-indicator", area:"sensors", seg:"posindicator", code:"BDG", name:"Position Indicator", blurb:"Digital position/value display module", img:"photos/bdg-position-indicator.jpg"},
+  {key:"bns", area:"sensors", seg:"camswitch", code:"BNS", name:"Mechanical Cam Switch", blurb:"Single and multiple-position limit switches"},
+  {key:"bsi", area:"sensors", seg:"inclination", code:"BSI", name:"Inclination Sensor", blurb:"Tilt / inclination sensor", img:"photos/bsi.jpg"},
+  {key:"bsp", area:"sensors", seg:"pressure", code:"BSP", name:"Pressure Sensor", blurb:"Pressure sensing for fluids and gases"},
 
   // RFID systems
-  {key:"bis-u", area:"rfid", code:"BIS U", name:"UHF RFID System", blurb:"Long-range identification, bulk reading"},
-  {key:"bis-m", area:"rfid", code:"BIS M", name:"HF RFID System", blurb:"13.56 MHz read/write identification"},
-  {key:"bis-c", area:"rfid", code:"BIS C", name:"LF RFID System", blurb:"Low-frequency identification, tool ID"},
-  {key:"bis-l", area:"rfid", code:"BIS L", name:"LF RFID System (BIS L)", blurb:"Low-frequency read-only / read-write"},
-  {key:"rfid-eval", area:"rfid", code:"BIS V", name:"RFID Evaluation Unit", blurb:"Processors and controllers for RFID heads"},
-  {key:"rfid-handheld", area:"rfid", code:"", name:"RFID Handheld", blurb:"Mobile readers for industrial RFID"},
-  {key:"rfid-tags", area:"rfid", code:"", name:"RFID Tags / Data Carriers", blurb:"Tags for LF, HF and UHF systems"},
+  {key:"bis-u", area:"rfid", seg:"rfid", code:"BIS U", name:"UHF RFID System", blurb:"Long-range identification, bulk reading"},
+  {key:"bis-m", area:"rfid", seg:"rfid", code:"BIS M", name:"HF RFID System", blurb:"13.56 MHz read/write identification"},
+  {key:"bis-c", area:"rfid", seg:"rfid", code:"BIS C", name:"LF RFID System", blurb:"Low-frequency identification, tool ID"},
+  {key:"bis-l", area:"rfid", seg:"rfid", code:"BIS L", name:"LF RFID System (BIS L)", blurb:"Low-frequency read-only / read-write"},
+  {key:"rfid-eval", area:"rfid", seg:"rfid", code:"BIS V", name:"RFID Evaluation Unit", blurb:"Processors and controllers for RFID heads"},
+  {key:"rfid-handheld", area:"rfid", seg:"rfid", code:"", name:"RFID Handheld", blurb:"Mobile readers for industrial RFID"},
+  {key:"rfid-tags", area:"rfid", seg:"rfid", code:"", name:"RFID Tags / Data Carriers", blurb:"Tags for LF, HF and UHF systems"},
 
   // Machine Vision and Optical Identification
-  {key:"vision-cameras", area:"vision", code:"", name:"Industrial Camera", blurb:"Area-scan cameras, GigE / USB3 Vision"},
-  {key:"vision-embedded", area:"vision", code:"", name:"Embedded Vision", blurb:"Board-level and embedded camera modules"},
-  {key:"vision-3d", area:"vision", code:"", name:"3D Machine Vision", blurb:"3D sensing and measurement"},
-  {key:"vision-smart", area:"vision", code:"BVS", name:"Smart Vision", blurb:"Smart cameras and vision sensors"},
-  {key:"vision-optid", area:"vision", code:"BVS ID", name:"Optical Identification", blurb:"1D/2D code readers"},
-  {key:"vision-software", area:"vision", code:"", name:"Machine Vision Software", blurb:"Image processing and vision software"},
-  {key:"vision-optics", area:"vision", code:"", name:"Optics", blurb:"C-mount, S-mount, liquid lenses"},
-  {key:"vision-lights", area:"vision", code:"", name:"Vision Lighting", blurb:"Lights for vision systems and machines"},
+  {key:"vision-cameras", area:"vision", seg:"cameras", code:"", name:"Industrial Camera", blurb:"Area-scan cameras, GigE / USB3 Vision"},
+  {key:"vision-embedded", area:"vision", seg:"cameras", code:"", name:"Embedded Vision", blurb:"Board-level and embedded camera modules"},
+  {key:"vision-3d", area:"vision", seg:"vision3d", code:"", name:"3D Machine Vision", blurb:"3D sensing and measurement"},
+  {key:"vision-smart", area:"vision", seg:"smartvision", code:"BVS", name:"Smart Vision", blurb:"Smart cameras and vision sensors"},
+  {key:"vision-optid", area:"vision", seg:"codereader", code:"BVS ID", name:"Optical Identification", blurb:"1D/2D code readers"},
+  {key:"vision-software", area:"vision", seg:"visionsw", code:"", name:"Machine Vision Software", blurb:"Image processing and vision software"},
+  {key:"vision-optics", area:"vision", seg:"optics", code:"", name:"Optics", blurb:"C-mount, S-mount, liquid lenses"},
+  {key:"vision-lights", area:"vision", seg:"visionlights", code:"", name:"Vision Lighting", blurb:"Lights for vision systems and machines"},
 
   // Industrial Communication
-  {key:"iol-wireless", area:"comms", code:"", name:"IO-Link Wireless", blurb:"Wireless IO-Link masters and hubs"},
-  {key:"bni-network", area:"comms", code:"BNI", name:"Network Block / IO-Link Master", blurb:"Fieldbus network blocks, IO-Link masters"},
-  {key:"comms-switches", area:"comms", code:"", name:"Industrial Switch", blurb:"Industrial Ethernet switches"},
-  {key:"bni-io", area:"comms", code:"BNI", name:"I/O Module / IO-Link Hub", blurb:"Distributed I/O and IO-Link hubs"},
-  {key:"bic", area:"comms", code:"BIC", name:"Inductive Coupler", blurb:"Contactless power and signal transfer"},
+  {key:"iol-wireless", area:"comms", seg:"iolink", code:"", name:"IO-Link Wireless", blurb:"Wireless IO-Link masters and hubs"},
+  {key:"bni-network", area:"comms", seg:"iolink", code:"BNI", name:"Network Block / IO-Link Master", blurb:"Fieldbus network blocks, IO-Link masters"},
+  {key:"comms-switches", area:"comms", seg:"ethswitch", code:"", name:"Industrial Switch", blurb:"Industrial Ethernet switches"},
+  {key:"bni-io", area:"comms", seg:"iolink", code:"BNI", name:"I/O Module / IO-Link Hub", blurb:"Distributed I/O and IO-Link hubs"},
+  {key:"bic", area:"comms", seg:"coupler", code:"BIC", name:"Inductive Coupler", blurb:"Contactless power and signal transfer"},
 
   // Connectivity
-  {key:"bcc-single", area:"connectivity", code:"BCC", name:"Single-Ended Cordset", blurb:"Molded connector on one end"},
-  {key:"bcc-double", area:"connectivity", code:"BCC", name:"Double-Ended Cordset", blurb:"Connector-to-connector cables"},
-  {key:"bcc-bulk", area:"connectivity", code:"BCC", name:"Bulk Cable / Field Attachable", blurb:"Cable by the meter, field-wireable connectors"},
-  {key:"bcc-splitters", area:"connectivity", code:"BCC", name:"Y-Splitter / Tee", blurb:"Signal splitting and branching"},
-  {key:"bcc-bulkheads", area:"connectivity", code:"BCC", name:"Bulkhead / Receptacle / Adapter", blurb:"Panel feed-throughs, receptacles, adapters"},
-  {key:"bcc-terminators", area:"connectivity", code:"BCC", name:"Terminating Resistor", blurb:"Bus termination"},
-  {key:"junction-blocks", area:"connectivity", code:"", name:"Junction Block", blurb:"Passive distribution boxes"},
+  {key:"bcc-single", area:"connectivity", seg:"cordsets", code:"BCC", name:"Single-Ended Cordset", blurb:"Molded connector on one end"},
+  {key:"bcc-double", area:"connectivity", seg:"cordsets", code:"BCC", name:"Double-Ended Cordset", blurb:"Connector-to-connector cables"},
+  {key:"bcc-bulk", area:"connectivity", seg:"cordsets", code:"BCC", name:"Bulk Cable / Field Attachable", blurb:"Cable by the meter, field-wireable connectors"},
+  {key:"bcc-splitters", area:"connectivity", seg:"cordsets", code:"BCC", name:"Y-Splitter / Tee", blurb:"Signal splitting and branching"},
+  {key:"bcc-bulkheads", area:"connectivity", seg:"cordsets", code:"BCC", name:"Bulkhead / Receptacle / Adapter", blurb:"Panel feed-throughs, receptacles, adapters"},
+  {key:"bcc-terminators", area:"connectivity", seg:"cordsets", code:"BCC", name:"Terminating Resistor", blurb:"Bus termination"},
+  {key:"junction-blocks", area:"connectivity", seg:"cordsets", code:"", name:"Junction Block", blurb:"Passive distribution boxes"},
 
   // Control devices, indicator devices, LED machine lights
-  {key:"smartlight", area:"hmi", code:"", name:"SmartLight LED Stack Light", blurb:"IO-Link stack lights, run-light, level mode"},
-  {key:"machine-lights", area:"hmi", code:"", name:"LED Machine Light", blurb:"Machine and work-area lighting"},
-  {key:"iol-control-panel", area:"hmi", code:"", name:"IO-Link Control Panel", blurb:"Operator buttons and controls on IO-Link"},
+  {key:"smartlight", area:"hmi", seg:"indicators", code:"", name:"SmartLight LED Stack Light", blurb:"IO-Link stack lights, run-light, level mode"},
+  {key:"machine-lights", area:"hmi", seg:"machinelights", code:"", name:"LED Machine Light", blurb:"Machine and work-area lighting"},
+  {key:"iol-control-panel", area:"hmi", seg:"indicators", code:"", name:"IO-Link Control Panel", blurb:"Operator buttons and controls on IO-Link"},
 
   // Power supplies
-  {key:"bae-heartbeat", area:"power", code:"BAE PS", name:"Heartbeat Power Supply", blurb:"Power supply with condition monitoring"},
-  {key:"bae-heartbeat-iol", area:"power", code:"BAE PS", name:"Heartbeat Power Supply, IO-Link", blurb:"Heartbeat with IO-Link interface"},
-  {key:"bae-cabinet", area:"power", code:"BAE PS", name:"Control Cabinet Power Supply", blurb:"DIN-rail power supplies"},
-  {key:"bae-field", area:"power", code:"BAE PS", name:"Field Power Supply, IO-Link", blurb:"IP67 power supplies in the field"},
+  {key:"bae-heartbeat", area:"power", seg:"power", code:"BAE PS", name:"Heartbeat Power Supply", blurb:"Power supply with condition monitoring"},
+  {key:"bae-heartbeat-iol", area:"power", seg:"power", code:"BAE PS", name:"Heartbeat Power Supply, IO-Link", blurb:"Heartbeat with IO-Link interface"},
+  {key:"bae-cabinet", area:"power", seg:"power", code:"BAE PS", name:"Control Cabinet Power Supply", blurb:"DIN-rail power supplies"},
+  {key:"bae-field", area:"power", seg:"power", code:"BAE PS", name:"Field Power Supply, IO-Link", blurb:"IP67 power supplies in the field"},
 
   // Accessories
-  {key:"bam-fastening", area:"accessories", code:"BAM", name:"Fastening Technology", blurb:"Mounting brackets, clamps, holders"},
-  {key:"bam-reflectors", area:"accessories", code:"BAM", name:"Reflectors, Fibers, Optics", blurb:"Reflectors and optical accessories"},
-  {key:"bam-protection", area:"accessories", code:"BAM", name:"Mechanical Protection", blurb:"Protective housings and covers"},
-  {key:"signal-converters", area:"accessories", code:"", name:"Signal Converter / Comm. Adapter", blurb:"Signal conversion, communication adapters"},
+  {key:"bam-fastening", area:"accessories", seg:"mounting", code:"BAM", name:"Fastening Technology", blurb:"Mounting brackets, clamps, holders"},
+  {key:"bam-reflectors", area:"accessories", seg:"photoelectric", code:"BAM", name:"Reflectors, Fibers, Optics", blurb:"Reflectors and optical accessories"},
+  {key:"bam-protection", area:"accessories", seg:"mounting", code:"BAM", name:"Mechanical Protection", blurb:"Protective housings and covers"},
+  {key:"signal-converters", area:"accessories", seg:"converters", code:"", name:"Signal Converter / Comm. Adapter", blurb:"Signal conversion, communication adapters"},
 
   // Systems solutions + Software
-  {key:"systems", area:"systems", code:"", name:"Systems Solution", blurb:"Engineered system packages built from Balluff components"},
-  {key:"sw-monitoring", area:"software", code:"", name:"Monitoring Software", blurb:"Condition and process monitoring"},
-  {key:"sw-setup", area:"software", code:"", name:"Setup & Configuration Software", blurb:"Device setup, parameterization, IO-Link configuration"}
+  {key:"systems", area:"systems", seg:"systems", code:"", name:"Systems Solution", blurb:"Engineered system packages built from Balluff components"},
+  {key:"sw-monitoring", area:"software", seg:"software", code:"", name:"Monitoring Software", blurb:"Condition and process monitoring"},
+  {key:"sw-setup", area:"software", seg:"software", code:"", name:"Setup & Configuration Software", blurb:"Device setup, parameterization, IO-Link configuration"}
 ];
 
-/* Competitors, tagged by the product areas where they compete. */
-var COMPETITORS = [
-  {name:"SICK", areas:["sensors","rfid","vision","accessories","systems","software"]},
-  {name:"Keyence", areas:["sensors","rfid","vision","accessories","software"]},
-  {name:"Banner Engineering", areas:["sensors","comms","hmi","connectivity","accessories"]},
-  {name:"Turck", areas:["sensors","rfid","comms","connectivity","hmi","systems","software"]},
-  {name:"ifm efector", areas:["sensors","rfid","comms","connectivity","power","systems","software"]},
-  {name:"Pepperl+Fuchs", areas:["sensors","rfid","comms","connectivity"]},
-  {name:"Omron", areas:["sensors","rfid","vision"]},
-  {name:"Baumer", areas:["sensors","vision"]},
-  {name:"Contrinex", areas:["sensors","rfid"]},
-  {name:"Autonics", areas:["sensors","hmi"]},
-  {name:"Panasonic", areas:["sensors"]},
-  {name:"Leuze", areas:["sensors","vision"]},
-  {name:"wenglor", areas:["sensors","vision"]},
-  {name:"Temposonics", areas:["sensors"]},
-  {name:"Novotechnik", areas:["sensors"]},
-  {name:"Cognex", areas:["vision","software"]},
-  {name:"Basler", areas:["vision"]},
-  {name:"Teledyne", areas:["vision"]},
-  {name:"Zebra", areas:["rfid","vision"]},
-  {name:"Datalogic", areas:["sensors","rfid","vision"]},
-  {name:"Siemens", areas:["rfid","comms","power","systems","software"]},
-  {name:"Rockwell Automation", areas:["comms","power","systems","software"]},
-  {name:"Murrelektronik", areas:["comms","connectivity","power"]},
-  {name:"Phoenix Contact", areas:["comms","connectivity","power","hmi"]},
-  {name:"Belden / Lumberg", areas:["comms","connectivity"]},
-  {name:"HARTING", areas:["connectivity"]},
-  {name:"Lapp", areas:["connectivity"]},
-  {name:"Molex / Brad", areas:["connectivity","comms"]},
-  {name:"Patlite", areas:["hmi"]},
-  {name:"Werma", areas:["hmi"]},
-  {name:"PULS", areas:["power"]},
-  {name:"Mean Well", areas:["power"]},
-  {name:"TDK-Lambda", areas:["power"]}
-];
+/* Competitors per product segment. A product's `seg` picks its list; for
+   "Something new" the union of segments in the chosen area is shown. */
+var COMPETITOR_SETS = {
+  inductive:     ["SICK","Keyence","Banner Engineering","Turck","ifm efector","Pepperl+Fuchs","Omron","Baumer","Contrinex","Autonics","Panasonic","wenglor"],
+  photoelectric: ["SICK","Keyence","Banner Engineering","ifm efector","Pepperl+Fuchs","Omron","Baumer","Leuze","wenglor","Panasonic","Autonics","Datalogic","Contrinex"],
+  distance:      ["SICK","Keyence","Banner Engineering","Baumer","Leuze","wenglor","Micro-Epsilon","ifm efector","Pepperl+Fuchs","Omron"],
+  linear:        ["Temposonics","Novotechnik","SICK","ASM Sensors","Micro-Epsilon","Gefran","SIKO","Renishaw","Heidenhain","Turck"],
+  cylinder:      ["Festo","SMC","SICK","Turck","ifm efector","Pepperl+Fuchs","Parker","Bimba"],
+  capacitive:    ["ifm efector","SICK","Turck","Pepperl+Fuchs","Baumer","Rechner","Banner Engineering","Omron","Contrinex","Keyence"],
+  ultrasonic:    ["Banner Engineering","Pepperl+Fuchs","SICK","ifm efector","Baumer","microsonic","Migatron","wenglor","Turck"],
+  condmon:       ["ifm efector","Banner Engineering","SKF","Turck","Schaeffler","Siemens","Emerson"],
+  encoder:       ["SICK","Baumer","Heidenhain","Kübler","Pepperl+Fuchs","Encoder Products Co.","Dynapar","Hengstler","POSITAL","Turck"],
+  posindicator:  ["SIKO","Kübler","Baumer","Elesa+Ganter"],
+  camswitch:     ["Schmersal","Euchner","Pizzato","Omron","steute","Bernstein","Honeywell"],
+  inclination:   ["SICK","Turck","Pepperl+Fuchs","Baumer","ifm efector","POSITAL","TE Connectivity"],
+  pressure:      ["ifm efector","WIKA","Danfoss","SICK","Turck","Keyence","Baumer","Gems Sensors","Banner Engineering"],
+  rfid:          ["SICK","Turck","Pepperl+Fuchs","ifm efector","Siemens","Zebra","Keyence","Datalogic","Omron","FEIG"],
+  cameras:       ["Basler","Teledyne","IDS","Allied Vision","LUCID Vision Labs","Baumer","Cognex"],
+  vision3d:      ["LMI Technologies","SICK","Keyence","Cognex","Zivid","Photoneo","Teledyne"],
+  smartvision:   ["Cognex","Keyence","SICK","Omron","Datalogic","Banner Engineering","Zebra"],
+  codereader:    ["Cognex","Keyence","SICK","Datalogic","Zebra","Omron","Banner Engineering","Leuze"],
+  visionsw:      ["Cognex","MVTec","Zebra","Teledyne","Keyence"],
+  optics:        ["Computar","Edmund Optics","Fujinon","Kowa","Optotune","Navitar"],
+  visionlights:  ["Smart Vision Lights","CCS","Advanced Illumination","Banner Engineering","Metaphase"],
+  iolink:        ["Turck","ifm efector","Murrelektronik","Siemens","Rockwell Automation","Pepperl+Fuchs","Belden / Lumberg","Phoenix Contact","Banner Engineering","Beckhoff"],
+  ethswitch:     ["Siemens","Phoenix Contact","Moxa","Belden / Hirschmann","Rockwell Automation","Turck"],
+  coupler:       ["Turck","Pepperl+Fuchs","ifm efector","Murrelektronik"],
+  cordsets:      ["Turck","Murrelektronik","Phoenix Contact","Belden / Lumberg","ifm efector","Lapp","HARTING","Molex / Brad","binder","Banner Engineering"],
+  indicators:    ["Banner Engineering","Patlite","Werma","Phoenix Contact","Turck","Schneider Electric","Eaton"],
+  machinelights: ["Banner Engineering","Waldmann","Phoenix Contact","Turck"],
+  power:         ["PULS","Phoenix Contact","Siemens","Murrelektronik","Mean Well","TDK-Lambda","Rockwell Automation","Weidmüller","Turck"],
+  mounting:      ["SICK","Keyence","Banner Engineering","ifm efector","Pepperl+Fuchs","Turck"],
+  converters:    ["Turck","Pepperl+Fuchs","Phoenix Contact","Murrelektronik","Weidmüller","ifm efector"],
+  systems:       ["Siemens","Rockwell Automation","Turck","ifm efector","SICK","Cognex"],
+  software:      ["Siemens","Rockwell Automation","Turck","ifm efector","SICK","Cognex","PTC"]
+};
+var ALL_COMPETITORS = (function(){
+  var seen = {}, out = [];
+  Object.keys(COMPETITOR_SETS).forEach(function(k){
+    COMPETITOR_SETS[k].forEach(function(n){ if(!seen[n]){ seen[n] = 1; out.push(n); } });
+  });
+  return out.sort(function(a,b){ return a.localeCompare(b, "en", {sensitivity:"base"}); });
+})();
 
 var MARKETS = [
   {key:"automotive", label:"Automotive"},
@@ -662,7 +786,9 @@ var MARKETS = [
   {key:"aerospace", label:"Aerospace & Defense"},
   {key:"renewables", label:"Renewable Energy"}
 ];
+var PRIORITY_LABELS = {1:"Low", 2:"Medium", 3:"High"};
 
+var CUSTOM = "__custom__";
 var PRICE_RANGES = ["<$50","$50–$100","$100–$250","$250–$500","$500–$1,000","$1,000–$2,500","$2,500–$10,000","$10,000+"];
 var CUSTOMER_RANGES = ["1–2","3–5","6–10","11–25","26–50","50+"];
 var VOLUME_RANGES = ["<100","100–500","500–1,000","1,000–5,000","5,000–10,000","10,000+"];
@@ -674,27 +800,56 @@ var TIMELINE = [
   {key:"none", label:"Not tied to a deal"}
 ];
 
-var EMAIL_TO = "austin.sirkin@balluff.com";
-var FORM_ENDPOINT = "https://formsubmit.co/ajax/" + EMAIL_TO;
+/* ---------- Attachment guardrails ----------
+   Allowlist only: documents, images, and neutral CAD formats that can't carry
+   macros or scripts. Each type is checked three ways: extension, browser-reported
+   MIME type (when present), and the file's leading "magic" bytes, so a renamed
+   .exe can't pass as a .pdf. This is a client-side filter, not a virus scan. */
 var ATTACHMENT_MAX_BYTES = 3 * 1024 * 1024;
-var DRAFT_KEY = "balluff_portfolio_survey_draft_v2";
+var FILE_TYPES = [
+  {group:"Documents", exts:["pdf"], mimes:["application/pdf"], magic:"pdf"},
+  {group:"Documents", exts:["docx"], mimes:["application/vnd.openxmlformats-officedocument.wordprocessingml.document"], magic:"zip"},
+  {group:"Documents", exts:["xlsx"], mimes:["application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"], magic:"zip"},
+  {group:"Documents", exts:["pptx"], mimes:["application/vnd.openxmlformats-officedocument.presentationml.presentation"], magic:"zip"},
+  {group:"Documents", exts:["csv","txt"], mimes:["text/csv","text/plain","application/vnd.ms-excel"], magic:"text"},
+  {group:"Images", exts:["jpg","jpeg"], mimes:["image/jpeg"], magic:"jpeg"},
+  {group:"Images", exts:["png"], mimes:["image/png"], magic:"png"},
+  {group:"CAD", exts:["step","stp"], mimes:[], magic:"step"},
+  {group:"CAD", exts:["dxf"], mimes:[], magic:"text"}
+];
+/* Reasons shown for common blocked types, so reps know what to do instead. */
+var BLOCKED_HINTS = [
+  {exts:["docm","xlsm","pptm","dotm","xltm","xlsb"], msg:"Macro-enabled Office files aren't accepted. Save it as .docx, .xlsx or .pptx, or export a PDF."},
+  {exts:["doc","xls","ppt","rtf"], msg:"Older Office formats can carry macros. Save it as .docx, .xlsx or .pptx, or export a PDF."},
+  {exts:["zip","rar","7z","tar","gz","tgz"], msg:"Archives can't be checked, so they aren't accepted. Attach the file itself, or share a link."},
+  {exts:["svg","html","htm","xml","js","mjs"], msg:"Web and script files aren't accepted. Export a PDF or PNG instead."},
+  {exts:["exe","msi","bat","cmd","com","scr","ps1","vbs","sh","jar","dll","app","dmg","lnk","reg","hta"], msg:"Programs and scripts aren't accepted."},
+  {exts:["heic","heif","webp","gif","bmp","tif","tiff"], msg:"That image format isn't accepted. Save it as JPG or PNG."}
+];
+var MAX_LINKS = 5;
+
+var DRAFT_KEY = "balluff_portfolio_survey_draft_v3";
 var ARROW_SVG = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg>';
 
 var state = {
   area: "all",
-  product: null, newProductName: "",
-  competitors: {}, competitorOther: "", showAllCompetitors: false,
-  markets: {}, marketOther: "",
-  priceMode: "exact"
+  product: null,
+  competitors: {}, showAllCompetitors: false,
+  markets: {},
+  priceMode: "exact",
+  links: [""]
 };
+var attachmentOk = true;   // false while a picked file is being checked or was rejected
 
 function $(id){ return document.getElementById(id); }
 function esc(s){ return String(s==null?"":s).replace(/[&<>"']/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]; }); }
 function areaOf(key){ return AREAS.find(function(a){ return a.key===key; }); }
 function productOf(key){ return PRODUCTS.find(function(p){ return p.key===key; }); }
 function areaLabel(key){ var a = areaOf(key); return a ? a.label : ""; }
+function fmtNum(n, dec){ return Number(n).toLocaleString("en-US", {minimumFractionDigits:dec||0, maximumFractionDigits:dec||0}); }
+function fmtUsd(n){ return "$"+fmtNum(n, 2); }
 
-/* Area that drives competitor filtering + the email routing field. */
+/* Area that drives routing and, for "Something new", the competitor list. */
 function activeArea(){
   var p = productOf(state.product);
   if(p) return p.area;
@@ -702,12 +857,10 @@ function activeArea(){
 }
 
 /* ---------- page facts (number-led, design.md § Voice) ---------- */
-(function renderFacts(){
-  $("pageFacts").innerHTML =
-    '<div><strong>'+AREAS.length+'</strong>product areas</div>'+
-    '<div><strong>'+PRODUCTS.length+'</strong>product families</div>'+
-    '<div><strong>10</strong>questions, 3 optional</div>';
-})();
+$("pageFacts").innerHTML =
+  '<div><strong>'+AREAS.length+'</strong>product areas</div>'+
+  '<div><strong>'+PRODUCTS.length+'</strong>product families</div>'+
+  '<div><strong>10</strong>questions, 3 optional</div>';
 
 /* ---------- product picker ---------- */
 function renderAreaChips(){
@@ -783,55 +936,100 @@ function renderSelectionBar(){
   }
 }
 
-/* ---------- competitors (filtered by area) ---------- */
-function visibleCompetitors(){
+/* ---------- competitors (driven by the product match in 02) ---------- */
+function competitorContext(){
+  var p = productOf(state.product);
+  if(p && COMPETITOR_SETS[p.seg]){
+    return {list: COMPETITOR_SETS[p.seg], label: (p.code ? p.code+" " : "")+p.name};
+  }
   var area = activeArea();
-  if(!area || state.showAllCompetitors) return COMPETITORS;
-  return COMPETITORS.filter(function(c){ return c.areas.indexOf(area) !== -1 || state.competitors[c.name]; });
+  if(area){
+    var seen = {}, list = [];
+    PRODUCTS.forEach(function(q){
+      if(q.area !== area) return;
+      (COMPETITOR_SETS[q.seg]||[]).forEach(function(n){ if(!seen[n]){ seen[n]=1; list.push(n); } });
+    });
+    return {list: list, label: areaLabel(area)};
+  }
+  return null;
 }
 function renderCompetitors(){
-  var area = activeArea();
-  var list = visibleCompetitors();
+  var ctx = competitorContext();
+  var list;
+  if(state.showAllCompetitors){
+    list = ALL_COMPETITORS.slice();
+  } else {
+    list = ctx ? ctx.list.slice() : [];
+    // keep anything already picked visible, even if it's outside the current set
+    Object.keys(state.competitors).forEach(function(n){
+      if(n !== "__other__" && state.competitors[n] && list.indexOf(n) === -1) list.push(n);
+    });
+  }
   var html = "";
-  list.forEach(function(c){
-    html += '<button type="button" class="chip" data-key="'+esc(c.name)+'" aria-pressed="'+(!!state.competitors[c.name])+'">'+esc(c.name)+'</button>';
+  list.forEach(function(n){
+    html += '<button type="button" class="chip" data-key="'+esc(n)+'" aria-pressed="'+(!!state.competitors[n])+'">'+esc(n)+'</button>';
   });
   html += '<button type="button" class="chip" data-key="__other__" aria-pressed="'+(!!state.competitors.__other__)+'">Other</button>';
   $("competitorChips").innerHTML = html;
-  $("competitorSub").textContent = area && !state.showAllCompetitors
-    ? "Showing competitors in "+areaLabel(area)+". Which would this go up against?"
-    : "Which competitors would this go up against?";
-  var toggle = $("competitorToggle");
-  if(area){
+
+  var sub = $("competitorSub"), toggle = $("competitorToggle");
+  if(!ctx){
+    sub.textContent = state.showAllCompetitors
+      ? "Showing all competitors. Which would this go up against?"
+      : "Pick a product match in 02 and the competitors for that product appear here.";
     toggle.hidden = false;
-    toggle.innerHTML = (state.showAllCompetitors ? "Show "+esc(areaLabel(area))+" competitors only" : "Show all "+COMPETITORS.length+" competitors") + ARROW_SVG;
+    toggle.innerHTML = (state.showAllCompetitors ? "Hide the full list" : "Show all "+ALL_COMPETITORS.length+" competitors") + ARROW_SVG;
   } else {
-    toggle.hidden = true;
+    sub.textContent = state.showAllCompetitors
+      ? "Showing all competitors. Which would this go up against?"
+      : "Competitors for "+ctx.label+". Which would this go up against?";
+    toggle.hidden = false;
+    toggle.innerHTML = (state.showAllCompetitors ? "Show competitors for "+esc(ctx.label)+" only" : "Show all "+ALL_COMPETITORS.length+" competitors") + ARROW_SVG;
   }
   $("competitorOtherWrap").classList.toggle("show", !!state.competitors.__other__);
 }
 
-/* ---------- other pickers ---------- */
+/* ---------- markets ---------- */
+function barsHtml(n){
+  return '<span class="bars" aria-hidden="true">'+[1,2,3].map(function(i){ return '<i'+(i<=n?' class="on"':'')+'></i>'; }).join("")+'</span>';
+}
 function renderMarkets(){
   var html = "";
   MARKETS.forEach(function(m){
     var v = state.markets[m.key];
     var checked = v !== undefined && v !== null;
     var pri = checked && v > 0 ? v : 0;
-    html += '<div class="market-row">'+
+    html += '<div class="market-row'+(pri?" ranked":"")+'">'+
       '<label class="market-check"><input type="checkbox" data-key="'+m.key+'" '+(checked?"checked":"")+'><span>'+esc(m.label)+'</span></label>'+
       '<div class="priority-group'+(checked?" active":"")+'" role="group" aria-label="Priority for '+esc(m.label)+'">'+
-        [1,2,3].map(function(n){ return '<button type="button" class="pri-btn" data-key="'+m.key+'" data-pri="'+n+'" aria-pressed="'+(pri===n)+'" aria-label="Priority '+n+'"'+(checked?"":" tabindex=\"-1\"")+'>'+n+'</button>'; }).join("")+
+        [1,2,3].map(function(n){
+          return '<button type="button" class="pri-btn" data-key="'+m.key+'" data-pri="'+n+'" aria-pressed="'+(pri===n)+'" aria-label="'+PRIORITY_LABELS[n]+' priority ('+n+')"'+(checked?"":" tabindex=\"-1\"")+'>'+
+            barsHtml(n)+'<span>'+PRIORITY_LABELS[n]+'</span></button>';
+        }).join("")+
       '</div></div>';
   });
   $("marketList").innerHTML = html;
 }
-function renderRangeChips(containerId, arr, stateKey){
+
+/* ---------- range chips with an optional custom entry ---------- */
+function renderRangeChips(containerId, arr, stateKey, customLabel, panelId){
   var html = "";
   arr.forEach(function(r){
     html += '<button type="button" class="chip" data-val="'+esc(r)+'" aria-pressed="'+(state[stateKey]===r)+'">'+esc(r)+'</button>';
   });
+  if(customLabel){
+    html += '<button type="button" class="chip custom" data-val="'+CUSTOM+'" aria-pressed="'+(state[stateKey]===CUSTOM)+'" aria-controls="'+panelId+'">'+esc(customLabel)+'</button>';
+    $(panelId).classList.toggle("show", state[stateKey]===CUSTOM);
+  }
   $(containerId).innerHTML = html;
+}
+var RANGE_PICKERS = [
+  {container:"priceRangeChips", arr:PRICE_RANGES, key:"priceRange", custom:"Custom range", panel:"priceCustomPanel", field:"field-price", focus:"f-price-min"},
+  {container:"custCountChips", arr:CUSTOMER_RANGES, key:"custCount", custom:"Exact number", panel:"custCountCustomPanel", field:"field-custcount", focus:"f-custcount-custom"},
+  {container:"volumeChips", arr:VOLUME_RANGES, key:"volumeRange", custom:"Custom quantity", panel:"volumeCustomPanel", field:"field-volume", focus:"f-volume-custom"}
+];
+function renderRangePickers(){
+  RANGE_PICKERS.forEach(function(r){ renderRangeChips(r.container, r.arr, r.key, r.custom, r.panel); });
 }
 function renderTimeline(){
   var html = "";
@@ -841,15 +1039,40 @@ function renderTimeline(){
   $("timelineChips").innerHTML = html;
 }
 
+/* ---------- attachment type list + links ---------- */
+(function renderTypeList(){
+  var groups = {};
+  FILE_TYPES.forEach(function(t){
+    (groups[t.group] = groups[t.group] || []).push.apply(groups[t.group], t.exts.map(function(e){ return "."+e; }));
+  });
+  $("typeList").innerHTML = Object.keys(groups).map(function(g){
+    return '<li><strong>'+esc(g)+':</strong> '+esc(groups[g].join(", "))+'</li>';
+  }).join("") + '<li>Not accepted: macro-enabled or older Office files, archives (.zip), programs, scripts, web files.</li>';
+  $("f-attachment").setAttribute("accept", FILE_TYPES.map(function(t){ return t.exts.map(function(e){ return "."+e; }).join(","); }).join(","));
+})();
+
+function renderLinks(errors){
+  errors = errors || {};
+  var html = "";
+  state.links.forEach(function(v, i){
+    html += '<div><div class="link-row">'+
+      '<label class="visually-hidden" for="f-link-'+i+'">Link '+(i+1)+'</label>'+
+      '<input type="url" id="f-link-'+i+'" data-i="'+i+'" class="'+(errors[i]?"bad":"")+'" value="'+esc(v)+'" placeholder="https://" inputmode="url" autocomplete="off" spellcheck="false">'+
+      (state.links.length > 1 || v ? '<button type="button" class="remove" data-i="'+i+'" aria-label="Remove link '+(i+1)+'">&times;</button>' : '')+
+      '</div>'+(errors[i] ? '<p class="link-err">'+esc(errors[i])+'</p>' : '')+'</div>';
+  });
+  $("linkList").innerHTML = html;
+  $("addLinkBtn").disabled = state.links.length >= MAX_LINKS;
+}
+
 function renderAll(){
   renderAreaChips();
   renderProducts();
   renderCompetitors();
   renderMarkets();
-  renderRangeChips("priceRangeChips", PRICE_RANGES, "priceRange");
-  renderRangeChips("custCountChips", CUSTOMER_RANGES, "custCount");
-  renderRangeChips("volumeChips", VOLUME_RANGES, "volumeRange");
+  renderRangePickers();
   renderTimeline();
+  renderLinks();
   $("newNameWrap").classList.toggle("show", state.product === "new");
   Array.prototype.forEach.call($("priceModeSeg").children, function(b){ b.setAttribute("aria-pressed", b.getAttribute("data-mode")===state.priceMode); });
   $("priceExactPanel").classList.toggle("show", state.priceMode==="exact");
@@ -874,6 +1097,7 @@ $("productGroups").addEventListener("click", function(e){
   if(!card) return;
   var key = card.getAttribute("data-key");
   state.product = (state.product === key) ? null : key;
+  state.showAllCompetitors = false;
   clearFieldError("field-product");
   renderProducts();
   renderCompetitors();
@@ -925,18 +1149,16 @@ $("priceModeSeg").addEventListener("click", function(e){
   saveDraftSoon();
 });
 
-function bindRange(containerId, arr, stateKey, fieldId){
-  $(containerId).addEventListener("click", function(e){
+RANGE_PICKERS.forEach(function(r){
+  $(r.container).addEventListener("click", function(e){
     var chip = e.target.closest(".chip"); if(!chip) return;
-    state[stateKey] = chip.getAttribute("data-val");
-    renderRangeChips(containerId, arr, stateKey);
-    clearFieldError(fieldId);
+    state[r.key] = chip.getAttribute("data-val");
+    renderRangeChips(r.container, r.arr, r.key, r.custom, r.panel);
+    clearFieldError(r.field);
+    if(state[r.key] === CUSTOM) $(r.focus).focus();
     saveDraftSoon();
   });
-}
-bindRange("priceRangeChips", PRICE_RANGES, "priceRange", "field-price");
-bindRange("custCountChips", CUSTOMER_RANGES, "custCount", "field-custcount");
-bindRange("volumeChips", VOLUME_RANGES, "volumeRange", "field-volume");
+});
 
 $("timelineChips").addEventListener("click", function(e){
   var chip = e.target.closest(".chip"); if(!chip) return;
@@ -946,27 +1168,132 @@ $("timelineChips").addEventListener("click", function(e){
   saveDraftSoon();
 });
 
-$("f-attachment").addEventListener("change", function(e){
-  var errEl = $("err-attachment");
-  var file = e.target.files && e.target.files[0];
-  errEl.classList.remove("show"); errEl.textContent = "";
-  if(!file){ $("fileChip").classList.remove("show"); return; }
+/* ---------- attachment checks ---------- */
+function extOf(name){
+  var m = /\.([a-z0-9]+)$/i.exec(name || "");
+  return m ? m[1].toLowerCase() : "";
+}
+function readHead(file, n){
+  return new Promise(function(resolve, reject){
+    var r = new FileReader();
+    r.onload = function(){ resolve(new Uint8Array(r.result)); };
+    r.onerror = function(){ reject(r.error); };
+    r.readAsArrayBuffer(file.slice(0, n));
+  });
+}
+function startsWith(bytes, sig){
+  for(var i=0;i<sig.length;i++){ if(bytes[i] !== sig[i]) return false; }
+  return true;
+}
+function magicMatches(kind, bytes){
+  switch(kind){
+    case "pdf":  return startsWith(bytes, [0x25,0x50,0x44,0x46,0x2D]);            // %PDF-
+    case "png":  return startsWith(bytes, [0x89,0x50,0x4E,0x47,0x0D,0x0A,0x1A,0x0A]);
+    case "jpeg": return startsWith(bytes, [0xFF,0xD8,0xFF]);
+    case "zip":  return startsWith(bytes, [0x50,0x4B,0x03,0x04]);                // PK.. (Office Open XML)
+    case "step": return /^\s*ISO-10303-21/.test(String.fromCharCode.apply(null, bytes.subarray(0, 64)));
+    case "text":
+      for(var i=0;i<bytes.length;i++){ if(bytes[i] === 0) return false; }   // binary files contain NUL bytes
+      return true;
+  }
+  return false;
+}
+async function checkAttachment(file){
+  var name = file.name || "";
+  var ext = extOf(name);
+  if(file.size === 0) return "That file is empty.";
   if(file.size > ATTACHMENT_MAX_BYTES){
-    errEl.textContent = "That file is "+(Math.round(file.size/1024/1024*10)/10)+" MB. Keep it under 3 MB, or email it to Austin directly.";
+    return "That file is "+(Math.round(file.size/1024/1024*10)/10)+" MB. Keep it under 3 MB, or share a link instead.";
+  }
+  var type = FILE_TYPES.find(function(t){ return t.exts.indexOf(ext) !== -1; });
+  if(!type){
+    var hint = BLOCKED_HINTS.find(function(h){ return h.exts.indexOf(ext) !== -1; });
+    return hint ? hint.msg : (ext ? "."+ext+" files aren't accepted." : "Files without an extension aren't accepted.")+" Use PDF, an image, an Office file or a CAD export, or share a link.";
+  }
+  if(file.type && type.mimes.length && type.mimes.indexOf(file.type) === -1 && file.type !== "application/octet-stream"){
+    return "That file says it's ."+ext+" but your browser reports it as "+file.type+". Re-save or export it and try again.";
+  }
+  var head = await readHead(file, type.magic === "text" ? 4096 : 64);
+  if(!magicMatches(type.magic, head)){
+    return "That file's contents don't match a real ."+ext+" file. Re-save or export it and try again.";
+  }
+  return null;
+}
+
+$("f-attachment").addEventListener("change", async function(e){
+  var input = e.target, errEl = $("err-attachment");
+  var file = input.files && input.files[0];
+  errEl.classList.remove("show"); errEl.textContent = "";
+  $("field-attachment").classList.remove("invalid");
+  $("fileChip").classList.remove("show");
+  if(!file){ attachmentOk = true; return; }
+  attachmentOk = false;
+  var problem;
+  try{ problem = await checkAttachment(file); }
+  catch(err){ problem = "That file couldn't be read. Try again, or share a link instead."; }
+  if(input.files[0] !== file) return;   // a newer pick replaced this one while checking
+  if(problem){
+    errEl.textContent = problem;
     errEl.classList.add("show");
-    e.target.value = "";
-    $("fileChip").classList.remove("show");
+    input.value = "";
+    attachmentOk = true;
     return;
   }
-  $("fileChipName").textContent = file.name+" ("+Math.round(file.size/1024)+" KB)";
+  attachmentOk = true;
+  $("fileChipName").textContent = file.name+" ("+Math.max(1, Math.round(file.size/1024))+" KB)";
   $("fileChip").classList.add("show");
 });
 $("fileRemoveBtn").addEventListener("click", function(){
   $("f-attachment").value = "";
   $("fileChip").classList.remove("show");
+  attachmentOk = true;
 });
 
-["f-name","f-req","f-newname","f-competitor-other","f-market-other","f-price-exact"].forEach(function(id){
+/* ---------- link checks ---------- */
+function normalizeLink(raw){
+  var v = String(raw||"").trim();
+  if(!v) return {empty:true};
+  if(!/^[a-z][a-z0-9+.-]*:/i.test(v)) v = "https://" + v;   // "www.x.com" -> https://www.x.com
+  var u;
+  try{ u = new URL(v); }catch(e){ return {error:"That isn't a valid web address."}; }
+  if(u.protocol !== "https:" && u.protocol !== "http:") return {error:"Only http:// and https:// links are accepted."};
+  if(u.username || u.password) return {error:"Remove the username or password from the link."};
+  if(!/\./.test(u.hostname) && u.hostname !== "localhost") return {error:"That address is missing a domain, e.g. balluff.sharepoint.com."};
+  if(u.href.length > 2000) return {error:"That link is too long."};
+  return {url:u.href};
+}
+function checkLinks(){
+  var errors = {}, urls = [];
+  state.links.forEach(function(raw, i){
+    var r = normalizeLink(raw);
+    if(r.error) errors[i] = r.error;
+    else if(r.url) urls.push(r.url);
+  });
+  return {errors:errors, urls:urls, ok:Object.keys(errors).length === 0};
+}
+
+$("linkList").addEventListener("input", function(e){
+  var i = e.target.getAttribute("data-i"); if(i === null) return;
+  state.links[+i] = e.target.value;
+  e.target.classList.remove("bad");
+  saveDraftSoon();
+});
+$("linkList").addEventListener("click", function(e){
+  var btn = e.target.closest(".remove"); if(!btn) return;
+  state.links.splice(+btn.getAttribute("data-i"), 1);
+  if(!state.links.length) state.links = [""];
+  renderLinks();
+  clearFieldError("field-links");
+  saveDraftSoon();
+});
+$("addLinkBtn").addEventListener("click", function(){
+  if(state.links.length >= MAX_LINKS) return;
+  state.links.push("");
+  renderLinks();
+  $("f-link-"+(state.links.length-1)).focus();
+});
+
+["f-name","f-req","f-newname","f-competitor-other","f-market-other","f-price-exact","f-price-min","f-price-max","f-custcount-custom","f-volume-custom"].forEach(function(id){
   $(id).addEventListener("input", function(){ clearFieldErrorForInput(id); saveDraftSoon(); });
 });
 
@@ -976,11 +1303,15 @@ function clearFieldError(fieldId){
   var err = f.querySelector(".err"); if(err) err.classList.remove("show");
 }
 function clearFieldErrorForInput(inputId){
-  var map = {"f-name":"field-name","f-req":"field-req","f-price-exact":"field-price"};
+  var map = {"f-name":"field-name","f-req":"field-req","f-price-exact":"field-price","f-price-min":"field-price","f-price-max":"field-price",
+             "f-custcount-custom":"field-custcount","f-volume-custom":"field-volume"};
   if(map[inputId]) clearFieldError(map[inputId]);
 }
 
 /* ---------- validation & submit ---------- */
+function numVal(id){ var v = $(id).value; return v === "" ? NaN : Number(v); }
+function isWhole(n){ return isFinite(n) && n >= 1 && Math.floor(n) === n; }
+
 function marketsSelectedList(){
   var out = [];
   MARKETS.forEach(function(m){
@@ -993,23 +1324,45 @@ function marketsHaveUnranked(){
   return MARKETS.some(function(m){ return state.markets[m.key] === -1; });
 }
 
+function setFieldError(fieldId, msg){
+  var f = $(fieldId); f.classList.add("invalid");
+  var err = f.querySelector(".err");
+  if(err){ if(msg) err.textContent = msg; err.classList.add("show"); }
+}
+
 function validate(){
   var errors = [];
-  if(!$("f-name").value.trim()) errors.push("field-name");
-  if(!state.product) errors.push("field-product");
-  if(!$("f-req").value.trim()) errors.push("field-req");
-  if(marketsSelectedList().length === 0 || marketsHaveUnranked()) errors.push("field-markets");
-  if(state.priceMode === "exact"){
-    if(!$("f-price-exact").value) errors.push("field-price");
-  } else if(!state.priceRange) errors.push("field-price");
-  if(!state.custCount) errors.push("field-custcount");
-  if(!state.volumeRange) errors.push("field-volume");
-  if(!state.timeline) errors.push("field-timeline");
+  function fail(id, msg){ errors.push(id); setFieldError(id, msg); }
 
-  errors.forEach(function(id){
-    var f = $(id); f.classList.add("invalid");
-    var err = f.querySelector(".err"); if(err) err.classList.add("show");
-  });
+  if(!$("f-name").value.trim()) fail("field-name");
+  if(!state.product) fail("field-product");
+  if(!$("f-req").value.trim()) fail("field-req");
+  if(marketsSelectedList().length === 0 || marketsHaveUnranked()) fail("field-markets");
+
+  if(state.priceMode === "exact"){
+    var px = numVal("f-price-exact");
+    if(!(px > 0)) fail("field-price", "Enter a target price above $0.");
+  } else if(!state.priceRange){
+    fail("field-price", "Pick a price range, or choose Custom range.");
+  } else if(state.priceRange === CUSTOM){
+    var lo = numVal("f-price-min"), hi = numVal("f-price-max");
+    if(!(lo >= 0) || !(hi > 0)) fail("field-price", "Enter both a minimum and a maximum price.");
+    else if(hi <= lo) fail("field-price", "The maximum has to be higher than the minimum.");
+  }
+
+  if(!state.custCount) fail("field-custcount", "Pick a range, or choose Exact number.");
+  else if(state.custCount === CUSTOM && !isWhole(numVal("f-custcount-custom"))) fail("field-custcount", "Enter a whole number of customers, 1 or more.");
+
+  if(!state.volumeRange) fail("field-volume", "Pick a range, or choose Custom quantity.");
+  else if(state.volumeRange === CUSTOM && !isWhole(numVal("f-volume-custom"))) fail("field-volume", "Enter a whole-number quantity, 1 or more.");
+
+  if(!state.timeline) fail("field-timeline");
+
+  if(!attachmentOk) fail("field-attachment", "The attachment is still being checked. Try again in a moment.");
+
+  var lk = checkLinks();
+  if(!lk.ok){ renderLinks(lk.errors); fail("field-links"); }
+
   return errors;
 }
 
@@ -1018,23 +1371,27 @@ function collectPayload(){
   var product = productOf(state.product);
   var newName = $("f-newname").value.trim();
   var area = activeArea();
+  var price;
+  if(state.priceMode === "exact") price = fmtUsd(numVal("f-price-exact"));
+  else if(state.priceRange === CUSTOM) price = fmtUsd(numVal("f-price-min"))+"–"+fmtUsd(numVal("f-price-max"))+" (custom range)";
+  else price = state.priceRange;
   return {
     submitterName: $("f-name").value.trim(),
     productKey: state.product,
+    areaKey: area,
     productArea: area ? areaLabel(area) : "Not specified",
     productLabel: state.product==="new" ? ("Something New"+(newName?" — "+newName:"")) : (product ? (product.code?product.code+" — ":"")+product.name : ""),
     newProductName: newName,
     requirements: $("f-req").value.trim(),
     competitors: comp,
-    competitorOther: $("f-competitor-other").value.trim(),
+    competitorOther: state.competitors.__other__ ? $("f-competitor-other").value.trim() : "",
     markets: marketsSelectedList(),
     marketOther: $("f-market-other").value.trim(),
-    pricingMode: state.priceMode,
-    pricingExact: state.priceMode==="exact" ? parseFloat($("f-price-exact").value||"0") : null,
-    pricingRange: state.priceMode==="range" ? state.priceRange : null,
-    customerCountRange: state.custCount,
-    volumeRange: state.volumeRange,
-    timeline: state.timeline
+    price: price,
+    customerCount: state.custCount === CUSTOM ? "Exactly "+fmtNum(numVal("f-custcount-custom")) : state.custCount,
+    volume: state.volumeRange === CUSTOM ? fmtNum(numVal("f-volume-custom"))+" units/yr (custom)" : state.volumeRange,
+    timeline: state.timeline,
+    links: checkLinks().urls
   };
 }
 
@@ -1046,10 +1403,9 @@ function makeRef(){
 }
 
 function timelineLabel(key){ return (TIMELINE.find(function(t){ return t.key===key; })||{}).label || key; }
-function priceText(p){ return p.pricingMode==="exact" ? ("$"+p.pricingExact.toFixed(2)) : p.pricingRange; }
 function marketsText(p){
   return p.markets.slice().sort(function(a,b){ return b.priority-a.priority; })
-    .map(function(x){ return x.label+" (P"+x.priority+")"; }).join(", ");
+    .map(function(x){ return x.label+" ("+PRIORITY_LABELS[x.priority]+", P"+x.priority+")"; }).join(", ");
 }
 function competitorsText(p){ return p.competitors.concat(p.competitorOther?[p.competitorOther]:[]).join(", "); }
 
@@ -1062,17 +1418,19 @@ function summaryRows(p){
   ];
   if(competitorsText(p)) rows.push(["Competitors", competitorsText(p)]);
   rows.push(["Markets", marketsText(p) + (p.marketOther ? (marketsText(p)?"; ":"")+"Other: "+p.marketOther : "")]);
-  rows.push(["Target price", priceText(p)]);
-  rows.push(["Customers at volume", p.customerCountRange]);
-  rows.push(["Volume / customer / yr", p.volumeRange]);
+  rows.push(["Target price", p.price]);
+  rows.push(["Customers at volume", p.customerCount]);
+  rows.push(["Volume / customer / yr", p.volume]);
   rows.push(["Timeline", timelineLabel(p.timeline)]);
+  if(p.links.length) rows.push(["Links", p.links.join("\n")]);
   return rows;
 }
 
 function summaryText(p, ref){
   var lines = ["Portfolio Request "+ref];
   summaryRows(p).forEach(function(r){
-    lines.push(r[0]+": "+(r[0]==="Requirement" ? r[1].slice(0,400) : r[1]));
+    var v = r[0]==="Requirement" ? r[1].slice(0,400) : r[1];
+    lines.push(r[0]+": "+(r[0]==="Links" ? "\n"+v : v));
   });
   return lines.join("\n");
 }
@@ -1091,10 +1449,11 @@ $("theForm").addEventListener("submit", function(e){
   }
   banner.classList.remove("show");
 
-  var payload, ref;
+  var payload, ref, to;
   try{
     payload = collectPayload();
     ref = makeRef();
+    to = recipientFor(payload.productKey, payload.areaKey);
   }catch(err){
     $("formErrText").textContent = "Something went wrong reading the form. Please try again.";
     banner.classList.add("show");
@@ -1104,12 +1463,12 @@ $("theForm").addEventListener("submit", function(e){
   $("submitBtn").disabled = true;
   $("submitLabel").textContent = "Submitting…";
 
-  showConfirm(payload, ref);
+  showConfirm(payload, ref, to);
 
-  sendEmail(payload, ref).then(function(){
-    updateConfirmStatus("ok");
+  sendEmail(payload, ref, to).then(function(){
+    updateConfirmStatus("ok", to);
   }).catch(function(){
-    updateConfirmStatus("failed");
+    updateConfirmStatus("failed", to);
   });
 });
 
@@ -1122,7 +1481,7 @@ function withTimeout(promise, ms){
   });
 }
 
-async function sendEmail(p, ref){
+async function sendEmail(p, ref, to){
   var fd = new FormData();
   fd.append("_subject", "Portfolio Request "+ref+" — "+p.productArea+" — "+p.productLabel);
   fd.append("_template", "table");
@@ -1136,16 +1495,17 @@ async function sendEmail(p, ref){
   fd.append("Competitors", competitorsText(p) || "—");
   fd.append("Markets (ranked)", marketsText(p) || "—");
   if(p.marketOther) fd.append("Other market", p.marketOther);
-  fd.append("Target price", priceText(p));
-  fd.append("Customers at volume", p.customerCountRange);
-  fd.append("Expected volume/customer", p.volumeRange);
+  fd.append("Target price", p.price);
+  fd.append("Customers at volume", p.customerCount);
+  fd.append("Expected volume/customer", p.volume);
   fd.append("Timeline", timelineLabel(p.timeline));
+  if(p.links.length) fd.append("Links", p.links.join("\n"));
   var fileInput = $("f-attachment");
   if(fileInput && fileInput.files && fileInput.files[0]){
     fd.append("attachment", fileInput.files[0]);
   }
 
-  var res = await withTimeout(fetch(FORM_ENDPOINT, {
+  var res = await withTimeout(fetch("https://formsubmit.co/ajax/" + to.email, {
     method: "POST",
     body: fd,
     headers: {"Accept": "application/json"}
@@ -1153,7 +1513,7 @@ async function sendEmail(p, ref){
   if(!res.ok) throw new Error("send failed");
 }
 
-function showConfirm(p, ref){
+function showConfirm(p, ref, to){
   $("theForm").hidden = true;
   $("pageHead").hidden = true;
   $("confirmScreen").classList.add("show");
@@ -1161,13 +1521,13 @@ function showConfirm(p, ref){
   $("confirmSummary").innerHTML = summaryRows(p).map(function(r){
     return '<div class="summary-row"><dt>'+esc(r[0])+'</dt><dd>'+esc(r[1])+'</dd></div>';
   }).join("");
-  setAlert("pending", "Sending", "Emailing Austin…");
+  setAlert("pending", "Sending", "Emailing the "+to.role+"…");
   $("emailBtn").hidden = true;
 
   try{
     var text = summaryText(p, ref);
     var subject = "Portfolio Request "+ref+" — "+p.productLabel;
-    $("emailBtn").href = "mailto:"+EMAIL_TO+"?subject="+encodeURIComponent(subject)+"&body="+encodeURIComponent(text);
+    $("emailBtn").href = "mailto:"+to.email+"?subject="+encodeURIComponent(subject)+"&body="+encodeURIComponent(text);
     $("teamsBtn").onclick = function(){
       var teamsText = "**Portfolio Request "+ref+"**\n"+text.split("\n").slice(1).join("\n");
       copyToClipboard(teamsText);
@@ -1187,12 +1547,12 @@ function setAlert(kind, title, text){
   $("confirmStatus").textContent = text;
 }
 
-function updateConfirmStatus(status){
+function updateConfirmStatus(status, to){
   if(status === "ok"){
-    setAlert("success", "Sent", "Austin has the request in his inbox.");
+    setAlert("success", "Sent", "The "+to.role+" for this portfolio has the request in their inbox.");
     $("emailBtn").hidden = true;
   } else {
-    setAlert("error", "Not sent", "The automatic email failed. Use Email Austin below, or copy the summary for Teams.");
+    setAlert("error", "Not sent", "The automatic email failed. Use Email Product Marketing below, or copy the summary for Teams.");
     $("emailBtn").hidden = false;
   }
 }
@@ -1217,18 +1577,16 @@ function showToast(msg){
   setTimeout(function(){ t.classList.remove("show"); }, 2200);
 }
 
-/* ---------- draft autosave ---------- */
+/* ---------- draft autosave (attachments are never saved) ---------- */
+var DRAFT_INPUTS = ["f-name","f-newname","f-req","f-competitor-other","f-market-other","f-price-exact","f-price-min","f-price-max","f-custcount-custom","f-volume-custom"];
 var draftTimer = null;
 function saveDraftSoon(){
   clearTimeout(draftTimer);
   draftTimer = setTimeout(function(){
     try{
-      var data = {
-        name: $("f-name").value, newname: $("f-newname").value, req: $("f-req").value,
-        competitorOther: $("f-competitor-other").value, marketOther: $("f-market-other").value,
-        priceExact: $("f-price-exact").value, state: state
-      };
-      localStorage.setItem(DRAFT_KEY, JSON.stringify(data));
+      var inputs = {};
+      DRAFT_INPUTS.forEach(function(id){ inputs[id] = $(id).value; });
+      localStorage.setItem(DRAFT_KEY, JSON.stringify({inputs:inputs, state:state}));
     }catch(e){}
   }, 400);
 }
@@ -1239,15 +1597,13 @@ function loadDraft(){
     var raw = localStorage.getItem(DRAFT_KEY);
     if(!raw) return;
     var data = JSON.parse(raw);
-    $("f-name").value = data.name||"";
-    $("f-newname").value = data.newname||"";
-    $("f-req").value = data.req||"";
-    $("f-competitor-other").value = data.competitorOther||"";
-    $("f-market-other").value = data.marketOther||"";
-    $("f-price-exact").value = data.priceExact||"";
+    var inputs = data.inputs || {};
+    DRAFT_INPUTS.forEach(function(id){ $(id).value = inputs[id] || ""; });
     if(data.state) Object.assign(state, data.state);
     if(state.product && state.product !== "new" && !productOf(state.product)) state.product = null;
     if(state.area !== "all" && !areaOf(state.area)) state.area = "all";
+    if(!Array.isArray(state.links) || !state.links.length) state.links = [""];
+    state.links = state.links.slice(0, MAX_LINKS).map(String);
     renderAll();
     $("draftNote").hidden = false;
   }catch(e){}
