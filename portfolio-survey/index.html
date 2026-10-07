@@ -698,7 +698,8 @@ var PRODUCTS = [
   {key:"bla", area:"sensors", tech:"photoelectric", seg:"photoelectric", code:"BLA", name:"Light Array", blurb:"Light grid / area sensing array", img:"photos/bla.jpg"},
   {key:"bfo", area:"sensors", tech:"photoelectric", seg:"photoelectric", code:"BFO", name:"Fiber Optics", blurb:"Fiber-optic amplifier + fiber cables", img:"photos/bfo.jpg"},
   {key:"boh", area:"sensors", tech:"photoelectric", seg:"photoelectric", code:"BOH", name:"Optical Head Sensor", blurb:"Fiber-optic sensor head", img:"photos/boh.jpg"},
-  {key:"btl", area:"sensors", tech:"magnetostrictive", seg:"linear", code:"BTL", name:"Magnetostrictive Linear Transducer", blurb:"Magnetostrictive linear position transducer", img:"photos/btl.jpg"},
+  {key:"btl", area:"sensors", tech:"magnetostrictive", seg:"linear", code:"BTL", name:"Magnetostrictive Transducer, Rod Style", blurb:"Rod-style housing for mounting inside hydraulic cylinders", img:"photos/btl.jpg"},
+  {key:"btl-profile", area:"sensors", tech:"magnetostrictive", seg:"linear", code:"BTL", name:"Magnetostrictive Transducer, Profile Style", blurb:"Profile housing mounted on the machine, with a captive or floating magnet", img:"photos/btl-profile.jpg"},
   {key:"bmf", area:"sensors", tech:"magnetic-field", seg:"cylinder", code:"BMF", name:"Magnetic Cylinder Sensor", blurb:"Magnetic field sensor for pneumatic cylinders", img:"photos/bmf.jpg"},
   {key:"bmp", area:"sensors", tech:"magnetic-field", seg:"cylinder", code:"BMP", name:"Magnetic Cylinder Positioning System", blurb:"Continuous position sensing for cylinders", img:"photos/bmp.jpg"},
   {key:"bml", area:"sensors", tech:"magnetic-coded", seg:"linear", code:"BML", name:"Magnetic Encoder", blurb:"Magnetically coded linear / rotary encoder", img:"photos/bml.jpg"},
@@ -721,15 +722,15 @@ var PRODUCTS = [
   // Machine Vision and Optical Identification
   {key:"vision-cameras", area:"vision", seg:"cameras", code:"BVS", name:"Industrial Camera", blurb:"Area-scan cameras, GigE / USB3 Vision", img:"photos/vision-cameras.jpg"},
   {key:"vision-embedded", area:"vision", seg:"cameras", code:"BVS", name:"Embedded Vision", blurb:"Board-level and embedded camera modules", img:"photos/vision-embedded.jpg"},
-  {key:"vision-3d", area:"vision", seg:"vision3d", code:"BVS", name:"3D Machine Vision", blurb:"3D sensing and measurement", img:"photos/vision-3d.png"},
+  {key:"vision-3d", area:"vision", seg:"vision3d", code:"BVS", name:"3D Machine Vision", blurb:"3D sensing and measurement", img:"photos/vision-3d.jpg"},
   {key:"vision-smart", area:"vision", seg:"smartvision", code:"BVS", name:"Smart Vision", blurb:"Smart cameras and vision sensors", img:"photos/vision-smart.jpg"},
-  {key:"vision-optid", area:"vision", seg:"codereader", code:"BVS ID", name:"Optical Identification", blurb:"1D/2D code readers", img:"photos/vision-optid.png"},
+  {key:"vision-optid", area:"vision", seg:"codereader", code:"BVS ID", name:"Optical Identification", blurb:"1D/2D code readers", img:"photos/vision-optid.jpg"},
 
   // Industrial Communication
-  {key:"iol-wireless", area:"comms", seg:"iolink", code:"BNI", name:"IO-Link Wireless", blurb:"Wireless IO-Link masters and hubs", img:"photos/iol-wireless.png"},
+  {key:"iol-wireless", area:"comms", seg:"iolink", code:"BNI", name:"IO-Link Wireless", blurb:"Wireless IO-Link masters and hubs", img:"photos/iol-wireless.jpg"},
   {key:"bni-network", area:"comms", seg:"iolink", code:"BNI", name:"Network Block / IO-Link Master", blurb:"Fieldbus network blocks, IO-Link masters", img:"photos/bni-network.jpg"},
   {key:"comms-switches", area:"comms", seg:"ethswitch", code:"BNI", name:"Industrial Switch", blurb:"Industrial Ethernet switches", img:"photos/comms-switches.jpg"},
-  {key:"bni-io", area:"comms", seg:"iolink", code:"BNI", name:"I/O Module / IO-Link Hub", blurb:"Distributed I/O and IO-Link hubs"},
+  {key:"bni-io", area:"comms", seg:"iolink", code:"BNI", name:"I/O Module / IO-Link Hub", blurb:"Distributed I/O and IO-Link hubs", img:"photos/bni-io.jpg"},
   {key:"bic", area:"comms", seg:"coupler", code:"BIC", name:"Inductive Coupler", blurb:"Contactless power and signal transfer", img:"photos/bic.jpg"},
 
   // Connectivity
@@ -742,7 +743,7 @@ var PRODUCTS = [
 
   // Control devices, indicator devices, LED machine lights
   {key:"smartlight", area:"hmi", seg:"indicators", code:"BNI", name:"LED Stack Light", blurb:"SmartLight IO-Link stack lights: segment, run-light and level modes", img:"photos/smartlight.jpg"},
-  {key:"machine-lights", area:"hmi", seg:"machinelights", code:"BAE", name:"Machine Lighting", blurb:"LED machine and work-area lights", img:"photos/machine-lights.png"},
+  {key:"machine-lights", area:"hmi", seg:"machinelights", code:"BAE", name:"Machine Lighting", blurb:"LED machine and work-area lights", img:"photos/machine-lights.jpg"},
 
   // Power supplies
   {key:"bae-in-panel", area:"power", seg:"power", code:"BAE PS", name:"In-Panel Power Supply", blurb:"DIN-rail power supplies for the control cabinet, including Heartbeat and IO-Link versions", img:"photos/bae-in-panel.jpg"},
@@ -750,10 +751,10 @@ var PRODUCTS = [
 
   // Accessories
   {key:"bam-fastening", area:"accessories", seg:"mounting", code:"BAM", name:"Fastening Technology", blurb:"Mounting brackets, clamps, holders", img:"photos/bam-fastening.jpg"},
-  {key:"bam-reflectors", area:"accessories", seg:"photoelectric", code:"BAM", name:"Reflectors, Fibers, Optics", blurb:"Reflectors and optical accessories", img:"photos/bam-reflectors.png"},
-  {key:"bam-protection", area:"accessories", seg:"mounting", code:"BAM", name:"Mechanical Protection", blurb:"Protective housings and covers", img:"photos/bam-protection.png"},
+  {key:"bam-reflectors", area:"accessories", seg:"photoelectric", code:"BAM", name:"Reflectors, Fibers, Optics", blurb:"Reflectors and optical accessories", img:"photos/bam-reflectors.jpg"},
+  {key:"bam-protection", area:"accessories", seg:"mounting", code:"BAM", name:"Mechanical Protection", blurb:"Protective housings and covers", img:"photos/bam-protection.jpg"},
   {key:"vision-optics-lighting", area:"accessories", seg:"visionoptlight", code:"BAM", name:"Vision Optics / Lighting", blurb:"Lenses (C-mount, S-mount, liquid) and lights for vision systems", img:"photos/vision-optics-lighting.jpg"},
-  {key:"signal-converters", area:"accessories", seg:"converters", code:"BNI", name:"Signal Converter / Comm. Adapter", blurb:"Signal conversion, communication adapters", img:"photos/signal-converters.png"},
+  {key:"signal-converters", area:"accessories", seg:"converters", code:"BNI", name:"Signal Converter / Comm. Adapter", blurb:"Signal conversion, communication adapters", img:"photos/signal-converters.jpg"},
 
   // Systems solutions & Software
   {key:"cmtk", area:"solutions", seg:"cmtk", code:"CMTK", name:"Condition Monitoring Toolkit", blurb:"Condition monitoring with IO-Link sensors, data collection and dashboards", img:"photos/cmtk.jpg"},
