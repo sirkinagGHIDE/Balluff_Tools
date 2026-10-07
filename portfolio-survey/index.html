@@ -3,337 +3,652 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Portfolio Request</title>
-<meta name="description" content="Internal survey for Balluff sales reps to flag product gaps and portfolio requests.">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<title>Portfolio Request | Balluff</title>
+<meta name="description" content="Internal survey for Balluff sales reps to flag product gaps and portfolio requests across the full Balluff portfolio.">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<link rel="apple-touch-icon" href="assets/favicon-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wdth,wght@8..144,25..151,100..1000&display=swap">
 <style>
-html{color-scheme: light dark;}
-img{max-width:100%;}
-[hidden]{display:none!important;}
+/* Balluff design tokens — mirrors ai-marketing2/tokens.css (design.md is the source of truth). */
 :root{
-  --bg:#EEF0F2; --surface:#FFFFFF; --surface-2:#F6F7F8;
-  --ink:#191C1F; --ink-soft:#5A626B; --ink-faint:#8A929A;
-  --line:#D9DDE1; --line-strong:#C2C8CD;
-  --accent:#E15B12; --accent-ink:#FFFFFF; --accent-soft:#FCE7D8;
-  --success:#2E8B57; --success-soft:#DFF3E7;
-  --danger:#C43D3D; --danger-soft:#FBE4E4;
-  --shadow:0 1px 2px rgba(25,28,31,.06), 0 10px 24px -12px rgba(25,28,31,.16);
-  --font-display:'Big Shoulders Display','Arial Narrow',sans-serif;
-  --font-body:'IBM Plex Sans',-apple-system,'Segoe UI',sans-serif;
-  --font-mono:'IBM Plex Mono','SFMono-Regular',Consolas,monospace;
+  --color-balluff-black:#1d1d1b;
+  --color-balluff-white:#ffffff;
+  --color-balluff-red:#e73446;
+  --color-balluff-red-hover:#d42f40; /* ~8% darker, design.md § Buttons */
+  --color-gray-50:#f5f5f5;
+  --color-gray-200:#e6e6e6;
+  --color-gray-400:#9e9e9e;
+  --color-gray-600:#6b6b6a;
+  --color-gray-800:#414140;
+  --color-gray-900:#1d1d1b;
+  --color-error:#d32f2f;
+  --color-success:#2e7d32;
+  --color-disabled:#bcbcbc;
+
+  --font-sans:"Roboto Flex", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --radius-none:0; --radius-sm:2px; --radius-md:4px; --radius-full:9999px;
+  --shadow-xs:0 1px 2px rgba(0,0,0,.04);
+  --shadow-sm:0 2px 8px rgba(0,0,0,.06);
 }
-@media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]){
-    --bg:#14171A; --surface:#1C2024; --surface-2:#22262A;
-    --ink:#ECEEEF; --ink-soft:#9BA3AB; --ink-faint:#6B747C;
-    --line:#2B3034; --line-strong:#3A4045;
-    --accent:#FF7A33; --accent-ink:#1A0E06; --accent-soft:#3A2415;
-    --success:#4CAF7D; --success-soft:#163526;
-    --danger:#E2685F; --danger-soft:#3A1E1E;
-    --shadow:0 1px 2px rgba(0,0,0,.5), 0 10px 24px -12px rgba(0,0,0,.6);
-  }
-}
-:root[data-theme="dark"]{
-  --bg:#14171A; --surface:#1C2024; --surface-2:#22262A;
-  --ink:#ECEEEF; --ink-soft:#9BA3AB; --ink-faint:#6B747C;
-  --line:#2B3034; --line-strong:#3A4045;
-  --accent:#FF7A33; --accent-ink:#1A0E06; --accent-soft:#3A2415;
-  --success:#4CAF7D; --success-soft:#163526;
-  --danger:#E2685F; --danger-soft:#3A1E1E;
-  --shadow:0 1px 2px rgba(0,0,0,.5), 0 10px 24px -12px rgba(0,0,0,.6);
-}
+
 *{box-sizing:border-box;}
+[hidden]{display:none!important;}
+img{max-width:100%; display:block;}
 @media (prefers-reduced-motion: reduce){ *{transition:none!important; animation:none!important;} }
+
+html{font-optical-sizing:auto;}
 body{
-  margin:0; background:var(--bg); color:var(--ink); font-family:var(--font-body);
-  padding-inline:16px; padding-block:36px; font-size:15px; line-height:1.5;
+  margin:0; background:var(--color-balluff-white); color:var(--color-gray-900);
+  font-family:var(--font-sans); font-size:16px; line-height:1.6;
+  font-optical-sizing:auto;
+  -webkit-font-smoothing:antialiased;
 }
-.wrap{max-width:760px; margin-inline:auto;}
-.topbar{display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:14px; flex-wrap:wrap;}
-.brand{font-family:var(--font-mono); font-size:12px; letter-spacing:.10em; color:var(--ink-faint); text-transform:uppercase;}
-button:focus-visible, input:focus-visible, textarea:focus-visible, [tabindex]:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+button, input, textarea{font-family:inherit;}
 
-.sheet{background:var(--surface); border:1px solid var(--line); border-radius:8px; box-shadow:var(--shadow); overflow:hidden;}
-.head{padding:26px 32px 22px; border-bottom:1px solid var(--line); display:flex; justify-content:space-between; gap:16px; align-items:flex-start; flex-wrap:wrap;}
-.head h1{font-family:var(--font-display); font-weight:800; font-size:clamp(28px,5vw,38px); text-transform:uppercase; letter-spacing:.01em; margin:2px 0 8px; text-wrap:balance;}
-.head p{margin:0; color:var(--ink-soft); max-width:46ch; font-size:14px;}
-.stamp{font-family:var(--font-mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; border:1px solid var(--line-strong); color:var(--ink-faint); border-radius:4px; padding:5px 10px; white-space:nowrap;}
+.container{max-width:1280px; margin-inline:auto; padding-inline:20px;}
+@media (min-width:768px){ .container{padding-inline:32px;} }
+@media (min-width:1280px){ .container{padding-inline:64px;} }
 
-.station{padding:26px 32px; border-bottom:1px solid var(--line);}
-.station:last-of-type{border-bottom:none;}
-.station-head{display:flex; align-items:baseline; gap:11px; margin-bottom:14px;}
-.station-num{font-family:var(--font-mono); font-size:12.5px; font-weight:600; color:var(--accent); border:1px solid var(--accent); border-radius:3px; padding:2px 7px; letter-spacing:.04em; flex:none;}
-.station-title{font-family:var(--font-display); font-weight:700; font-size:19px; letter-spacing:.02em; text-transform:uppercase; text-wrap:balance;}
-.station-sub{font-size:13px; color:var(--ink-soft); margin:-8px 0 14px 0;}
-.optional-tag{font-family:var(--font-mono); font-size:10.5px; color:var(--ink-faint); text-transform:uppercase; letter-spacing:.06em; font-weight:400;}
+/* ---------- Top nav ---------- */
+.nav{border-bottom:1px solid var(--color-gray-200); background:var(--color-balluff-white);}
+.nav-inner{height:56px; display:flex; align-items:center; justify-content:space-between; gap:16px;}
+@media (min-width:768px){ .nav-inner{height:64px;} }
+.nav-logo{display:block; padding-block:8px;}
+.nav-logo img{width:120px; height:auto;}
+.nav-meta{font-size:14px; color:var(--color-gray-600); font-weight:500;}
 
-label.field-label{display:block; font-size:12.5px; font-weight:600; color:var(--ink-soft); margin-bottom:6px; text-transform:uppercase; letter-spacing:.03em;}
-input[type=text], input[type=number], textarea{
-  width:100%; background:var(--surface-2); border:1px solid var(--line-strong); border-radius:6px;
-  padding:10px 12px; font-family:var(--font-body); font-size:14.5px; color:var(--ink);
+/* ---------- Page header ---------- */
+.page-head{padding-block:40px 48px;}
+@media (min-width:1024px){ .page-head{padding-block:64px 64px;} }
+.crumbs{font-size:14px; color:var(--color-gray-600); margin:0 0 24px; display:flex; gap:8px; align-items:center; flex-wrap:wrap;}
+.crumbs .sep{color:var(--color-gray-400);}
+.crumbs .current{color:var(--color-gray-900);}
+h1{
+  margin:0 0 12px; font-size:clamp(36px, 6vw, 48px); line-height:1.1;
+  font-weight:780; font-variation-settings:"wdth" 88; letter-spacing:-.01em;
 }
-input[type=text]:focus, input[type=number]:focus, textarea:focus{ outline:2px solid var(--accent); outline-offset:1px; border-color:var(--accent); }
-textarea{min-height:92px; resize:vertical; line-height:1.5;}
-.hint{font-size:12px; color:var(--ink-faint); margin-top:6px;}
-.err{font-size:12.5px; color:var(--danger); margin-top:6px; display:none; font-weight:500;}
+.lede{margin:0; font-size:clamp(18px, 2.4vw, 24px); line-height:1.35; color:var(--color-gray-800); font-weight:360; max-width:34em;}
+.page-facts{display:flex; gap:32px; flex-wrap:wrap; margin-top:32px; font-size:14px; color:var(--color-gray-600);}
+.page-facts strong{display:block; font-size:30px; line-height:1.15; color:var(--color-gray-900); font-weight:760; font-variation-settings:"wdth" 88;}
+
+/* ---------- Form sections: asymmetric 1/3 + 2/3 ---------- */
+.section{display:grid; gap:16px 48px; padding-block:40px; border-top:1px solid var(--color-gray-200);}
+@media (min-width:1024px){ .section{grid-template-columns:minmax(0,1fr) minmax(0,2fr); padding-block:48px;} }
+.section-num{font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--color-gray-600); font-weight:600; margin-bottom:8px; font-variant-numeric:tabular-nums;}
+.section-title{margin:0 0 8px; font-size:24px; line-height:1.3; font-weight:720; font-variation-settings:"wdth" 92;}
+.section-sub{margin:0; font-size:14px; line-height:1.5; color:var(--color-gray-600); max-width:30em;}
+.optional{font-size:12px; font-weight:500; color:var(--color-gray-600); text-transform:uppercase; letter-spacing:.06em; margin-left:8px; vertical-align:middle;}
+.req{color:var(--color-balluff-red); margin-left:2px;}
+
+/* ---------- Form controls (design.md § Forms) ---------- */
+.field-label{display:block; font-size:14px; font-weight:500; color:var(--color-gray-800); margin-bottom:8px;}
+input[type=text], input[type=number], input[type=search], textarea{
+  width:100%; min-height:40px; background:var(--color-balluff-white);
+  border:1px solid var(--color-gray-200); border-radius:var(--radius-sm);
+  padding:12px 16px; font-size:16px; line-height:1.4; color:var(--color-gray-900);
+}
+input::placeholder, textarea::placeholder{color:var(--color-gray-400);}
+input:focus, textarea:focus{outline:none; border:2px solid var(--color-balluff-red); padding:11px 15px;}
+textarea{min-height:120px; resize:vertical; line-height:1.6;}
+.hint{font-size:12px; line-height:1.4; color:var(--color-gray-600); margin-top:8px;}
+.err{font-size:14px; color:var(--color-error); margin-top:8px; display:none;}
 .err.show{display:block;}
-.field.invalid input, .field.invalid textarea{border-color:var(--danger); background:var(--danger-soft);}
+.field.invalid input[type=text], .field.invalid input[type=number], .field.invalid textarea{border:2px solid var(--color-error); padding:11px 15px;}
+.field.invalid .product-grid, .field.invalid .market-list{outline:2px solid var(--color-error); outline-offset:4px;}
+.field + .field{margin-top:24px;}
 
-.product-search{margin-bottom:12px;}
-.product-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(128px,1fr)); gap:9px;}
-.product-card{border:1px solid var(--line); border-radius:7px; padding:9px; cursor:pointer; background:var(--surface-2); display:flex; flex-direction:column; gap:6px; transition:border-color .12s,background .12s,transform .08s; text-align:left;}
-.product-card:hover{border-color:var(--line-strong);}
-.product-card.selected{border-color:var(--accent); background:var(--accent-soft); box-shadow:0 0 0 1px var(--accent) inset;}
-.product-card img{width:100%; aspect-ratio:1; object-fit:contain; background:#fff; border-radius:4px; border:1px solid var(--line);}
-.product-card .code{font-family:var(--font-mono); font-weight:600; font-size:12px; color:var(--accent); letter-spacing:.02em;}
-.product-card .name{font-size:11.5px; color:var(--ink-soft); line-height:1.3;}
-.product-card.new-card{align-items:center; justify-content:center; text-align:center; border-style:dashed; min-height:100%; gap:4px;}
-.product-card.new-card .plus{font-family:var(--font-display); font-size:26px; color:var(--ink-faint); line-height:1;}
-.product-card.new-card .name{font-family:var(--font-mono); text-transform:uppercase; letter-spacing:.04em; font-size:11px;}
-.product-card.hidden{display:none;}
-.new-name-wrap{margin-top:12px; display:none;}
+button:focus-visible, a:focus-visible, .chip:focus-visible, .product-card:focus-visible, input[type=checkbox]:focus-visible{
+  outline:2px solid var(--color-balluff-red); outline-offset:2px;
+}
+
+/* ---------- Chips (design.md § Filter chips) ---------- */
+.chip-row{display:flex; flex-wrap:wrap; gap:8px;}
+.chip{
+  font-size:14px; line-height:1.3; border:1px solid transparent; background:var(--color-gray-50);
+  color:var(--color-gray-900); border-radius:var(--radius-full); padding:8px 16px; cursor:pointer;
+  transition:background .12s, color .12s, border-color .12s;
+}
+.chip:hover{border-color:var(--color-gray-400);}
+.chip[aria-pressed="true"]{background:var(--color-balluff-red); color:var(--color-balluff-white); font-weight:600;}
+.chip .count{color:var(--color-gray-600); font-variant-numeric:tabular-nums; margin-left:4px; font-size:12px;}
+.chip[aria-pressed="true"] .count{color:rgba(255,255,255,.8);}
+.other-wrap{margin-top:16px; display:none;}
+.other-wrap.show{display:block;}
+.text-btn{background:none; border:none; padding:0; margin-top:16px; color:var(--color-balluff-red); font-size:14px; font-weight:500; cursor:pointer; display:inline-flex; align-items:center; gap:6px;}
+.text-btn:hover{text-decoration:underline;}
+.text-btn svg{transition:transform .12s;}
+.text-btn:hover svg{transform:translateX(4px);}
+
+/* ---------- Product picker ---------- */
+.picker-tools{display:grid; gap:16px; margin-bottom:24px;}
+.area-chips{gap:8px;}
+.area-group + .area-group{margin-top:32px;}
+.area-head{display:flex; align-items:baseline; justify-content:space-between; gap:16px; padding-bottom:8px; margin-bottom:16px; border-bottom:1px solid var(--color-gray-200);}
+.area-head h3{margin:0; font-size:18px; line-height:1.4; font-weight:680;}
+.area-head span{white-space:nowrap; font-size:12px; color:var(--color-gray-600); font-variant-numeric:tabular-nums;}
+.product-grid{display:grid; grid-template-columns:repeat(auto-fill, minmax(140px, 1fr)); gap:16px;}
+.product-card{
+  border:1px solid var(--color-gray-200); border-radius:var(--radius-none); padding:0; cursor:pointer;
+  background:var(--color-balluff-white); display:flex; flex-direction:column; text-align:left;
+  transition:border-color .12s, box-shadow .12s; color:inherit;
+}
+.product-card:hover{border-color:var(--color-gray-400); box-shadow:var(--shadow-xs);}
+.product-card.selected{border-color:var(--color-balluff-red); box-shadow:0 0 0 1px var(--color-balluff-red) inset;}
+.product-card .media{aspect-ratio:1; background:var(--color-balluff-white); display:flex; align-items:center; justify-content:center; border-bottom:1px solid var(--color-gray-200); overflow:hidden;}
+.product-card .media img.photo{width:100%; height:100%; object-fit:contain; padding:8px;}
+.product-card .media.placeholder{background:var(--color-gray-50);}
+.product-card .media .mono{font-size:32px; font-weight:800; font-variation-settings:"wdth" 75; letter-spacing:.01em; color:var(--color-gray-800);}
+.product-card .media .mono.long{font-size:24px;}
+.product-card .media img.icon{width:62%; height:auto; opacity:.85;}
+.product-card .body{padding:12px; display:flex; flex-direction:column; gap:2px;}
+.product-card .code{font-size:12px; font-weight:700; letter-spacing:.04em; color:var(--color-gray-600); text-transform:uppercase; min-height:1.4em;}
+.product-card.selected .code{color:var(--color-balluff-red);}
+.product-card .name{font-size:14px; line-height:1.35; font-weight:500; color:var(--color-gray-900);}
+.product-card.new-card .media{background:var(--color-balluff-white); border-bottom-style:dashed;}
+.product-card.new-card{border-style:dashed;}
+.product-card.new-card .plus{font-size:40px; font-weight:300; color:var(--color-gray-600); line-height:1;}
+.no-results{font-size:14px; color:var(--color-gray-600); padding:16px 0;}
+.selection-bar{display:none; margin-top:24px; padding:16px; background:var(--color-gray-50); font-size:14px; gap:4px 16px; flex-wrap:wrap; align-items:baseline;}
+.selection-bar.show{display:flex;}
+.selection-bar .label{color:var(--color-gray-600);}
+.selection-bar strong{font-weight:650;}
+.new-name-wrap{margin-top:24px; display:none;}
 .new-name-wrap.show{display:block;}
 
-.chip-row{display:flex; flex-wrap:wrap; gap:8px;}
-.chip{font-family:var(--font-body); font-size:13px; border:1px solid var(--line-strong); background:var(--surface-2); color:var(--ink); border-radius:99px; padding:7px 14px; cursor:pointer; transition:border-color .12s,background .12s,color .12s;}
-.chip:hover{border-color:var(--accent);}
-.chip[aria-pressed="true"]{background:var(--accent); border-color:var(--accent); color:var(--accent-ink); font-weight:600;}
-.other-wrap{margin-top:12px; display:none;}
-.other-wrap.show{display:block;}
-
-.market-row{display:flex; align-items:center; justify-content:space-between; gap:14px; padding:10px 0; border-bottom:1px solid var(--line);}
-.market-row:last-of-type{border-bottom:none;}
-.market-check{display:flex; align-items:center; gap:10px; cursor:pointer; flex:1; min-width:0;}
-.market-check input{width:17px; height:17px; accent-color:var(--accent); flex:none;}
-.market-check span{font-size:14px;}
-.priority-group{display:flex; gap:5px; opacity:.35; pointer-events:none; transition:opacity .12s;}
+/* ---------- Markets ---------- */
+.market-list{border-top:1px solid var(--color-gray-200);}
+.market-row{display:flex; align-items:center; justify-content:space-between; gap:16px; padding:12px 0; border-bottom:1px solid var(--color-gray-200);}
+.market-check{display:flex; align-items:center; gap:12px; cursor:pointer; flex:1; min-width:0; font-size:16px;}
+.market-check input{width:18px; height:18px; accent-color:var(--color-balluff-red); flex:none; margin:0;}
+.priority-group{display:flex; gap:4px; opacity:.35; pointer-events:none; transition:opacity .12s;}
 .priority-group.active{opacity:1; pointer-events:auto;}
-.pri-btn{width:28px; height:28px; border-radius:5px; border:1px solid var(--line-strong); background:var(--surface-2); font-family:var(--font-mono); font-size:12.5px; font-weight:600; color:var(--ink-soft); cursor:pointer;}
-.pri-btn[aria-pressed="true"]{background:var(--accent); border-color:var(--accent); color:var(--accent-ink);}
-.pri-hint{font-size:11px; color:var(--ink-faint); text-align:right; margin-top:8px;}
+.pri-btn{width:32px; height:32px; border-radius:var(--radius-sm); border:1px solid var(--color-gray-200); background:var(--color-balluff-white); font-size:14px; font-weight:600; color:var(--color-gray-800); cursor:pointer; font-variant-numeric:tabular-nums;}
+.pri-btn:hover{border-color:var(--color-gray-400);}
+.pri-btn[aria-pressed="true"]{background:var(--color-balluff-red); border-color:var(--color-balluff-red); color:var(--color-balluff-white);}
 
-.seg{display:inline-flex; border:1px solid var(--line-strong); border-radius:7px; overflow:hidden; margin-bottom:12px;}
-.seg button{font-family:var(--font-body); font-size:13px; font-weight:600; padding:8px 16px; border:none; background:var(--surface-2); color:var(--ink-soft); cursor:pointer;}
-.seg button[aria-pressed="true"]{background:var(--accent); color:var(--accent-ink);}
-.price-exact{display:flex; align-items:center; gap:8px; max-width:220px;}
-.price-exact span{font-family:var(--font-mono); font-size:16px; color:var(--ink-soft);}
-.price-exact input{font-family:var(--font-mono); font-size:15px;}
+/* ---------- Pricing segmented control ---------- */
+.seg{display:inline-flex; border:1px solid var(--color-gray-200); border-radius:var(--radius-sm); overflow:hidden; margin-bottom:16px;}
+.seg button{font-size:14px; font-weight:500; padding:8px 16px; border:none; background:var(--color-balluff-white); color:var(--color-gray-800); cursor:pointer; min-height:40px;}
+.seg button + button{border-left:1px solid var(--color-gray-200);}
+.seg button[aria-pressed="true"]{background:var(--color-gray-900); color:var(--color-balluff-white);}
+.price-exact{display:flex; align-items:center; gap:8px; max-width:240px;}
+.price-exact span{font-size:18px; color:var(--color-gray-600);}
+.price-exact input{font-variant-numeric:tabular-nums;}
 .pricing-mode-panel{display:none;}
 .pricing-mode-panel.show{display:block;}
 
-.file-row{display:flex; align-items:center; gap:10px; flex-wrap:wrap;}
-input[type=file]{font-family:var(--font-body); font-size:13px; color:var(--ink-soft);}
-.file-chip{display:none; align-items:center; gap:8px; font-family:var(--font-mono); font-size:12.5px; background:var(--surface-2); border:1px solid var(--line-strong); border-radius:6px; padding:6px 10px;}
-.file-chip.show{display:inline-flex;}
-.file-chip button{border:none; background:none; color:var(--danger); cursor:pointer; font-size:14px; font-weight:700; padding:0;}
-
-.submit-area{padding:28px 32px 32px; text-align:center;}
-.submit-btn{font-family:var(--font-display); font-weight:700; font-size:19px; text-transform:uppercase; letter-spacing:.03em; background:var(--accent); color:var(--accent-ink); border:none; border-radius:7px; padding:15px 34px; cursor:pointer; box-shadow:var(--shadow);}
-.submit-btn:hover{filter:brightness(1.06);}
-.submit-note{font-size:12px; color:var(--ink-faint); margin-top:10px;}
-.form-err-banner{display:none; background:var(--danger-soft); color:var(--danger); border:1px solid var(--danger); border-radius:6px; padding:10px 14px; font-size:13px; font-weight:600; margin:0 32px 0; text-align:center;}
-.form-err-banner.show{display:block; margin-top:22px;}
-
-.confirm{padding:36px 32px; text-align:center; display:none;}
-.confirm.show{display:block;}
-.confirm .stampbox{display:inline-block; transform:rotate(-3deg); border:2px solid var(--success); color:var(--success); font-family:var(--font-mono); text-transform:uppercase; letter-spacing:.08em; font-weight:600; font-size:13px; padding:6px 16px; border-radius:5px; margin-bottom:16px;}
-.confirm h2{font-family:var(--font-display); font-weight:800; font-size:30px; text-transform:uppercase; margin:0 0 6px;}
-.confirm .ref{font-family:var(--font-mono); font-size:15px; color:var(--ink-soft); margin-bottom:6px;}
-.confirm .status-note{font-size:13.5px; color:var(--ink-soft); max-width:44ch; margin:0 auto 24px;}
-.confirm .status-note.warn{color:var(--danger);}
-.confirm-actions{display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-bottom:18px;}
-.action-btn{font-family:var(--font-body); font-weight:600; font-size:14px; border-radius:7px; padding:11px 20px; cursor:pointer; border:1px solid var(--line-strong); background:var(--surface-2); color:var(--ink); text-decoration:none; display:inline-flex; align-items:center; gap:8px;}
-.action-btn.primary{background:var(--accent); border-color:var(--accent); color:var(--accent-ink);}
-.action-btn:hover{border-color:var(--accent);}
-.toast{position:fixed; bottom:20px; left:50%; transform:translateX(-50%); background:var(--ink); color:var(--bg); font-size:13px; padding:9px 18px; border-radius:6px; opacity:0; pointer-events:none; transition:opacity .2s;}
-.toast.show{opacity:1;}
-.again-link{background:none; border:none; color:var(--accent); font-size:13px; font-weight:600; cursor:pointer; text-decoration:underline;}
-
-.draft-note{font-size:12px; color:var(--ink-faint); text-align:center; margin-top:10px;}
-.draft-note button{background:none; border:none; color:var(--accent); cursor:pointer; font-size:12px; text-decoration:underline; padding:0;}
-
-@media (max-width:480px){
-  .head,.station,.submit-area,.confirm{padding-left:18px; padding-right:18px;}
+/* ---------- Attachment ---------- */
+.file-row{display:flex; align-items:center; gap:12px; flex-wrap:wrap;}
+input[type=file]{font-size:14px; color:var(--color-gray-600);}
+input[type=file]::file-selector-button{
+  font:inherit; font-size:14px; font-weight:500; margin-right:12px; cursor:pointer;
+  background:transparent; color:var(--color-gray-900); border:1px solid var(--color-gray-800);
+  border-radius:var(--radius-sm); padding:8px 16px; min-height:40px;
 }
+input[type=file]::file-selector-button:hover{background:var(--color-gray-50);}
+.file-chip{display:none; align-items:center; gap:8px; font-size:14px; background:var(--color-gray-50); border-radius:var(--radius-full); padding:6px 8px 6px 14px;}
+.file-chip.show{display:inline-flex;}
+.file-chip button{border:none; background:none; color:var(--color-gray-600); cursor:pointer; font-size:18px; line-height:1; padding:0 6px;}
+
+/* ---------- Submit ---------- */
+.submit-area{border-top:1px solid var(--color-gray-200); padding-block:40px 80px; display:grid; gap:16px 48px;}
+@media (min-width:1024px){ .submit-area{grid-template-columns:minmax(0,1fr) minmax(0,2fr);} }
+.btn-primary{
+  display:inline-flex; align-items:center; gap:12px; background:var(--color-balluff-red); color:var(--color-balluff-white);
+  border:none; border-radius:var(--radius-sm); padding:14px 28px; min-height:48px; font-size:16px; font-weight:700;
+  cursor:pointer; white-space:nowrap; transition:background .12s;
+}
+.btn-primary:hover{background:var(--color-balluff-red-hover);}
+.btn-primary:disabled{background:var(--color-gray-200); color:var(--color-gray-400); cursor:not-allowed;}
+.btn-primary svg{transition:transform .12s;}
+.btn-primary:hover svg{transform:translateX(4px);}
+.btn-secondary{
+  display:inline-flex; align-items:center; gap:8px; background:transparent; color:var(--color-gray-900);
+  border:1px solid var(--color-gray-800); border-radius:var(--radius-sm); padding:10px 24px; min-height:40px;
+  font-size:16px; font-weight:500; cursor:pointer; text-decoration:none;
+}
+.btn-secondary:hover{background:var(--color-gray-50);}
+.submit-note{font-size:14px; color:var(--color-gray-600); margin:16px 0 0;}
+.draft-note{font-size:14px; color:var(--color-gray-600); margin:8px 0 0;}
+.draft-note button{background:none; border:none; padding:0; color:var(--color-balluff-red); cursor:pointer; font-size:14px;}
+.draft-note button:hover{text-decoration:underline;}
+
+/* ---------- Alerts (design.md § Alerts — UI state palette, never Balluff Red) ---------- */
+.alert{border-left:4px solid; padding:16px; font-size:14px; line-height:1.5;}
+.alert-error{border-color:var(--color-error); background:rgba(211,47,47,.08);}
+.alert-error .alert-title{color:var(--color-error);}
+.alert-success{border-color:var(--color-success); background:rgba(46,125,50,.08);}
+.alert-success .alert-title{color:var(--color-success);}
+.alert-pending{border-color:var(--color-disabled); background:var(--color-gray-50);}
+.alert-title{font-size:16px; font-weight:700; margin:0 0 4px;}
+.alert p{margin:0; color:var(--color-gray-900);}
+.form-err{display:none; margin-bottom:24px;}
+.form-err.show{display:block;}
+
+/* ---------- Confirmation ---------- */
+.confirm{display:none; padding-block:16px 96px;}
+.confirm.show{display:block;}
+.confirm-grid{display:grid; gap:24px 48px; border-top:1px solid var(--color-gray-200); padding-top:40px;}
+@media (min-width:1024px){ .confirm-grid{grid-template-columns:minmax(0,1fr) minmax(0,2fr);} }
+.confirm h2{margin:0 0 8px; font-size:36px; line-height:1.15; font-weight:760; font-variation-settings:"wdth" 88;}
+.confirm .ref{font-size:14px; color:var(--color-gray-600); font-variant-numeric:tabular-nums;}
+.confirm .ref strong{color:var(--color-gray-900); font-weight:650;}
+.confirm-actions{display:flex; gap:16px; flex-wrap:wrap; margin-top:24px; align-items:center;}
+.summary{margin-top:32px; border-top:1px solid var(--color-gray-200);}
+.summary-row{display:grid; grid-template-columns:minmax(120px, 1fr) 2fr; gap:16px; padding:12px 0; border-bottom:1px solid var(--color-gray-200); font-size:14px;}
+.summary-row dt{color:var(--color-gray-600);}
+.summary-row dd{margin:0; white-space:pre-wrap; word-break:break-word;}
+
+/* ---------- Footer (quiet, design.md § Composition) ---------- */
+.footer{border-top:1px solid var(--color-gray-200); padding-block:32px;}
+.footer-inner{display:flex; justify-content:space-between; align-items:flex-end; gap:24px; flex-wrap:wrap;}
+.footer-claim{width:160px; height:auto;}
+.footer-meta{font-size:12px; line-height:1.4; color:var(--color-gray-600); display:flex; gap:24px; flex-wrap:wrap;}
+.footer-meta a{color:var(--color-gray-600); text-decoration:none;}
+.footer-meta a:hover{text-decoration:underline;}
+
+.toast{position:fixed; bottom:24px; left:50%; transform:translateX(-50%); background:var(--color-gray-900); color:var(--color-balluff-white); font-size:14px; padding:10px 20px; border-radius:var(--radius-sm); opacity:0; pointer-events:none; transition:opacity .2s; box-shadow:var(--shadow-sm);}
+.toast.show{opacity:1;}
+
+.visually-hidden{position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0;}
 </style>
 </head>
 <body>
 
-<div class="wrap">
-  <div class="topbar">
-    <div class="brand">Balluff &middot; Sales Field Input</div>
+<header class="nav">
+  <div class="container nav-inner">
+    <a class="nav-logo" href="../" aria-label="Balluff Tools home"><img src="assets/balluff-wordmark-black.svg" alt="Balluff" width="120" height="16"></a>
+    <span class="nav-meta">Sales field input</span>
   </div>
+</header>
 
-  <div class="sheet" id="formscreen">
-    <div class="head">
-      <div>
-        <h1>Portfolio Request</h1>
-        <p>Flag a product gap or feature idea from the field. Takes about three minutes — hit submit and Austin gets an email immediately.</p>
-      </div>
-      <div class="stamp" id="formStamp">Draft</div>
+<main>
+  <div class="container">
+    <div class="page-head" id="pageHead">
+      <nav class="crumbs" aria-label="Breadcrumb"><span>Balluff Tools</span><span class="sep" aria-hidden="true">&rsaquo;</span><span class="current">Portfolio Request</span></nav>
+      <h1>Portfolio Request</h1>
+      <p class="lede">Flag a product gap or a feature request from the field. It covers every Balluff product area, takes about three minutes, and goes straight to Austin's inbox.</p>
+      <div class="page-facts" id="pageFacts"></div>
     </div>
 
     <form id="theForm" novalidate>
-      <div class="station">
-        <div class="station-head"><span class="station-num">01</span><span class="station-title">Requested By</span></div>
-        <div class="field" id="field-name">
-          <label class="field-label" for="f-name">Your name</label>
-          <input type="text" id="f-name" autocomplete="name" placeholder="e.g. Jordan Reyes">
-          <div class="err" id="err-name">Enter your name so Austin knows who to follow up with.</div>
+      <section class="section" aria-labelledby="t-01">
+        <div>
+          <div class="section-num">01</div>
+          <h2 class="section-title" id="t-01">Requested by</h2>
+          <p class="section-sub">So Austin knows who to follow up with.</p>
         </div>
-      </div>
-
-      <div class="station">
-        <div class="station-head"><span class="station-num">02</span><span class="station-title">Product Match</span></div>
-        <div class="station-sub">Which product in our lineup is closest to what they're asking for? Pick the closest match, or flag it as something new.</div>
-        <div class="field" id="field-product">
-          <input type="text" class="product-search" id="product-search" placeholder="Search by code or name&hellip;">
-          <div class="product-grid" id="productGrid"></div>
-          <div class="new-name-wrap" id="newNameWrap">
-            <label class="field-label" for="f-newname">What would you call it? <span class="optional-tag">optional</span></label>
-            <input type="text" id="f-newname" placeholder="e.g. Alternative to Keyence LR-Z">
+        <div>
+          <div class="field" id="field-name">
+            <label class="field-label" for="f-name">Your name<span class="req" aria-hidden="true">*</span></label>
+            <input type="text" id="f-name" autocomplete="name" placeholder="e.g. Jordan Reyes">
+            <div class="err" id="err-name">Enter your name.</div>
           </div>
-          <div class="err" id="err-product">Pick a product match, or select "Something New".</div>
         </div>
-      </div>
+      </section>
 
-      <div class="station">
-        <div class="station-head"><span class="station-num">03</span><span class="station-title">Technical Requirement</span></div>
-        <div class="field" id="field-req">
-          <label class="field-label" for="f-req">What needs to change — or what's the gap?</label>
-          <textarea id="f-req" placeholder="e.g. Same footprint as BOS but 2&times; the sensing range, IO-Link output&hellip; or: direct alternative to a Keyence LR-Z with a metal housing."></textarea>
-          <div class="err" id="err-req">Describe the requirement — even a sentence helps.</div>
+      <section class="section" aria-labelledby="t-02">
+        <div>
+          <div class="section-num">02</div>
+          <h2 class="section-title" id="t-02">Product match<span class="req" aria-hidden="true">*</span></h2>
+          <p class="section-sub">Which Balluff product is closest to what the customer is asking for? Filter by product area or search by code. If nothing fits, choose Something new.</p>
         </div>
-      </div>
-
-      <div class="station">
-        <div class="station-head"><span class="station-num">04</span><span class="station-title">Competitive Landscape</span><span class="optional-tag">optional</span></div>
-        <div class="station-sub">Which competitors would this go up against?</div>
-        <div class="chip-row" id="competitorChips"></div>
-        <div class="other-wrap" id="competitorOtherWrap">
-          <input type="text" id="f-competitor-other" placeholder="Other competitor(s)">
-        </div>
-      </div>
-
-      <div class="station">
-        <div class="station-head"><span class="station-num">05</span><span class="station-title">Market Application</span></div>
-        <div class="station-sub">Check every market that applies, then rank your top three — 3 is highest priority.</div>
-        <div class="field" id="field-markets">
-          <div id="marketList"></div>
-          <div class="other-wrap show" style="margin-top:14px;">
-            <input type="text" id="f-market-other" placeholder="Other market (optional)">
+        <div>
+          <div class="field" id="field-product">
+            <div class="picker-tools">
+              <div class="chip-row area-chips" id="areaChips" role="group" aria-label="Filter by product area"></div>
+              <div>
+                <label class="visually-hidden" for="product-search">Search products</label>
+                <input type="search" id="product-search" placeholder="Search by code or name, e.g. BTL" autocomplete="off">
+              </div>
+            </div>
+            <div id="productGroups"></div>
+            <div class="selection-bar" id="selectionBar" aria-live="polite"></div>
+            <div class="new-name-wrap" id="newNameWrap">
+              <label class="field-label" for="f-newname">What would you call it? <span class="optional">Optional</span></label>
+              <input type="text" id="f-newname" placeholder="e.g. Alternative to Keyence LR-Z">
+              <p class="hint">Pick a product area above as well. It routes the request to the right product manager.</p>
+            </div>
+            <div class="err" id="err-product">Pick a product match, or choose Something new.</div>
           </div>
-          <div class="pri-hint">Tap 1&ndash;3 next to a checked market to rank it &middot; 3 = highest priority</div>
-          <div class="err" id="err-markets">Check at least one market and give it a priority.</div>
         </div>
-      </div>
+      </section>
 
-      <div class="station">
-        <div class="station-head"><span class="station-num">06</span><span class="station-title">Commercial Target</span></div>
-        <div class="station-sub">What price point would win this business?</div>
-        <div class="field" id="field-price">
-          <div class="seg" id="priceModeSeg">
-            <button type="button" data-mode="exact" aria-pressed="true">Exact price</button>
-            <button type="button" data-mode="range" aria-pressed="false">Price range</button>
+      <section class="section" aria-labelledby="t-03">
+        <div>
+          <div class="section-num">03</div>
+          <h2 class="section-title" id="t-03">Technical requirement<span class="req" aria-hidden="true">*</span></h2>
+          <p class="section-sub">Name the spec that matters: range, resolution, housing, interface, protection class, temperature. Numbers help most.</p>
+        </div>
+        <div>
+          <div class="field" id="field-req">
+            <label class="field-label" for="f-req">What needs to change, or what is the gap?</label>
+            <textarea id="f-req" placeholder="e.g. Same footprint as BOS 18M with 2× the sensing range and IO-Link. Or: BTL with a 6 m stroke in a profile housing, IP69K."></textarea>
+            <div class="err" id="err-req">Describe the requirement. One sentence is enough.</div>
           </div>
-          <div class="pricing-mode-panel show" id="priceExactPanel">
-            <div class="price-exact"><span>$</span><input type="number" id="f-price-exact" min="0" step="0.01" placeholder="0.00"></div>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="t-04">
+        <div>
+          <div class="section-num">04</div>
+          <h2 class="section-title" id="t-04">Competitive landscape<span class="optional">Optional</span></h2>
+          <p class="section-sub" id="competitorSub">Which competitors would this go up against?</p>
+        </div>
+        <div>
+          <div class="chip-row" id="competitorChips"></div>
+          <button type="button" class="text-btn" id="competitorToggle"></button>
+          <div class="other-wrap" id="competitorOtherWrap">
+            <label class="visually-hidden" for="f-competitor-other">Other competitors</label>
+            <input type="text" id="f-competitor-other" placeholder="Other competitor(s)">
           </div>
-          <div class="pricing-mode-panel" id="priceRangePanel">
-            <div class="chip-row" id="priceRangeChips"></div>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="t-05">
+        <div>
+          <div class="section-num">05</div>
+          <h2 class="section-title" id="t-05">Market application<span class="req" aria-hidden="true">*</span></h2>
+          <p class="section-sub">Check every market that applies, then rank each one: 3 is the highest priority.</p>
+        </div>
+        <div>
+          <div class="field" id="field-markets">
+            <div class="market-list" id="marketList"></div>
+            <div class="other-wrap show">
+              <label class="visually-hidden" for="f-market-other">Other market</label>
+              <input type="text" id="f-market-other" placeholder="Other market (optional)">
+            </div>
+            <div class="err" id="err-markets">Check at least one market and give each checked market a priority.</div>
           </div>
-          <div class="err" id="err-price">Enter a target price or pick a range.</div>
         </div>
-      </div>
+      </section>
 
-      <div class="station">
-        <div class="station-head"><span class="station-num">07</span><span class="station-title">Customer Count</span></div>
-        <div class="station-sub">How many customers would you see volume business with?</div>
-        <div class="field" id="field-custcount">
-          <div class="chip-row" id="custCountChips"></div>
-          <div class="err" id="err-custcount">Pick a range.</div>
+      <section class="section" aria-labelledby="t-06">
+        <div>
+          <div class="section-num">06</div>
+          <h2 class="section-title" id="t-06">Commercial target<span class="req" aria-hidden="true">*</span></h2>
+          <p class="section-sub">Unit price that would win this business, in USD.</p>
         </div>
-      </div>
-
-      <div class="station">
-        <div class="station-head"><span class="station-num">08</span><span class="station-title">Volume Outlook</span></div>
-        <div class="station-sub">Average expected annual volume, per target customer.</div>
-        <div class="field" id="field-volume">
-          <div class="chip-row" id="volumeChips"></div>
-          <div class="err" id="err-volume">Pick a range.</div>
+        <div>
+          <div class="field" id="field-price">
+            <div class="seg" id="priceModeSeg" role="group" aria-label="Pricing mode">
+              <button type="button" data-mode="exact" aria-pressed="true">Exact price</button>
+              <button type="button" data-mode="range" aria-pressed="false">Price range</button>
+            </div>
+            <div class="pricing-mode-panel show" id="priceExactPanel">
+              <div class="price-exact"><span aria-hidden="true">$</span><label class="visually-hidden" for="f-price-exact">Target price in USD</label><input type="number" id="f-price-exact" min="0" step="0.01" placeholder="0.00"></div>
+            </div>
+            <div class="pricing-mode-panel" id="priceRangePanel">
+              <div class="chip-row" id="priceRangeChips"></div>
+            </div>
+            <div class="err" id="err-price">Enter a target price or pick a range.</div>
+          </div>
         </div>
-      </div>
+      </section>
 
-      <div class="station">
-        <div class="station-head"><span class="station-num">09</span><span class="station-title">Timeline</span></div>
-        <div class="station-sub">How soon is this needed?</div>
-        <div class="field" id="field-timeline">
-          <div class="chip-row" id="timelineChips"></div>
-          <div class="err" id="err-timeline">Pick a timeline.</div>
+      <section class="section" aria-labelledby="t-07">
+        <div>
+          <div class="section-num">07</div>
+          <h2 class="section-title" id="t-07">Customer count<span class="req" aria-hidden="true">*</span></h2>
+          <p class="section-sub">How many customers would buy this in volume?</p>
         </div>
-      </div>
-
-      <div class="station">
-        <div class="station-head"><span class="station-num">10</span><span class="station-title">Attachment</span><span class="optional-tag">optional</span></div>
-        <div class="station-sub">Spec sheet, drawing, or photo — keep it under 3&nbsp;MB.</div>
-        <div class="file-row">
-          <input type="file" id="f-attachment">
-          <span class="file-chip" id="fileChip"><span id="fileChipName"></span><button type="button" id="fileRemoveBtn" aria-label="Remove attachment">&times;</button></span>
+        <div>
+          <div class="field" id="field-custcount">
+            <div class="chip-row" id="custCountChips"></div>
+            <div class="err" id="err-custcount">Pick a range.</div>
+          </div>
         </div>
-        <div class="err" id="err-attachment"></div>
-      </div>
+      </section>
 
-      <div class="form-err-banner" id="formErrBanner">Please fix the highlighted fields above.</div>
+      <section class="section" aria-labelledby="t-08">
+        <div>
+          <div class="section-num">08</div>
+          <h2 class="section-title" id="t-08">Volume outlook<span class="req" aria-hidden="true">*</span></h2>
+          <p class="section-sub">Expected annual units per target customer, on average.</p>
+        </div>
+        <div>
+          <div class="field" id="field-volume">
+            <div class="chip-row" id="volumeChips"></div>
+            <div class="err" id="err-volume">Pick a range.</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="t-09">
+        <div>
+          <div class="section-num">09</div>
+          <h2 class="section-title" id="t-09">Timeline<span class="req" aria-hidden="true">*</span></h2>
+          <p class="section-sub">When does the customer need it?</p>
+        </div>
+        <div>
+          <div class="field" id="field-timeline">
+            <div class="chip-row" id="timelineChips"></div>
+            <div class="err" id="err-timeline">Pick a timeline.</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="t-10">
+        <div>
+          <div class="section-num">10</div>
+          <h2 class="section-title" id="t-10">Attachment<span class="optional">Optional</span></h2>
+          <p class="section-sub">Spec sheet, drawing or photo, up to 3&nbsp;MB.</p>
+        </div>
+        <div>
+          <div class="file-row">
+            <label class="visually-hidden" for="f-attachment">Attachment</label>
+            <input type="file" id="f-attachment">
+            <span class="file-chip" id="fileChip"><span id="fileChipName"></span><button type="button" id="fileRemoveBtn" aria-label="Remove attachment">&times;</button></span>
+          </div>
+          <div class="err" id="err-attachment"></div>
+        </div>
+      </section>
 
       <div class="submit-area">
-        <button type="submit" class="submit-btn" id="submitBtn">Submit Request</button>
-        <div class="submit-note">Emails Austin the instant you submit — no extra steps.</div>
-        <div class="draft-note" id="draftNote" style="display:none;">Draft restored from your last visit. <button type="button" id="clearDraftBtn">Clear draft</button></div>
+        <div></div>
+        <div>
+          <div class="alert alert-error form-err" id="formErrBanner" role="alert">
+            <p class="alert-title">Some fields need attention</p>
+            <p id="formErrText">Fix the highlighted fields above, then submit again.</p>
+          </div>
+          <button type="submit" class="btn-primary" id="submitBtn">
+            <span id="submitLabel">Submit request</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg>
+          </button>
+          <p class="submit-note">Submitting emails Austin directly. No extra steps.</p>
+          <p class="draft-note" id="draftNote" hidden>Draft restored from your last visit. <button type="button" id="clearDraftBtn">Clear draft</button></p>
+        </div>
       </div>
     </form>
 
-    <div class="confirm" id="confirmScreen">
-      <div class="stampbox">Submitted</div>
-      <h2>Request Submitted</h2>
-      <div class="ref" id="confirmRef"></div>
-      <div class="status-note" id="confirmStatus"></div>
-      <div class="confirm-actions">
-        <a class="action-btn primary" id="emailBtn" href="#" style="display:none;">Email Austin</a>
-        <button class="action-btn" id="teamsBtn" type="button">Copy summary for Teams</button>
+    <section class="confirm" id="confirmScreen" aria-live="polite">
+      <div class="confirm-grid">
+        <div>
+          <div class="section-num">Submitted</div>
+          <h2 tabindex="-1" id="confirmTitle">Request received</h2>
+          <div class="ref" id="confirmRef"></div>
+        </div>
+        <div>
+          <div class="alert alert-pending" id="confirmAlert">
+            <p class="alert-title" id="confirmAlertTitle">Sending</p>
+            <p id="confirmStatus">Emailing Austin&hellip;</p>
+          </div>
+          <div class="confirm-actions">
+            <a class="btn-primary" id="emailBtn" href="#" hidden>Email Austin
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg>
+            </a>
+            <button class="btn-secondary" id="teamsBtn" type="button">Copy summary for Teams</button>
+            <button class="text-btn" id="againBtn" type="button" style="margin-top:0;">Submit another request
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg>
+            </button>
+          </div>
+          <dl class="summary" id="confirmSummary"></dl>
+        </div>
       </div>
-      <button class="again-link" id="againBtn" type="button">Submit another response</button>
+    </section>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="container footer-inner">
+    <img class="footer-claim" src="assets/balluff-claim-black.png" alt="Balluff | innovating automation" width="160" height="49">
+    <div class="footer-meta">
+      <span>Internal tool for the Balluff sales field team</span>
+      <a href="https://www.balluff.com/en-us/products" target="_blank" rel="noopener noreferrer">balluff.com product overview</a>
     </div>
   </div>
-</div>
+</footer>
 
-<div class="toast" id="toast"></div>
+<div class="toast" id="toast" role="status"></div>
 
 <script>
 (function(){
 "use strict";
 
-var PRODUCTS = [
-  {key:"bdg-position-indicator", code:"BDG", name:"Position Indicator", blurb:"Digital position/value display module", img:"photos/bdg-position-indicator.jpg"},
-  {key:"bdg-rotary-encoder", code:"BDG", name:"Rotary Encoder", blurb:"Absolute / incremental rotary encoder", img:"photos/bdg-rotary-encoder.jpg"},
-  {key:"bfo", code:"BFO", name:"Fiber Optics", blurb:"Fiber-optic amplifier + fiber cables", img:"photos/bfo.jpg"},
-  {key:"bgl", code:"BGL", name:"Fork Sensor", blurb:"Fork (slot) photoelectric sensor", img:"photos/bgl.jpg"},
-  {key:"bip", code:"BIP", name:"Inductive Positioning System", blurb:"Analog inductive linear positioning", img:"photos/bip.jpg"},
-  {key:"bir", code:"BIR", name:"Rapid Inductive Positioning System", blurb:"High-speed inductive positioning", img:"photos/bir.jpg"},
-  {key:"bla", code:"BLA", name:"Light Array", blurb:"Light grid / area sensing array", img:"photos/bla.jpg"},
-  {key:"bmf", code:"BMF", name:"Magnetic Cylinder Sensor", blurb:"Magnetic sensor for pneumatic cylinders", img:"photos/bmf.jpg"},
-  {key:"bml", code:"BML", name:"Magnetic Encoder", blurb:"Magnetic linear / rotary encoder", img:"photos/bml.jpg"},
-  {key:"bmp", code:"BMP", name:"Magnetic Cylinder Positioning System", blurb:"Continuous position sensing for cylinders", img:"photos/bmp.jpg"},
-  {key:"boh", code:"BOH", name:"Optical Head Sensor", blurb:"Fiber-optic sensor head", img:"photos/boh.jpg"},
-  {key:"bos", code:"BOS", name:"Photo Sensor", blurb:"Standard photoelectric sensor", img:"photos/bos.jpg"},
-  {key:"bsi", code:"BSI", name:"Inclination Sensor", blurb:"Tilt / inclination sensor", img:"photos/bsi.jpg"},
-  {key:"btl", code:"BTL", name:"Magnetostrictive Sensor - Linear Transducer", blurb:"Magnetostrictive linear position transducer", img:"photos/btl.jpg"}
+/* Product areas follow the balluff.com/en-us/products taxonomy (10 areas). */
+var AREAS = [
+  {key:"sensors",      label:"Sensors",                                   icon:"target"},
+  {key:"rfid",         label:"RFID systems",                              icon:"recognition-of-devices"},
+  {key:"vision",       label:"Machine Vision & Optical Identification",   short:"Machine Vision & Optical ID", icon:"various-camera"},
+  {key:"comms",        label:"Industrial Communication",                  icon:"network"},
+  {key:"connectivity", label:"Connectivity",                              icon:"plug-and-play"},
+  {key:"hmi",          label:"Control, Indicator Devices & Machine Lights", short:"Control & Machine Lights", icon:"led-diagnosis"},
+  {key:"power",        label:"Power Supplies",                            icon:"high-voltage"},
+  {key:"accessories",  label:"Accessories",                               icon:"pin-setting"},
+  {key:"systems",      label:"Systems Solutions",                         icon:"logic-blocks"},
+  {key:"software",     label:"Software",                                  icon:"software"}
 ];
 
-var COMPETITORS = ["SICK","Keyence","Banner Engineering","Turck","ifm efector","Pepperl+Fuchs","Omron","Baumer","Contrinex","Autonics","Panasonic","Cognex"];
+/* Product families. `img` = real product photo in photos/; families without a photo
+   fall back to a text tile (code) or the area's Balluff icon. Keys of the original
+   14 entries are unchanged so older drafts and email filters keep working. */
+var PRODUCTS = [
+  // Sensors
+  {key:"bes", area:"sensors", code:"BES", name:"Inductive Sensor", blurb:"Inductive proximity sensor for metal targets"},
+  {key:"bip", area:"sensors", code:"BIP", name:"Inductive Positioning System", blurb:"Analog inductive linear positioning", img:"photos/bip.jpg"},
+  {key:"bir", area:"sensors", code:"BIR", name:"Rapid Inductive Positioning System", blurb:"High-speed inductive positioning", img:"photos/bir.jpg"},
+  {key:"bos", area:"sensors", code:"BOS", name:"Photoelectric Sensor", blurb:"Standard photoelectric sensor", img:"photos/bos.jpg"},
+  {key:"bod", area:"sensors", code:"BOD", name:"Optoelectronic Distance Sensor", blurb:"Laser / optical distance measurement"},
+  {key:"bgl", area:"sensors", code:"BGL", name:"Fork Sensor", blurb:"Fork (slot) photoelectric sensor", img:"photos/bgl.jpg"},
+  {key:"bla", area:"sensors", code:"BLA", name:"Light Array", blurb:"Light grid / area sensing array", img:"photos/bla.jpg"},
+  {key:"bfo", area:"sensors", code:"BFO", name:"Fiber Optics", blurb:"Fiber-optic amplifier + fiber cables", img:"photos/bfo.jpg"},
+  {key:"boh", area:"sensors", code:"BOH", name:"Optical Head Sensor", blurb:"Fiber-optic sensor head", img:"photos/boh.jpg"},
+  {key:"btl", area:"sensors", code:"BTL", name:"Magnetostrictive Linear Transducer", blurb:"Magnetostrictive linear position transducer", img:"photos/btl.jpg"},
+  {key:"bmf", area:"sensors", code:"BMF", name:"Magnetic Cylinder Sensor", blurb:"Magnetic field sensor for pneumatic cylinders", img:"photos/bmf.jpg"},
+  {key:"bmp", area:"sensors", code:"BMP", name:"Magnetic Cylinder Positioning System", blurb:"Continuous position sensing for cylinders", img:"photos/bmp.jpg"},
+  {key:"bml", area:"sensors", code:"BML", name:"Magnetic Encoder", blurb:"Magnetically coded linear / rotary encoder", img:"photos/bml.jpg"},
+  {key:"bcs", area:"sensors", code:"BCS", name:"Capacitive Sensor", blurb:"Capacitive sensing, level detection"},
+  {key:"bus", area:"sensors", code:"BUS", name:"Ultrasonic Sensor", blurb:"Ultrasonic detection and distance"},
+  {key:"bcm", area:"sensors", code:"BCM", name:"Condition Monitoring Sensor", blurb:"Vibration, temperature, humidity monitoring"},
+  {key:"bdg-rotary-encoder", area:"sensors", code:"BDG", name:"Rotary Encoder", blurb:"Absolute / incremental rotary encoder", img:"photos/bdg-rotary-encoder.jpg"},
+  {key:"bdg-position-indicator", area:"sensors", code:"BDG", name:"Position Indicator", blurb:"Digital position/value display module", img:"photos/bdg-position-indicator.jpg"},
+  {key:"bns", area:"sensors", code:"BNS", name:"Mechanical Cam Switch", blurb:"Single and multiple-position limit switches"},
+  {key:"bsi", area:"sensors", code:"BSI", name:"Inclination Sensor", blurb:"Tilt / inclination sensor", img:"photos/bsi.jpg"},
+  {key:"bsp", area:"sensors", code:"BSP", name:"Pressure Sensor", blurb:"Pressure sensing for fluids and gases"},
+
+  // RFID systems
+  {key:"bis-u", area:"rfid", code:"BIS U", name:"UHF RFID System", blurb:"Long-range identification, bulk reading"},
+  {key:"bis-m", area:"rfid", code:"BIS M", name:"HF RFID System", blurb:"13.56 MHz read/write identification"},
+  {key:"bis-c", area:"rfid", code:"BIS C", name:"LF RFID System", blurb:"Low-frequency identification, tool ID"},
+  {key:"bis-l", area:"rfid", code:"BIS L", name:"LF RFID System (BIS L)", blurb:"Low-frequency read-only / read-write"},
+  {key:"rfid-eval", area:"rfid", code:"BIS V", name:"RFID Evaluation Unit", blurb:"Processors and controllers for RFID heads"},
+  {key:"rfid-handheld", area:"rfid", code:"", name:"RFID Handheld", blurb:"Mobile readers for industrial RFID"},
+  {key:"rfid-tags", area:"rfid", code:"", name:"RFID Tags / Data Carriers", blurb:"Tags for LF, HF and UHF systems"},
+
+  // Machine Vision and Optical Identification
+  {key:"vision-cameras", area:"vision", code:"", name:"Industrial Camera", blurb:"Area-scan cameras, GigE / USB3 Vision"},
+  {key:"vision-embedded", area:"vision", code:"", name:"Embedded Vision", blurb:"Board-level and embedded camera modules"},
+  {key:"vision-3d", area:"vision", code:"", name:"3D Machine Vision", blurb:"3D sensing and measurement"},
+  {key:"vision-smart", area:"vision", code:"BVS", name:"Smart Vision", blurb:"Smart cameras and vision sensors"},
+  {key:"vision-optid", area:"vision", code:"BVS ID", name:"Optical Identification", blurb:"1D/2D code readers"},
+  {key:"vision-software", area:"vision", code:"", name:"Machine Vision Software", blurb:"Image processing and vision software"},
+  {key:"vision-optics", area:"vision", code:"", name:"Optics", blurb:"C-mount, S-mount, liquid lenses"},
+  {key:"vision-lights", area:"vision", code:"", name:"Vision Lighting", blurb:"Lights for vision systems and machines"},
+
+  // Industrial Communication
+  {key:"iol-wireless", area:"comms", code:"", name:"IO-Link Wireless", blurb:"Wireless IO-Link masters and hubs"},
+  {key:"bni-network", area:"comms", code:"BNI", name:"Network Block / IO-Link Master", blurb:"Fieldbus network blocks, IO-Link masters"},
+  {key:"comms-switches", area:"comms", code:"", name:"Industrial Switch", blurb:"Industrial Ethernet switches"},
+  {key:"bni-io", area:"comms", code:"BNI", name:"I/O Module / IO-Link Hub", blurb:"Distributed I/O and IO-Link hubs"},
+  {key:"bic", area:"comms", code:"BIC", name:"Inductive Coupler", blurb:"Contactless power and signal transfer"},
+
+  // Connectivity
+  {key:"bcc-single", area:"connectivity", code:"BCC", name:"Single-Ended Cordset", blurb:"Molded connector on one end"},
+  {key:"bcc-double", area:"connectivity", code:"BCC", name:"Double-Ended Cordset", blurb:"Connector-to-connector cables"},
+  {key:"bcc-bulk", area:"connectivity", code:"BCC", name:"Bulk Cable / Field Attachable", blurb:"Cable by the meter, field-wireable connectors"},
+  {key:"bcc-splitters", area:"connectivity", code:"BCC", name:"Y-Splitter / Tee", blurb:"Signal splitting and branching"},
+  {key:"bcc-bulkheads", area:"connectivity", code:"BCC", name:"Bulkhead / Receptacle / Adapter", blurb:"Panel feed-throughs, receptacles, adapters"},
+  {key:"bcc-terminators", area:"connectivity", code:"BCC", name:"Terminating Resistor", blurb:"Bus termination"},
+  {key:"junction-blocks", area:"connectivity", code:"", name:"Junction Block", blurb:"Passive distribution boxes"},
+
+  // Control devices, indicator devices, LED machine lights
+  {key:"smartlight", area:"hmi", code:"", name:"SmartLight LED Stack Light", blurb:"IO-Link stack lights, run-light, level mode"},
+  {key:"machine-lights", area:"hmi", code:"", name:"LED Machine Light", blurb:"Machine and work-area lighting"},
+  {key:"iol-control-panel", area:"hmi", code:"", name:"IO-Link Control Panel", blurb:"Operator buttons and controls on IO-Link"},
+
+  // Power supplies
+  {key:"bae-heartbeat", area:"power", code:"BAE PS", name:"Heartbeat Power Supply", blurb:"Power supply with condition monitoring"},
+  {key:"bae-heartbeat-iol", area:"power", code:"BAE PS", name:"Heartbeat Power Supply, IO-Link", blurb:"Heartbeat with IO-Link interface"},
+  {key:"bae-cabinet", area:"power", code:"BAE PS", name:"Control Cabinet Power Supply", blurb:"DIN-rail power supplies"},
+  {key:"bae-field", area:"power", code:"BAE PS", name:"Field Power Supply, IO-Link", blurb:"IP67 power supplies in the field"},
+
+  // Accessories
+  {key:"bam-fastening", area:"accessories", code:"BAM", name:"Fastening Technology", blurb:"Mounting brackets, clamps, holders"},
+  {key:"bam-reflectors", area:"accessories", code:"BAM", name:"Reflectors, Fibers, Optics", blurb:"Reflectors and optical accessories"},
+  {key:"bam-protection", area:"accessories", code:"BAM", name:"Mechanical Protection", blurb:"Protective housings and covers"},
+  {key:"signal-converters", area:"accessories", code:"", name:"Signal Converter / Comm. Adapter", blurb:"Signal conversion, communication adapters"},
+
+  // Systems solutions + Software
+  {key:"systems", area:"systems", code:"", name:"Systems Solution", blurb:"Engineered system packages built from Balluff components"},
+  {key:"sw-monitoring", area:"software", code:"", name:"Monitoring Software", blurb:"Condition and process monitoring"},
+  {key:"sw-setup", area:"software", code:"", name:"Setup & Configuration Software", blurb:"Device setup, parameterization, IO-Link configuration"}
+];
+
+/* Competitors, tagged by the product areas where they compete. */
+var COMPETITORS = [
+  {name:"SICK", areas:["sensors","rfid","vision","accessories","systems","software"]},
+  {name:"Keyence", areas:["sensors","rfid","vision","accessories","software"]},
+  {name:"Banner Engineering", areas:["sensors","comms","hmi","connectivity","accessories"]},
+  {name:"Turck", areas:["sensors","rfid","comms","connectivity","hmi","systems","software"]},
+  {name:"ifm efector", areas:["sensors","rfid","comms","connectivity","power","systems","software"]},
+  {name:"Pepperl+Fuchs", areas:["sensors","rfid","comms","connectivity"]},
+  {name:"Omron", areas:["sensors","rfid","vision"]},
+  {name:"Baumer", areas:["sensors","vision"]},
+  {name:"Contrinex", areas:["sensors","rfid"]},
+  {name:"Autonics", areas:["sensors","hmi"]},
+  {name:"Panasonic", areas:["sensors"]},
+  {name:"Leuze", areas:["sensors","vision"]},
+  {name:"wenglor", areas:["sensors","vision"]},
+  {name:"Temposonics", areas:["sensors"]},
+  {name:"Novotechnik", areas:["sensors"]},
+  {name:"Cognex", areas:["vision","software"]},
+  {name:"Basler", areas:["vision"]},
+  {name:"Teledyne", areas:["vision"]},
+  {name:"Zebra", areas:["rfid","vision"]},
+  {name:"Datalogic", areas:["sensors","rfid","vision"]},
+  {name:"Siemens", areas:["rfid","comms","power","systems","software"]},
+  {name:"Rockwell Automation", areas:["comms","power","systems","software"]},
+  {name:"Murrelektronik", areas:["comms","connectivity","power"]},
+  {name:"Phoenix Contact", areas:["comms","connectivity","power","hmi"]},
+  {name:"Belden / Lumberg", areas:["comms","connectivity"]},
+  {name:"HARTING", areas:["connectivity"]},
+  {name:"Lapp", areas:["connectivity"]},
+  {name:"Molex / Brad", areas:["connectivity","comms"]},
+  {name:"Patlite", areas:["hmi"]},
+  {name:"Werma", areas:["hmi"]},
+  {name:"PULS", areas:["power"]},
+  {name:"Mean Well", areas:["power"]},
+  {name:"TDK-Lambda", areas:["power"]}
+];
 
 var MARKETS = [
   {key:"automotive", label:"Automotive"},
+  {key:"battery-ev", label:"Battery & EV Production"},
   {key:"machine-tool", label:"Machine Tool & Metalworking"},
+  {key:"primary-metals", label:"Primary Metals & Metal Forming"},
   {key:"food-bev", label:"Food & Beverage"},
   {key:"packaging", label:"Packaging"},
   {key:"warehouse", label:"Warehouse & Logistics"},
@@ -342,16 +657,17 @@ var MARKETS = [
   {key:"plastics", label:"Plastics & Rubber"},
   {key:"wood-furniture", label:"Wood & Furniture"},
   {key:"robotics", label:"Robotics & Automation"},
-  {key:"primary-metals", label:"Primary Metals & Metal Forming"},
-  {key:"battery-ev", label:"Battery & EV Production"},
+  {key:"fluid-power", label:"Fluid Power & Hydraulics"},
+  {key:"mobile-equipment", label:"Mobile Equipment & Agriculture"},
+  {key:"aerospace", label:"Aerospace & Defense"},
   {key:"renewables", label:"Renewable Energy"}
 ];
 
-var PRICE_RANGES = ["<$50","$50–$100","$100–$250","$250–$500","$500–$1,000","$1,000–$2,500","$2,500+"];
+var PRICE_RANGES = ["<$50","$50–$100","$100–$250","$250–$500","$500–$1,000","$1,000–$2,500","$2,500–$10,000","$10,000+"];
 var CUSTOMER_RANGES = ["1–2","3–5","6–10","11–25","26–50","50+"];
 var VOLUME_RANGES = ["<100","100–500","500–1,000","1,000–5,000","5,000–10,000","10,000+"];
 var TIMELINE = [
-  {key:"active", label:"Active deal — needed now"},
+  {key:"active", label:"Active deal, needed now"},
   {key:"3-6mo", label:"Next 3–6 months"},
   {key:"6-12mo", label:"6–12 months out"},
   {key:"12mo+", label:"12+ months / roadmap idea"},
@@ -361,42 +677,141 @@ var TIMELINE = [
 var EMAIL_TO = "austin.sirkin@balluff.com";
 var FORM_ENDPOINT = "https://formsubmit.co/ajax/" + EMAIL_TO;
 var ATTACHMENT_MAX_BYTES = 3 * 1024 * 1024;
-var DRAFT_KEY = "balluff_portfolio_survey_draft_v1";
+var DRAFT_KEY = "balluff_portfolio_survey_draft_v2";
+var ARROW_SVG = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg>';
 
 var state = {
+  area: "all",
   product: null, newProductName: "",
-  competitors: {}, competitorOther: "",
+  competitors: {}, competitorOther: "", showAllCompetitors: false,
   markets: {}, marketOther: "",
   priceMode: "exact"
 };
 
 function $(id){ return document.getElementById(id); }
 function esc(s){ return String(s==null?"":s).replace(/[&<>"']/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]; }); }
+function areaOf(key){ return AREAS.find(function(a){ return a.key===key; }); }
+function productOf(key){ return PRODUCTS.find(function(p){ return p.key===key; }); }
+function areaLabel(key){ var a = areaOf(key); return a ? a.label : ""; }
 
-/* ---------- render static pickers ---------- */
-function renderProducts(filter){
-  filter = (filter||"").toLowerCase();
-  var html = "";
-  PRODUCTS.forEach(function(p){
-    var match = !filter || (p.code+" "+p.name+" "+p.blurb).toLowerCase().indexOf(filter) !== -1;
-    var sel = state.product === p.key ? " selected" : "";
-    html += '<button type="button" class="product-card'+sel+(match?"":" hidden")+'" data-key="'+p.key+'">'+
-      '<img src="'+p.img+'" alt="'+esc(p.code+" "+p.name)+'" loading="lazy">'+
-      '<span class="code">'+esc(p.code)+'</span><span class="name">'+esc(p.name)+'</span></button>';
+/* Area that drives competitor filtering + the email routing field. */
+function activeArea(){
+  var p = productOf(state.product);
+  if(p) return p.area;
+  return state.area !== "all" ? state.area : null;
+}
+
+/* ---------- page facts (number-led, design.md § Voice) ---------- */
+(function renderFacts(){
+  $("pageFacts").innerHTML =
+    '<div><strong>'+AREAS.length+'</strong>product areas</div>'+
+    '<div><strong>'+PRODUCTS.length+'</strong>product families</div>'+
+    '<div><strong>10</strong>questions, 3 optional</div>';
+})();
+
+/* ---------- product picker ---------- */
+function renderAreaChips(){
+  var html = '<button type="button" class="chip" data-area="all" aria-pressed="'+(state.area==="all")+'">All<span class="count">'+PRODUCTS.length+'</span></button>';
+  AREAS.forEach(function(a){
+    var n = PRODUCTS.filter(function(p){ return p.area===a.key; }).length;
+    html += '<button type="button" class="chip" data-area="'+a.key+'" aria-pressed="'+(state.area===a.key)+'">'+esc(a.short||a.label)+'<span class="count">'+n+'</span></button>';
   });
-  var newSel = state.product === "new" ? " selected" : "";
-  html += '<button type="button" class="product-card new-card'+newSel+'" data-key="new">'+
-    '<span class="plus">+</span><span class="name">Something New</span></button>';
-  $("productGrid").innerHTML = html;
+  $("areaChips").innerHTML = html;
+}
+
+function mediaHtml(p){
+  if(p.img){
+    return '<span class="media"><img class="photo" src="'+p.img+'" alt="'+esc((p.code?p.code+" ":"")+p.name)+'" loading="lazy"></span>';
+  }
+  if(p.code){
+    return '<span class="media placeholder" aria-hidden="true"><span class="mono'+(p.code.length>4?" long":"")+'">'+esc(p.code)+'</span></span>';
+  }
+  var a = areaOf(p.area);
+  return '<span class="media placeholder" aria-hidden="true"><img class="icon" src="assets/icons/'+a.icon+'.svg" alt=""></span>';
+}
+
+function cardHtml(p){
+  var sel = state.product === p.key ? " selected" : "";
+  return '<button type="button" class="product-card'+sel+'" data-key="'+p.key+'" aria-pressed="'+(state.product===p.key)+'" title="'+esc(p.blurb)+'">'+
+    mediaHtml(p)+
+    '<span class="body"><span class="code">'+esc(p.code||" ")+'</span><span class="name">'+esc(p.name)+'</span></span></button>';
+}
+
+function newCardHtml(){
+  var sel = state.product === "new" ? " selected" : "";
+  return '<button type="button" class="product-card new-card'+sel+'" data-key="new" aria-pressed="'+(state.product==="new")+'">'+
+    '<span class="media" aria-hidden="true"><span class="plus">+</span></span>'+
+    '<span class="body"><span class="code">New</span><span class="name">Something new</span></span></button>';
+}
+
+function renderProducts(){
+  var filter = ($("product-search").value||"").toLowerCase().trim();
+  var html = "", total = 0;
+  var areas = state.area === "all" ? AREAS : AREAS.filter(function(a){ return a.key===state.area; });
+  areas.forEach(function(a){
+    var items = PRODUCTS.filter(function(p){
+      if(p.area !== a.key) return false;
+      if(!filter) return true;
+      return (p.code+" "+p.name+" "+p.blurb+" "+a.label).toLowerCase().indexOf(filter) !== -1;
+    });
+    if(!items.length) return;
+    total += items.length;
+    html += '<div class="area-group"><div class="area-head"><h3>'+esc(a.label)+'</h3><span>'+items.length+(items.length===1?" family":" families")+'</span></div>'+
+      '<div class="product-grid">'+items.map(cardHtml).join("")+'</div></div>';
+  });
+  if(!total){
+    html += '<p class="no-results">No product family matches “'+esc(filter)+'”. Choose Something new and describe it below.</p>';
+  }
+  html += '<div class="area-group"><div class="area-head"><h3>Not in the portfolio</h3><span></span></div><div class="product-grid">'+newCardHtml()+'</div></div>';
+  $("productGroups").innerHTML = html;
+  renderSelectionBar();
+}
+
+function renderSelectionBar(){
+  var bar = $("selectionBar");
+  var p = productOf(state.product);
+  if(p){
+    bar.innerHTML = '<span class="label">Selected</span><strong>'+esc((p.code?p.code+" — ":"")+p.name)+'</strong><span class="label">'+esc(areaLabel(p.area))+'</span>';
+    bar.classList.add("show");
+  } else if(state.product === "new"){
+    var a = state.area !== "all" ? areaLabel(state.area) : "No product area selected";
+    bar.innerHTML = '<span class="label">Selected</span><strong>Something new</strong><span class="label">'+esc(a)+'</span>';
+    bar.classList.add("show");
+  } else {
+    bar.classList.remove("show");
+    bar.innerHTML = "";
+  }
+}
+
+/* ---------- competitors (filtered by area) ---------- */
+function visibleCompetitors(){
+  var area = activeArea();
+  if(!area || state.showAllCompetitors) return COMPETITORS;
+  return COMPETITORS.filter(function(c){ return c.areas.indexOf(area) !== -1 || state.competitors[c.name]; });
 }
 function renderCompetitors(){
+  var area = activeArea();
+  var list = visibleCompetitors();
   var html = "";
-  COMPETITORS.forEach(function(c){
-    html += '<button type="button" class="chip" data-key="'+esc(c)+'" aria-pressed="'+(!!state.competitors[c])+'">'+esc(c)+'</button>';
+  list.forEach(function(c){
+    html += '<button type="button" class="chip" data-key="'+esc(c.name)+'" aria-pressed="'+(!!state.competitors[c.name])+'">'+esc(c.name)+'</button>';
   });
   html += '<button type="button" class="chip" data-key="__other__" aria-pressed="'+(!!state.competitors.__other__)+'">Other</button>';
   $("competitorChips").innerHTML = html;
+  $("competitorSub").textContent = area && !state.showAllCompetitors
+    ? "Showing competitors in "+areaLabel(area)+". Which would this go up against?"
+    : "Which competitors would this go up against?";
+  var toggle = $("competitorToggle");
+  if(area){
+    toggle.hidden = false;
+    toggle.innerHTML = (state.showAllCompetitors ? "Show "+esc(areaLabel(area))+" competitors only" : "Show all "+COMPETITORS.length+" competitors") + ARROW_SVG;
+  } else {
+    toggle.hidden = true;
+  }
+  $("competitorOtherWrap").classList.toggle("show", !!state.competitors.__other__);
 }
+
+/* ---------- other pickers ---------- */
 function renderMarkets(){
   var html = "";
   MARKETS.forEach(function(m){
@@ -405,8 +820,8 @@ function renderMarkets(){
     var pri = checked && v > 0 ? v : 0;
     html += '<div class="market-row">'+
       '<label class="market-check"><input type="checkbox" data-key="'+m.key+'" '+(checked?"checked":"")+'><span>'+esc(m.label)+'</span></label>'+
-      '<div class="priority-group'+(checked?" active":"")+'" data-key="'+m.key+'">'+
-        [1,2,3].map(function(n){ return '<button type="button" class="pri-btn" data-key="'+m.key+'" data-pri="'+n+'" aria-pressed="'+(pri===n)+'">'+n+'</button>'; }).join("")+
+      '<div class="priority-group'+(checked?" active":"")+'" role="group" aria-label="Priority for '+esc(m.label)+'">'+
+        [1,2,3].map(function(n){ return '<button type="button" class="pri-btn" data-key="'+m.key+'" data-pri="'+n+'" aria-pressed="'+(pri===n)+'" aria-label="Priority '+n+'"'+(checked?"":" tabindex=\"-1\"")+'>'+n+'</button>'; }).join("")+
       '</div></div>';
   });
   $("marketList").innerHTML = html;
@@ -426,23 +841,42 @@ function renderTimeline(){
   $("timelineChips").innerHTML = html;
 }
 
-renderProducts("");
-renderCompetitors();
-renderMarkets();
-renderRangeChips("priceRangeChips", PRICE_RANGES, "priceRange");
-renderRangeChips("custCountChips", CUSTOMER_RANGES, "custCount");
-renderRangeChips("volumeChips", VOLUME_RANGES, "volumeRange");
-renderTimeline();
+function renderAll(){
+  renderAreaChips();
+  renderProducts();
+  renderCompetitors();
+  renderMarkets();
+  renderRangeChips("priceRangeChips", PRICE_RANGES, "priceRange");
+  renderRangeChips("custCountChips", CUSTOMER_RANGES, "custCount");
+  renderRangeChips("volumeChips", VOLUME_RANGES, "volumeRange");
+  renderTimeline();
+  $("newNameWrap").classList.toggle("show", state.product === "new");
+  Array.prototype.forEach.call($("priceModeSeg").children, function(b){ b.setAttribute("aria-pressed", b.getAttribute("data-mode")===state.priceMode); });
+  $("priceExactPanel").classList.toggle("show", state.priceMode==="exact");
+  $("priceRangePanel").classList.toggle("show", state.priceMode==="range");
+}
+renderAll();
 
 /* ---------- interactions ---------- */
-$("product-search").addEventListener("input", function(e){ renderProducts(e.target.value); });
+$("areaChips").addEventListener("click", function(e){
+  var chip = e.target.closest(".chip"); if(!chip) return;
+  state.area = chip.getAttribute("data-area");
+  renderAreaChips();
+  renderProducts();
+  renderCompetitors();
+  saveDraftSoon();
+});
 
-$("productGrid").addEventListener("click", function(e){
+$("product-search").addEventListener("input", function(){ renderProducts(); });
+
+$("productGroups").addEventListener("click", function(e){
   var card = e.target.closest(".product-card");
   if(!card) return;
-  state.product = card.getAttribute("data-key");
+  var key = card.getAttribute("data-key");
+  state.product = (state.product === key) ? null : key;
   clearFieldError("field-product");
-  renderProducts($("product-search").value);
+  renderProducts();
+  renderCompetitors();
   $("newNameWrap").classList.toggle("show", state.product === "new");
   saveDraftSoon();
 });
@@ -452,8 +886,11 @@ $("competitorChips").addEventListener("click", function(e){
   var key = chip.getAttribute("data-key");
   state.competitors[key] = !state.competitors[key];
   renderCompetitors();
-  $("competitorOtherWrap").classList.toggle("show", !!state.competitors.__other__);
   saveDraftSoon();
+});
+$("competitorToggle").addEventListener("click", function(){
+  state.showAllCompetitors = !state.showAllCompetitors;
+  renderCompetitors();
 });
 
 $("marketList").addEventListener("click", function(e){
@@ -487,27 +924,20 @@ $("priceModeSeg").addEventListener("click", function(e){
   clearFieldError("field-price");
   saveDraftSoon();
 });
-$("priceRangeChips").addEventListener("click", function(e){
-  var chip = e.target.closest(".chip"); if(!chip) return;
-  state.priceRange = chip.getAttribute("data-val");
-  renderRangeChips("priceRangeChips", PRICE_RANGES, "priceRange");
-  clearFieldError("field-price");
-  saveDraftSoon();
-});
-$("custCountChips").addEventListener("click", function(e){
-  var chip = e.target.closest(".chip"); if(!chip) return;
-  state.custCount = chip.getAttribute("data-val");
-  renderRangeChips("custCountChips", CUSTOMER_RANGES, "custCount");
-  clearFieldError("field-custcount");
-  saveDraftSoon();
-});
-$("volumeChips").addEventListener("click", function(e){
-  var chip = e.target.closest(".chip"); if(!chip) return;
-  state.volumeRange = chip.getAttribute("data-val");
-  renderRangeChips("volumeChips", VOLUME_RANGES, "volumeRange");
-  clearFieldError("field-volume");
-  saveDraftSoon();
-});
+
+function bindRange(containerId, arr, stateKey, fieldId){
+  $(containerId).addEventListener("click", function(e){
+    var chip = e.target.closest(".chip"); if(!chip) return;
+    state[stateKey] = chip.getAttribute("data-val");
+    renderRangeChips(containerId, arr, stateKey);
+    clearFieldError(fieldId);
+    saveDraftSoon();
+  });
+}
+bindRange("priceRangeChips", PRICE_RANGES, "priceRange", "field-price");
+bindRange("custCountChips", CUSTOMER_RANGES, "custCount", "field-custcount");
+bindRange("volumeChips", VOLUME_RANGES, "volumeRange", "field-volume");
+
 $("timelineChips").addEventListener("click", function(e){
   var chip = e.target.closest(".chip"); if(!chip) return;
   state.timeline = chip.getAttribute("data-val");
@@ -522,7 +952,7 @@ $("f-attachment").addEventListener("change", function(e){
   errEl.classList.remove("show"); errEl.textContent = "";
   if(!file){ $("fileChip").classList.remove("show"); return; }
   if(file.size > ATTACHMENT_MAX_BYTES){
-    errEl.textContent = "That file is "+(Math.round(file.size/1024/1024*10)/10)+" MB — keep it under 3 MB, or just email it to Austin directly.";
+    errEl.textContent = "That file is "+(Math.round(file.size/1024/1024*10)/10)+" MB. Keep it under 3 MB, or email it to Austin directly.";
     errEl.classList.add("show");
     e.target.value = "";
     $("fileChip").classList.remove("show");
@@ -546,7 +976,7 @@ function clearFieldError(fieldId){
   var err = f.querySelector(".err"); if(err) err.classList.remove("show");
 }
 function clearFieldErrorForInput(inputId){
-  var map = {"f-name":"field-name","f-req":"field-req"};
+  var map = {"f-name":"field-name","f-req":"field-req","f-price-exact":"field-price"};
   if(map[inputId]) clearFieldError(map[inputId]);
 }
 
@@ -565,24 +995,16 @@ function marketsHaveUnranked(){
 
 function validate(){
   var errors = [];
-  var name = $("f-name").value.trim();
-  if(!name){ errors.push("field-name"); }
-
-  if(!state.product){ errors.push("field-product"); }
-
-  var req = $("f-req").value.trim();
-  if(!req){ errors.push("field-req"); }
-
-  var mkts = marketsSelectedList();
-  if(mkts.length === 0 || marketsHaveUnranked()){ errors.push("field-markets"); }
-
+  if(!$("f-name").value.trim()) errors.push("field-name");
+  if(!state.product) errors.push("field-product");
+  if(!$("f-req").value.trim()) errors.push("field-req");
+  if(marketsSelectedList().length === 0 || marketsHaveUnranked()) errors.push("field-markets");
   if(state.priceMode === "exact"){
-    if(!$("f-price-exact").value){ errors.push("field-price"); }
-  } else if(!state.priceRange){ errors.push("field-price"); }
-
-  if(!state.custCount){ errors.push("field-custcount"); }
-  if(!state.volumeRange){ errors.push("field-volume"); }
-  if(!state.timeline){ errors.push("field-timeline"); }
+    if(!$("f-price-exact").value) errors.push("field-price");
+  } else if(!state.priceRange) errors.push("field-price");
+  if(!state.custCount) errors.push("field-custcount");
+  if(!state.volumeRange) errors.push("field-volume");
+  if(!state.timeline) errors.push("field-timeline");
 
   errors.forEach(function(id){
     var f = $(id); f.classList.add("invalid");
@@ -592,18 +1014,20 @@ function validate(){
 }
 
 function collectPayload(){
-  var mkts = marketsSelectedList();
   var comp = Object.keys(state.competitors).filter(function(k){ return k!=="__other__" && state.competitors[k]; });
-  var product = PRODUCTS.find(function(p){ return p.key===state.product; });
+  var product = productOf(state.product);
+  var newName = $("f-newname").value.trim();
+  var area = activeArea();
   return {
     submitterName: $("f-name").value.trim(),
     productKey: state.product,
-    productLabel: state.product==="new" ? ("Something New"+($("f-newname").value.trim()?" — "+$("f-newname").value.trim():"")) : (product ? product.code+" — "+product.name : ""),
-    newProductName: $("f-newname").value.trim(),
+    productArea: area ? areaLabel(area) : "Not specified",
+    productLabel: state.product==="new" ? ("Something New"+(newName?" — "+newName:"")) : (product ? (product.code?product.code+" — ":"")+product.name : ""),
+    newProductName: newName,
     requirements: $("f-req").value.trim(),
     competitors: comp,
     competitorOther: $("f-competitor-other").value.trim(),
-    markets: mkts,
+    markets: marketsSelectedList(),
     marketOther: $("f-market-other").value.trim(),
     pricingMode: state.priceMode,
     pricingExact: state.priceMode==="exact" ? parseFloat($("f-price-exact").value||"0") : null,
@@ -621,36 +1045,48 @@ function makeRef(){
   return "PR-"+ymd+"-"+rand;
 }
 
-function summaryText(payload, ref){
-  var lines = [];
-  lines.push("Portfolio Request "+ref);
-  lines.push("From: "+payload.submitterName);
-  lines.push("Product: "+payload.productLabel);
-  lines.push("Requirement: "+payload.requirements.slice(0,400));
-  if(payload.competitors.length || payload.competitorOther){
-    lines.push("Competitors: "+payload.competitors.concat(payload.competitorOther?[payload.competitorOther]:[]).join(", "));
-  }
-  if(payload.markets.length){
-    var m = payload.markets.slice().sort(function(a,b){ return b.priority-a.priority; })
-      .map(function(x){ return x.label+" (P"+x.priority+")"; }).join(", ");
-    lines.push("Markets: "+m);
-  }
-  lines.push("Target price: "+(payload.pricingMode==="exact" ? ("$"+payload.pricingExact.toFixed(2)) : payload.pricingRange));
-  lines.push("Customers at volume: "+payload.customerCountRange);
-  lines.push("Expected volume/customer: "+payload.volumeRange);
-  lines.push("Timeline: "+(TIMELINE.find(function(t){return t.key===payload.timeline;})||{}).label);
-  return lines.join("\n");
+function timelineLabel(key){ return (TIMELINE.find(function(t){ return t.key===key; })||{}).label || key; }
+function priceText(p){ return p.pricingMode==="exact" ? ("$"+p.pricingExact.toFixed(2)) : p.pricingRange; }
+function marketsText(p){
+  return p.markets.slice().sort(function(a,b){ return b.priority-a.priority; })
+    .map(function(x){ return x.label+" (P"+x.priority+")"; }).join(", ");
+}
+function competitorsText(p){ return p.competitors.concat(p.competitorOther?[p.competitorOther]:[]).join(", "); }
+
+function summaryRows(p){
+  var rows = [
+    ["From", p.submitterName],
+    ["Product area", p.productArea],
+    ["Product", p.productLabel],
+    ["Requirement", p.requirements]
+  ];
+  if(competitorsText(p)) rows.push(["Competitors", competitorsText(p)]);
+  rows.push(["Markets", marketsText(p) + (p.marketOther ? (marketsText(p)?"; ":"")+"Other: "+p.marketOther : "")]);
+  rows.push(["Target price", priceText(p)]);
+  rows.push(["Customers at volume", p.customerCountRange]);
+  rows.push(["Volume / customer / yr", p.volumeRange]);
+  rows.push(["Timeline", timelineLabel(p.timeline)]);
+  return rows;
 }
 
-var lastPayload = null, lastRef = null;
+function summaryText(p, ref){
+  var lines = ["Portfolio Request "+ref];
+  summaryRows(p).forEach(function(r){
+    lines.push(r[0]+": "+(r[0]==="Requirement" ? r[1].slice(0,400) : r[1]));
+  });
+  return lines.join("\n");
+}
 
 $("theForm").addEventListener("submit", function(e){
   e.preventDefault();
   var errors = validate();
   var banner = $("formErrBanner");
   if(errors.length){
+    $("formErrText").textContent = errors.length === 1
+      ? "One field needs attention. Fix it above, then submit again."
+      : errors.length+" fields need attention. Fix them above, then submit again.";
     banner.classList.add("show");
-    $(errors[0]).scrollIntoView({behavior:"smooth", block:"center"});
+    $(errors[0]).closest(".section").scrollIntoView({behavior:"smooth", block:"start"});
     return;
   }
   banner.classList.remove("show");
@@ -660,14 +1096,13 @@ $("theForm").addEventListener("submit", function(e){
     payload = collectPayload();
     ref = makeRef();
   }catch(err){
-    banner.textContent = "Something went wrong reading the form — please try again.";
+    $("formErrText").textContent = "Something went wrong reading the form. Please try again.";
     banner.classList.add("show");
     return;
   }
-  lastPayload = payload; lastRef = ref;
 
   $("submitBtn").disabled = true;
-  $("submitBtn").textContent = "Submitting…";
+  $("submitLabel").textContent = "Submitting…";
 
   showConfirm(payload, ref);
 
@@ -687,25 +1122,24 @@ function withTimeout(promise, ms){
   });
 }
 
-async function sendEmail(payload, ref){
+async function sendEmail(p, ref){
   var fd = new FormData();
-  fd.append("_subject", "Portfolio Request "+ref+" — "+payload.productLabel);
+  fd.append("_subject", "Portfolio Request "+ref+" — "+p.productArea+" — "+p.productLabel);
   fd.append("_template", "table");
   fd.append("_captcha", "false");
   fd.append("Reference", ref);
-  fd.append("Submitted by", payload.submitterName);
-  fd.append("Product match", payload.productLabel);
-  if(payload.newProductName) fd.append("Proposed name", payload.newProductName);
-  fd.append("Technical requirement", payload.requirements);
-  fd.append("Competitors", payload.competitors.concat(payload.competitorOther?[payload.competitorOther]:[]).join(", ") || "—");
-  var mktText = payload.markets.slice().sort(function(a,b){return b.priority-a.priority;})
-    .map(function(m){return m.label+" (P"+m.priority+")";}).join(", ");
-  fd.append("Markets (ranked)", mktText || "—");
-  if(payload.marketOther) fd.append("Other market", payload.marketOther);
-  fd.append("Target price", payload.pricingMode==="exact" ? ("$"+payload.pricingExact.toFixed(2)) : payload.pricingRange);
-  fd.append("Customers at volume", payload.customerCountRange);
-  fd.append("Expected volume/customer", payload.volumeRange);
-  fd.append("Timeline", (TIMELINE.find(function(t){return t.key===payload.timeline;})||{}).label || payload.timeline);
+  fd.append("Submitted by", p.submitterName);
+  fd.append("Product area", p.productArea);
+  fd.append("Product match", p.productLabel);
+  if(p.newProductName) fd.append("Proposed name", p.newProductName);
+  fd.append("Technical requirement", p.requirements);
+  fd.append("Competitors", competitorsText(p) || "—");
+  fd.append("Markets (ranked)", marketsText(p) || "—");
+  if(p.marketOther) fd.append("Other market", p.marketOther);
+  fd.append("Target price", priceText(p));
+  fd.append("Customers at volume", p.customerCountRange);
+  fd.append("Expected volume/customer", p.volumeRange);
+  fd.append("Timeline", timelineLabel(p.timeline));
   var fileInput = $("f-attachment");
   if(fileInput && fileInput.files && fileInput.files[0]){
     fd.append("attachment", fileInput.files[0]);
@@ -719,49 +1153,51 @@ async function sendEmail(payload, ref){
   if(!res.ok) throw new Error("send failed");
 }
 
-function showConfirm(payload, ref){
-  $("theForm").style.display = "none";
-  $("formStamp").textContent = "Submitted";
-  var c = $("confirmScreen");
-  c.classList.add("show");
-  $("confirmRef").textContent = "Reference "+ref;
-  var note = $("confirmStatus");
-  note.textContent = "Emailing Austin…";
-  note.classList.remove("warn");
-  $("emailBtn").style.display = "none";
+function showConfirm(p, ref){
+  $("theForm").hidden = true;
+  $("pageHead").hidden = true;
+  $("confirmScreen").classList.add("show");
+  $("confirmRef").innerHTML = "Reference <strong>"+esc(ref)+"</strong>";
+  $("confirmSummary").innerHTML = summaryRows(p).map(function(r){
+    return '<div class="summary-row"><dt>'+esc(r[0])+'</dt><dd>'+esc(r[1])+'</dd></div>';
+  }).join("");
+  setAlert("pending", "Sending", "Emailing Austin…");
+  $("emailBtn").hidden = true;
 
   try{
-    var text = summaryText(payload, ref);
-    var subject = "Portfolio Request "+ref+" — "+payload.productLabel;
+    var text = summaryText(p, ref);
+    var subject = "Portfolio Request "+ref+" — "+p.productLabel;
     $("emailBtn").href = "mailto:"+EMAIL_TO+"?subject="+encodeURIComponent(subject)+"&body="+encodeURIComponent(text);
     $("teamsBtn").onclick = function(){
       var teamsText = "**Portfolio Request "+ref+"**\n"+text.split("\n").slice(1).join("\n");
       copyToClipboard(teamsText);
-      showToast("Copied — paste into Teams");
+      showToast("Copied. Paste it into Teams.");
     };
   }catch(err){}
 
   clearDraft();
   window.scrollTo(0, 0);
-  c.scrollIntoView({block:"start"});
+  $("confirmTitle").focus({preventScroll:true});
+}
+
+function setAlert(kind, title, text){
+  var a = $("confirmAlert");
+  a.className = "alert alert-"+kind;
+  $("confirmAlertTitle").textContent = title;
+  $("confirmStatus").textContent = text;
 }
 
 function updateConfirmStatus(status){
-  var note = $("confirmStatus");
   if(status === "ok"){
-    note.textContent = "Emailed to Austin — he'll have this in his inbox now.";
-    note.classList.remove("warn");
-    $("emailBtn").style.display = "none";
+    setAlert("success", "Sent", "Austin has the request in his inbox.");
+    $("emailBtn").hidden = true;
   } else {
-    note.textContent = "Couldn't send automatically. Use the button below to email it directly, or copy the summary for Teams.";
-    note.classList.add("warn");
-    $("emailBtn").style.display = "inline-flex";
+    setAlert("error", "Not sent", "The automatic email failed. Use Email Austin below, or copy the summary for Teams.");
+    $("emailBtn").hidden = false;
   }
 }
 
-$("againBtn").addEventListener("click", function(){
-  location.reload();
-});
+$("againBtn").addEventListener("click", function(){ location.reload(); });
 
 function copyToClipboard(text){
   try{
@@ -796,7 +1232,7 @@ function saveDraftSoon(){
     }catch(e){}
   }, 400);
 }
-function clearDraft(){ try{ localStorage.removeItem(DRAFT_KEY); }catch(e){} }
+function clearDraft(){ clearTimeout(draftTimer); try{ localStorage.removeItem(DRAFT_KEY); }catch(e){} }
 
 function loadDraft(){
   try{
@@ -810,20 +1246,10 @@ function loadDraft(){
     $("f-market-other").value = data.marketOther||"";
     $("f-price-exact").value = data.priceExact||"";
     if(data.state) Object.assign(state, data.state);
-
-    renderProducts("");
-    renderCompetitors();
-    renderMarkets();
-    renderRangeChips("priceRangeChips", PRICE_RANGES, "priceRange");
-    renderRangeChips("custCountChips", CUSTOMER_RANGES, "custCount");
-    renderRangeChips("volumeChips", VOLUME_RANGES, "volumeRange");
-    renderTimeline();
-    $("newNameWrap").classList.toggle("show", state.product === "new");
-    $("competitorOtherWrap").classList.toggle("show", !!state.competitors.__other__);
-    Array.prototype.forEach.call($("priceModeSeg").children, function(b){ b.setAttribute("aria-pressed", b.getAttribute("data-mode")===state.priceMode); });
-    $("priceExactPanel").classList.toggle("show", state.priceMode==="exact");
-    $("priceRangePanel").classList.toggle("show", state.priceMode==="range");
-    $("draftNote").style.display = "block";
+    if(state.product && state.product !== "new" && !productOf(state.product)) state.product = null;
+    if(state.area !== "all" && !areaOf(state.area)) state.area = "all";
+    renderAll();
+    $("draftNote").hidden = false;
   }catch(e){}
 }
 $("clearDraftBtn").addEventListener("click", function(){
