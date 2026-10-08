@@ -227,21 +227,7 @@ button:focus-visible, a:focus-visible, .chip:focus-visible, .product-card:focus-
 .pricing-mode-panel{display:none;}
 .pricing-mode-panel.show{display:block;}
 
-/* ---------- Attachments + links ---------- */
-.file-row{display:flex; align-items:center; gap:12px; flex-wrap:wrap;}
-input[type=file]{font-size:14px; color:var(--color-gray-600); max-width:100%;}
-input[type=file]::file-selector-button{
-  font:inherit; font-size:14px; font-weight:500; margin-right:12px; cursor:pointer;
-  background:transparent; color:var(--color-gray-900); border:1px solid var(--color-gray-800);
-  border-radius:var(--radius-sm); padding:8px 16px; min-height:40px;
-}
-input[type=file]::file-selector-button:hover{background:var(--color-gray-50);}
-.file-chip{display:none; align-items:center; gap:8px; font-size:14px; background:var(--color-gray-50); border-radius:var(--radius-full); padding:6px 8px 6px 14px; max-width:100%;}
-.file-chip.show{display:inline-flex;}
-.file-chip span{overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
-.file-chip button{border:none; background:none; color:var(--color-gray-600); cursor:pointer; font-size:18px; line-height:1; padding:0 6px;}
-.type-list{margin:12px 0 0; padding:0; list-style:none; font-size:12px; line-height:1.5; color:var(--color-gray-600); display:grid; gap:2px;}
-.type-list strong{color:var(--color-gray-800); font-weight:600;}
+/* ---------- Reference links ---------- */
 .link-list{display:grid; gap:8px;}
 .link-row{display:flex; gap:8px; align-items:center;}
 .link-row input{flex:1;}
@@ -540,19 +526,10 @@ input[type=file]::file-selector-button:hover{background:var(--color-gray-50);}
       <section class="section" aria-labelledby="t-10">
         <div>
           <div class="section-num">10</div>
-          <h2 class="section-title" id="t-10">Attachment &amp; links<span class="optional">Optional</span></h2>
-          <p class="section-sub">Attach one spec sheet, drawing or photo, up to 3&nbsp;MB. For anything larger, or a different format, share a link instead (SharePoint, OneDrive, a datasheet URL).</p>
+          <h2 class="section-title" id="t-10">Reference links<span class="optional">Optional</span></h2>
+          <p class="section-sub">Link to spec sheets, drawings, photos or datasheets: SharePoint, OneDrive, or a web page. Check that the Product Marketing Manager can open the link.</p>
         </div>
         <div>
-          <div class="field" id="field-attachment">
-            <label class="field-label" for="f-attachment">File</label>
-            <div class="file-row">
-              <input type="file" id="f-attachment">
-              <span class="file-chip" id="fileChip"><span id="fileChipName"></span><button type="button" id="fileRemoveBtn" aria-label="Remove attachment">&times;</button></span>
-            </div>
-            <ul class="type-list" id="typeList"></ul>
-            <div class="err" id="err-attachment"></div>
-          </div>
           <div class="field" id="field-links">
             <span class="field-label" id="links-label">Links</span>
             <div class="link-list" id="linkList" aria-labelledby="links-label"></div>
@@ -839,32 +816,6 @@ var TIMELINE = [
   {key:"none", label:"Not tied to a deal"}
 ];
 
-/* ---------- Attachment guardrails ----------
-   Allowlist only: documents, images, and neutral CAD formats that can't carry
-   macros or scripts. Each type is checked three ways: extension, browser-reported
-   MIME type (when present), and the file's leading "magic" bytes, so a renamed
-   .exe can't pass as a .pdf. This is a client-side filter, not a virus scan. */
-var ATTACHMENT_MAX_BYTES = 3 * 1024 * 1024;
-var FILE_TYPES = [
-  {group:"Documents", exts:["pdf"], mimes:["application/pdf"], magic:"pdf"},
-  {group:"Documents", exts:["docx"], mimes:["application/vnd.openxmlformats-officedocument.wordprocessingml.document"], magic:"zip"},
-  {group:"Documents", exts:["xlsx"], mimes:["application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"], magic:"zip"},
-  {group:"Documents", exts:["pptx"], mimes:["application/vnd.openxmlformats-officedocument.presentationml.presentation"], magic:"zip"},
-  {group:"Documents", exts:["csv","txt"], mimes:["text/csv","text/plain","application/vnd.ms-excel"], magic:"text"},
-  {group:"Images", exts:["jpg","jpeg"], mimes:["image/jpeg"], magic:"jpeg"},
-  {group:"Images", exts:["png"], mimes:["image/png"], magic:"png"},
-  {group:"CAD", exts:["step","stp"], mimes:[], magic:"step"},
-  {group:"CAD", exts:["dxf"], mimes:[], magic:"text"}
-];
-/* Reasons shown for common blocked types, so reps know what to do instead. */
-var BLOCKED_HINTS = [
-  {exts:["docm","xlsm","pptm","dotm","xltm","xlsb"], msg:"Macro-enabled Office files aren't accepted. Save it as .docx, .xlsx or .pptx, or export a PDF."},
-  {exts:["doc","xls","ppt","rtf"], msg:"Older Office formats can carry macros. Save it as .docx, .xlsx or .pptx, or export a PDF."},
-  {exts:["zip","rar","7z","tar","gz","tgz"], msg:"Archives can't be checked, so they aren't accepted. Attach the file itself, or share a link."},
-  {exts:["svg","html","htm","xml","js","mjs"], msg:"Web and script files aren't accepted. Export a PDF or PNG instead."},
-  {exts:["exe","msi","bat","cmd","com","scr","ps1","vbs","sh","jar","dll","app","dmg","lnk","reg","hta"], msg:"Programs and scripts aren't accepted."},
-  {exts:["heic","heif","webp","gif","bmp","tif","tiff"], msg:"That image format isn't accepted. Save it as JPG or PNG."}
-];
 var MAX_LINKS = 5;
 
 var DRAFT_KEY = "balluff_portfolio_survey_draft_v4";
@@ -878,7 +829,6 @@ var state = {
   priceMode: "exact",
   links: [""]
 };
-var attachmentOk = true;   // false while a picked file is being checked or was rejected
 
 function $(id){ return document.getElementById(id); }
 function esc(s){ return String(s==null?"":s).replace(/[&<>"']/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]; }); }
@@ -1147,18 +1097,6 @@ function renderTimeline(){
   $("timelineChips").innerHTML = html;
 }
 
-/* ---------- attachment type list + links ---------- */
-(function renderTypeList(){
-  var groups = {};
-  FILE_TYPES.forEach(function(t){
-    (groups[t.group] = groups[t.group] || []).push.apply(groups[t.group], t.exts.map(function(e){ return "."+e; }));
-  });
-  $("typeList").innerHTML = Object.keys(groups).map(function(g){
-    return '<li><strong>'+esc(g)+':</strong> '+esc(groups[g].join(", "))+'</li>';
-  }).join("") + '<li>Not accepted: macro-enabled or older Office files, archives (.zip), programs, scripts, web files.</li>';
-  $("f-attachment").setAttribute("accept", FILE_TYPES.map(function(t){ return t.exts.map(function(e){ return "."+e; }).join(","); }).join(","));
-})();
-
 function renderLinks(errors){
   errors = errors || {};
   var html = "";
@@ -1320,87 +1258,6 @@ $("timelineChips").addEventListener("click", function(e){
   saveDraftSoon();
 });
 
-/* ---------- attachment checks ---------- */
-function extOf(name){
-  var m = /\.([a-z0-9]+)$/i.exec(name || "");
-  return m ? m[1].toLowerCase() : "";
-}
-function readHead(file, n){
-  return new Promise(function(resolve, reject){
-    var r = new FileReader();
-    r.onload = function(){ resolve(new Uint8Array(r.result)); };
-    r.onerror = function(){ reject(r.error); };
-    r.readAsArrayBuffer(file.slice(0, n));
-  });
-}
-function startsWith(bytes, sig){
-  for(var i=0;i<sig.length;i++){ if(bytes[i] !== sig[i]) return false; }
-  return true;
-}
-function magicMatches(kind, bytes){
-  switch(kind){
-    case "pdf":  return startsWith(bytes, [0x25,0x50,0x44,0x46,0x2D]);            // %PDF-
-    case "png":  return startsWith(bytes, [0x89,0x50,0x4E,0x47,0x0D,0x0A,0x1A,0x0A]);
-    case "jpeg": return startsWith(bytes, [0xFF,0xD8,0xFF]);
-    case "zip":  return startsWith(bytes, [0x50,0x4B,0x03,0x04]);                // PK.. (Office Open XML)
-    case "step": return /^\s*ISO-10303-21/.test(String.fromCharCode.apply(null, bytes.subarray(0, 64)));
-    case "text":
-      for(var i=0;i<bytes.length;i++){ if(bytes[i] === 0) return false; }   // binary files contain NUL bytes
-      return true;
-  }
-  return false;
-}
-async function checkAttachment(file){
-  var name = file.name || "";
-  var ext = extOf(name);
-  if(file.size === 0) return "That file is empty.";
-  if(file.size > ATTACHMENT_MAX_BYTES){
-    return "That file is "+(Math.round(file.size/1024/1024*10)/10)+" MB. Keep it under 3 MB, or share a link instead.";
-  }
-  var type = FILE_TYPES.find(function(t){ return t.exts.indexOf(ext) !== -1; });
-  if(!type){
-    var hint = BLOCKED_HINTS.find(function(h){ return h.exts.indexOf(ext) !== -1; });
-    return hint ? hint.msg : (ext ? "."+ext+" files aren't accepted." : "Files without an extension aren't accepted.")+" Use PDF, an image, an Office file or a CAD export, or share a link.";
-  }
-  if(file.type && type.mimes.length && type.mimes.indexOf(file.type) === -1 && file.type !== "application/octet-stream"){
-    return "That file says it's ."+ext+" but your browser reports it as "+file.type+". Re-save or export it and try again.";
-  }
-  var head = await readHead(file, type.magic === "text" ? 4096 : 64);
-  if(!magicMatches(type.magic, head)){
-    return "That file's contents don't match a real ."+ext+" file. Re-save or export it and try again.";
-  }
-  return null;
-}
-
-$("f-attachment").addEventListener("change", async function(e){
-  var input = e.target, errEl = $("err-attachment");
-  var file = input.files && input.files[0];
-  errEl.classList.remove("show"); errEl.textContent = "";
-  $("field-attachment").classList.remove("invalid");
-  $("fileChip").classList.remove("show");
-  if(!file){ attachmentOk = true; return; }
-  attachmentOk = false;
-  var problem;
-  try{ problem = await checkAttachment(file); }
-  catch(err){ problem = "That file couldn't be read. Try again, or share a link instead."; }
-  if(input.files[0] !== file) return;   // a newer pick replaced this one while checking
-  if(problem){
-    errEl.textContent = problem;
-    errEl.classList.add("show");
-    input.value = "";
-    attachmentOk = true;
-    return;
-  }
-  attachmentOk = true;
-  $("fileChipName").textContent = file.name+" ("+Math.max(1, Math.round(file.size/1024))+" KB)";
-  $("fileChip").classList.add("show");
-});
-$("fileRemoveBtn").addEventListener("click", function(){
-  $("f-attachment").value = "";
-  $("fileChip").classList.remove("show");
-  attachmentOk = true;
-});
-
 /* ---------- link checks ---------- */
 function normalizeLink(raw){
   var v = String(raw||"").trim();
@@ -1509,8 +1366,6 @@ function validate(){
   else if(state.volumeRange === CUSTOM && !isWhole(numVal("f-volume-custom"))) fail("field-volume", "Enter a whole-number quantity, 1 or more.");
 
   if(!state.timeline) fail("field-timeline");
-
-  if(!attachmentOk) fail("field-attachment", "The attachment is still being checked. Try again in a moment.");
 
   var lk = checkLinks();
   if(!lk.ok){ renderLinks(lk.errors); fail("field-links"); }
@@ -1652,10 +1507,6 @@ async function sendEmail(p, ref, to){
   fd.append("Expected volume/customer", p.volume);
   fd.append("Timeline", timelineLabel(p.timeline));
   if(p.links.length) fd.append("Links", p.links.join("\n"));
-  var fileInput = $("f-attachment");
-  if(fileInput && fileInput.files && fileInput.files[0]){
-    fd.append("attachment", fileInput.files[0]);
-  }
 
   var res = await withTimeout(fetch("https://formsubmit.co/ajax/" + to.email, {
     method: "POST",
@@ -1729,7 +1580,7 @@ function showToast(msg){
   setTimeout(function(){ t.classList.remove("show"); }, 2200);
 }
 
-/* ---------- draft autosave (attachments are never saved) ---------- */
+/* ---------- draft autosave ---------- */
 var DRAFT_INPUTS = ["f-name","f-newname","f-req","f-market-other","f-price-exact","f-price-min","f-price-max","f-custcount-custom","f-volume-custom"];
 var draftTimer = null;
 function saveDraftSoon(){

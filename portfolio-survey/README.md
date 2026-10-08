@@ -2,7 +2,7 @@
 
 Internal survey where sales reps flag product gaps and portfolio requests for review. It covers the full Balluff portfolio: 9 product areas based on balluff.com (Sensors, RFID, Machine Vision & Optical ID, Industrial Communication, Connectivity, Control & Machine Lights, Power Supplies, Accessories, and Systems Solutions & Software), 57 product families. Systems Solutions & Software lists the named solutions: CMTK (Condition Monitoring Toolkit), Guided GCS (Changeover Solution) and BET (Balluff Engineering Tool). Sensors can be narrowed further by technology (inductive, photoelectric, capacitive and so on).
 
-Reps filter by product area or search by code, pick the closest family, and describe the technical requirement. They also tag competitors, rank target markets, give pricing and volume expectations, and can attach a file or add links.
+Reps filter by product area or search by code, pick the closest family, and describe the technical requirement. They also tag competitors, rank target markets, give pricing and volume expectations, and can add links to reference material.
 
 - The competitor list shows the top 10 for the product picked; the rest are behind "Show all", and a type-ahead box adds any competitor, listed or not.
 - Pricing, customer count and volume each accept a preset range or a custom value.
@@ -45,7 +45,7 @@ All configuration is at the top of the `<script>` block in `index.html`:
   - "Something new" shows every competitor for the chosen area.
   - With no product picked, the list stays empty until the rep picks one, opens the full list, or types a name.
 - `MARKETS`, `PRICE_RANGES`, `CUSTOMER_RANGES`, `VOLUME_RANGES`, `TIMELINE`
-- `FILE_TYPES`, `BLOCKED_HINTS`, `ATTACHMENT_MAX_BYTES`, `MAX_LINKS`: attachment and link rules
+- `MAX_LINKS`: how many reference links a rep can add
 
 ## Routing to Product Marketing Managers
 
@@ -63,28 +63,16 @@ The most specific match wins: `byProduct`, then `byArea`, then `fallback`. The r
 
 **Each new address must be activated once in FormSubmit.** The first submission sent to a new address triggers a FormSubmit confirmation email, and that person has to click it before delivery starts. Send one test request per new address before you announce it.
 
-## Attachments and links
+## Reference links
 
-Reps can attach **one file up to 3 MB** and add **up to 5 links**.
+The survey takes no file attachments. Reps share reference material (spec sheets, drawings, photos, datasheets) as **up to 5 links**, for example to SharePoint, OneDrive or a web page. Attachments were removed because FormSubmit's AJAX endpoint didn't deliver them.
 
-**Accepted file types:**
-- **Documents:** .pdf, .docx, .xlsx, .pptx, .csv, .txt
-- **Images:** .jpg, .jpeg, .png
-- **CAD:** .step, .stp, .dxf
+- Only `http://` and `https://` addresses are accepted.
+- `javascript:`, `data:`, `file:` and links with embedded usernames or passwords are rejected.
+- A bare address like `balluff.sharepoint.com/...` gets `https://` added.
+- Links go into the email as plain text; the form never opens them.
 
-**Not accepted, with the reason shown to the rep:**
-- Macro-enabled Office files (.docm, .xlsm, .pptm)
-- Legacy Office formats (.doc, .xls, .ppt), which can carry macros
-- Archives (.zip, .rar, .7z), which can't be inspected
-- Programs and scripts (.exe, .bat, .ps1, .js, …)
-- Web files (.html, .svg), which can contain script
-- Uncommon image formats
-
-**How a file is checked:** extension allowlist, then the browser-reported MIME type, then the file's leading "magic" bytes. A renamed `.exe` won't pass as a `.pdf`.
-
-**Links:** only `http://` and `https://` addresses are accepted. `javascript:`, `data:`, `file:` and links with embedded usernames or passwords are rejected. A bare address like `balluff.sharepoint.com/...` gets `https://` added. Links are sent as plain text.
-
-These checks run in the browser. They are a guardrail against honest mistakes and casual misuse, not a virus scan. Anyone can bypass a client-side check, so recipients should still treat attachments with normal caution.
+These checks run in the browser, so they guard against mistakes, not deliberate misuse. Recipients should still treat unfamiliar links with normal caution.
 
 ## How submission works
 
