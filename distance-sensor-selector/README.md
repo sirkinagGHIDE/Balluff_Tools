@@ -6,7 +6,10 @@ Open `bod-distance-sensor-selector.drawio` in [draw.io / diagrams.net](https://a
 
 ## Pages
 
-1. **Select by distance.** Start at the BOD 6K, the default. Check three things: target within 1.6 m, 0.1 mm resolution is enough, no display needed. If all three hold, quote the 6K. If not, branch on what's missing (more range, a display, or finer resolution) to one of the four other families. Each family appears exactly once. On the finer-resolution branch, the 21M vs 24K split is one question: hard target (dark, transparent, shiny) → 21M; otherwise → 24K with its display.
+Both pages are US Letter portrait (8.5 × 11 in, 850 × 1100 draw.io units) and print 1:1 from File → Export as → PDF.
+
+
+1. **Select by distance.** Flows top to bottom. Start at the BOD 6K, the default. Check three things: target within 1.6 m, 0.1 mm resolution is enough, no display needed. If all three hold, quote the 6K. If not, branch on what's missing (more range, a display, or finer resolution) to one of the four other families. Each family appears exactly once. On the finer-resolution branch, the 21M vs 24K split is one question: hard target (dark, transparent, shiny) → 21M; otherwise → 24K. Arrows into the 24K name the version: long-range (from the display branch) or high-res (from the finer-resolution branch).
 2. **Select by application.** For reps who don't have the numbers yet. Seven common applications map to families, plus an at-a-glance comparison matrix.
 
 ## Families covered
