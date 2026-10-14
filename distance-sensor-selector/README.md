@@ -9,22 +9,24 @@ Open `bod-distance-sensor-selector.drawio` in [draw.io / diagrams.net](https://a
 Both pages are US Letter portrait (8.5 × 11 in, 850 × 1100 draw.io units) and print 1:1 from File → Export as → PDF.
 
 
-1. **Select by distance.** Flows top to bottom. Start at the BOD 6K, the default. Check three things: target within 1.6 m, 0.1 mm resolution is enough, no display needed. If all three hold, quote the 6K. If not, branch on what's missing (more range, a display, or finer resolution) to one of the four other families. Each family appears exactly once. On the finer-resolution branch, the 21M vs 24K split is one question: hard target (dark, transparent, shiny) → 21M; otherwise → 24K. Arrows into the 24K name the version: long-range (from the display branch) or high-res (from the finer-resolution branch).
+1. **Select by distance.** Flows top to bottom. Start at the BOD 6K, the default. Check three things: target within 1.5 m, 0.1 mm resolution is enough, no display needed. If all three hold, quote the 6K. If not, branch on what's missing (more range, a display, or finer resolution) to one of the four other families. Each family appears exactly once. On the finer-resolution branch, the 21M vs 24K split is one question: hard target (dark, transparent, shiny) → 21M; otherwise → 24K. Arrows into the 24K name the version: long-range (from the display branch) or high-res (from the finer-resolution branch).
 2. **Select by application.** For reps who don't have the numbers yet. Seven common applications map to families, plus an at-a-glance comparison matrix.
 
 ## Families covered
 
 | Family  | Range     | Resolution | Housing        | Standout                          |
 |---------|-----------|------------|----------------|-----------------------------------|
-| BOD 6K  | ≤ 1600 mm | 0.1 mm     | Plastic, IP69K | Default; compact, washdown        |
+| BOD 6K  | ≤ 1500 mm | 0.1 mm     | Plastic, IP69K | Default; compact, washdown        |
 | BOD 21M | ≤ 200 mm  | ≤ 10 µm    | Metal, IP67    | Hard targets: dark, transparent, shiny |
 | BOD 24K | ≤ 650 mm† | ≤ 10 µm†   | Plastic, IP67  | Digital display                   |
 | BOD 23K | ≤ 5000 mm | ≤ 5 mm     | Plastic, IP69K | Long reach in washdown            |
-| BOD 37M | ≤ 20000 mm| ≤ 1 mm     | Metal, IP67    | 20 m, display, RS485              |
+| BOD 37M | ≤ 20000 mm| ≤ 1 mm     | Metal, IP67    | Long range, display, RS485 (no IO-Link) |
 
 † BOD 24K long-range and high-resolution are separate versions; one part does not do both.
 
 BOD 26K and BOD 66M are excluded as legacy. Older long-range 21M and 6K variants are intentionally not highlighted.
+
+**Contact on the sheet:** Austin Sirkin, Product Marketing Manager – Photoelectrics, 854-293-3773.
 
 **Spec sources:** range, resolution, IP rating and display come from the PMM draft. Interfaces come from the balluff.com series listing. Typical applications are a first proposal for PMM review.
 
