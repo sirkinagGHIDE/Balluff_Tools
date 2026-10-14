@@ -26,6 +26,16 @@ Both pages are US Letter portrait (8.5 × 11 in, 850 × 1100 draw.io units) and 
 
 BOD 26K and BOD 66M are excluded as legacy. Older long-range 21M and 6K variants are intentionally not highlighted.
 
+**Links:** every product photo and "BOD ###" name (marked ↗) opens that family's series page on balluff.com. That covers the page 1 cards, the page 2 product boxes, and the page 2 table headers. Links work in the draw.io viewer (Ctrl/Cmd-click while editing) and in an exported PDF.
+
+| Family  | Series page |
+|---------|-------------|
+| BOD 6K  | https://www.balluff.com/en-us/products/BOD002R?pm=BOD6K&pf=F01328 |
+| BOD 21M | https://www.balluff.com/en-us/products/BOD000M?pm=BOD21M&pf=F01328 |
+| BOD 23K | https://www.balluff.com/en-us/products/BOD0020?pm=BOD23K&pf=F01328 |
+| BOD 24K | https://www.balluff.com/en-us/products/BOD002N?pm=BOD24K&pf=F01328 |
+| BOD 37M | https://www.balluff.com/en-us/products/BOD001W?pm=BOD37M&pf=F01328 |
+
 **Contact on the sheet:** Austin Sirkin, Product Marketing Manager – Photoelectrics, 854-293-3773.
 
 **Spec sources:** range, resolution, IP rating and display come from the PMM draft. Interfaces come from the balluff.com series listing. Typical applications are a first proposal for PMM review.
