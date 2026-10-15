@@ -30,7 +30,7 @@ A range-first version of page 1 was drafted for comparison and dropped in favor 
 | BOS R072K | 1 m       | Compact · plastic          | Red, IR          | PNP / NPN |       | Entry line           |
 | BOS R090K | 1 m       | Compact · plastic          | Red, IR, Laser   | PNP / NPN |       | Laser in a compact   |
 | BOS 6K    | 1.5 m     | Compact · plastic          | Red, Laser, Blue | IO-Link + PNP / NPN | ●     | Blue light           |
-| BOS R254  | 1 m       | Block · plastic            | Red, Laser       | IO-Link + PNP / NPN | ●     | SAMS                 |
+| BOS R254  | 1 m       | Block · plastic            | Red, Laser       | IO-Link + PNP / NPN | ●     | Condition monitoring |
 | BOS 21M   | 2 m       | Block · metal              | Red, IR, Laser   | IO-Link + PNP / NPN | ●     | Shiny objects        |
 | BOS 64K   | 2 m       | Large block · plastic      | IR               | Relay NO / NC |       | Relay out, AC supply |
 | BOS 23K   | 5 m       | Block · plastic            | Red, Laser       | IO-Link + PNP / NPN | ●     | Longest reach        |
