@@ -10,7 +10,7 @@ Both pages are US Letter portrait (8.5 × 11 in, 850 × 1100 draw.io units).
 
 1. **Select by housing.**
    - Start at the BOS R81K. If it doesn't solve the application, pick the housing that fits the mount: threaded barrel, miniature block, compact block or standard block.
-   - Inside each group, an "If:" line names what makes each family the pick. Then choose the light type.
+   - Inside each group, a header line on each card names what makes that family the pick. Then choose the light type.
    - Each card shows range, housing material, IP69K where offered, light types and outputs.
 2. **Select by application.** Ten common applications map to families, plus an at-a-glance table of all 14 families.
 
