@@ -1,0 +1,23 @@
+{
+  "_fixture": "Expect rule 7: basis analysis with zero sources.",
+  "run_date": "2026-10-16",
+  "window_start_utc": "2026-10-09T00:00:00Z",
+  "window_end_utc": "2026-10-16T00:00:00Z",
+  "status": "ok",
+  "source_failures": [],
+  "items": [
+    {
+      "id": "95a4378d5ea0b81883f8b11ec3c992f18ac75976",
+      "competitor": "banner",
+      "category": "strategy",
+      "tags": {"technology": ["IO-Link"], "industry": ["Packaging"], "application": ["Machine connectivity"]},
+      "title": "Fixture item r07",
+      "summary": "A short fixture summary in plain words.",
+      "basis": "analysis",
+      "fallback": false,
+      "update_of": null,
+      "sources": [],
+      "sample": false
+    }
+  ]
+}

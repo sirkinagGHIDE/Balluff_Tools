@@ -1,0 +1,23 @@
+{
+  "_fixture": "Expect rule 4: product pricing in summary.",
+  "run_date": "2026-10-16",
+  "window_start_utc": "2026-10-09T00:00:00Z",
+  "window_end_utc": "2026-10-16T00:00:00Z",
+  "status": "ok",
+  "source_failures": [],
+  "items": [
+    {
+      "id": "2931304b67901bb56f16d7ca2cf18348ae793954",
+      "competitor": "turck",
+      "category": "new_product",
+      "tags": {"technology": ["IO-Link"], "industry": ["Packaging"], "application": ["Machine connectivity"]},
+      "title": "Fixture item r04",
+      "summary": "The sensor carries a list price of 1,250 per unit.",
+      "basis": "reported",
+      "fallback": false,
+      "update_of": null,
+      "sources": [{"url": "https://example.com/fixture/r04", "publisher": "Fixture publisher", "published_date": "2026-10-14", "retrieved_utc": "2026-10-16T06:00:00Z"}],
+      "sample": false
+    }
+  ]
+}

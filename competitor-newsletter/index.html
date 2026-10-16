@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Competitor Digest | Balluff Americas</title>
+  <meta name="description" content="Weekly competitor digest for Balluff Americas sales and marketing. New products, events, strategy, and financial disclosures in one place.">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" href="assets/img/favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="apple-touch-icon" href="assets/img/favicon-180.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,300..700&display=swap">
+  <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#digest">Skip to the digest</a>
+
+  <nav class="nav">
+    <a href="./" class="nav__brand" aria-label="Competitor Digest home">
+      <img src="assets/img/balluff-wordmark-black.svg" alt="Balluff" width="120" height="16">
+    </a>
+    <a href="https://www.balluff.com/en-us" class="nav__link" target="_blank" rel="noopener noreferrer">
+      balluff.com
+      <svg class="icon icon--arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+    </a>
+  </nav>
+
+  <main class="page" id="digest">
+    <header class="hero">
+      <p class="eyebrow">Competitor Digest</p>
+      <h1 class="hero__title">What the competition did this week.</h1>
+      <p class="hero__lede">New products, events, strategy, and financials from six competitors. One read. Every week.</p>
+
+      <div class="run-bar" id="run-bar" hidden>
+        <label class="run-bar__week">
+          <span class="label">Week</span>
+          <select id="week-select"></select>
+        </label>
+        <dl class="run-bar__meta">
+          <div><dt>Covers</dt><dd id="run-window"></dd></div>
+          <div><dt>Status</dt><dd id="run-status"></dd></div>
+        </dl>
+      </div>
+
+      <div class="notice" id="sample-notice" role="note" hidden>
+        <svg class="icon notice__icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg>
+        <div>
+          <p class="notice__title">Sample data</p>
+          <p>Fixture content for layout testing. Not real competitor news. <a id="sample-exit" href="./">Leave sample view</a></p>
+        </div>
+      </div>
+
+      <div class="notice" id="partial-banner" role="alert" hidden>
+        <svg class="icon notice__icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg>
+        <div>
+          <p class="notice__title">Partial run. Some sources could not be read.</p>
+          <p>Items from these sources may be missing this week.</p>
+          <ul class="notice__list" id="failure-list"></ul>
+        </div>
+      </div>
+    </header>
+
+    <section class="empty-digest" id="empty-digest" hidden>
+      <h2 class="section__title">No digest published yet.</h2>
+      <p class="section__lede">The first weekly run will appear here.</p>
+      <a class="cta" href="?sample=1">
+        Preview with sample data
+        <svg class="icon icon--arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      </a>
+    </section>
+
+    <details class="filters" id="filters" hidden>
+      <summary class="filters__summary">
+        <span>Filters</span>
+        <span class="filters__count" id="filter-count"></span>
+      </summary>
+      <div class="filters__body">
+        <div id="filter-groups"></div>
+        <button type="button" class="link-button" id="clear-filters">Clear all filters</button>
+      </div>
+    </details>
+
+    <div id="sections"></div>
+
+    <noscript>
+      <p class="noscript">This digest needs JavaScript to display. Open it in a current desktop or mobile browser.</p>
+    </noscript>
+  </main>
+
+  <footer class="footer">
+    <div class="footer__inner">
+      <div class="footer__brand">
+        <img src="assets/img/balluff-claim-white.png" alt="Balluff | innovating automation" width="180" height="43">
+        <div class="footer__links">
+          <a href="https://www.balluff.com/en-us" target="_blank" rel="noopener noreferrer">balluff.com</a>
+          <span>Americas region</span>
+          <span>Internal. Sales and marketing.</span>
+        </div>
+      </div>
+      <p class="footer__meta">&copy; <span id="year">2026</span> Balluff Inc.</p>
+    </div>
+  </footer>
+
+  <script src="data/digest.js"></script>
+  <script src="assets/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,23 @@
+{
+  "_fixture": "Valid run. The fixture fails because digest.js beside it is stale.",
+  "run_date": "2026-10-16",
+  "window_start_utc": "2026-10-09T00:00:00Z",
+  "window_end_utc": "2026-10-16T00:00:00Z",
+  "status": "ok",
+  "source_failures": [],
+  "items": [
+    {
+      "id": "1bf444a9dd39b90df17718d6409df420d29ae688",
+      "competitor": "keyence",
+      "category": "new_product",
+      "tags": {"technology": ["IO-Link"], "industry": ["Packaging"], "application": ["Machine connectivity"]},
+      "title": "Fixture item r09",
+      "summary": "A short fixture summary in plain words.",
+      "basis": "reported",
+      "fallback": false,
+      "update_of": null,
+      "sources": [{"url": "https://example.com/fixture/r09", "publisher": "Fixture publisher", "published_date": "2026-10-14", "retrieved_utc": "2026-10-16T06:00:00Z"}],
+      "sample": false
+    }
+  ]
+}
