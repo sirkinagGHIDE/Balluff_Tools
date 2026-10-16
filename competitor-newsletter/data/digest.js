@@ -45,7 +45,537 @@ window.DIGEST = {
    "parent_reporting": false
   }
  ],
- "runs": [],
+ "runs": [
+  {
+   "run_date": "2026-10-16",
+   "window_start_utc": "2026-10-09T20:21:37Z",
+   "window_end_utc": "2026-10-16T20:21:37Z",
+   "status": "partial",
+   "source_failures": [
+    {
+     "competitor": "ifm",
+     "url": "https://www.ifm.com/us/en/news",
+     "error": "HTTP 403 Forbidden (site blocks automated clients)"
+    },
+    {
+     "competitor": "ifm",
+     "url": "https://www.ifm.com/us/en/shared/topic/press-portal/releases",
+     "error": "HTTP 403 Forbidden (site blocks automated clients)"
+    },
+    {
+     "competitor": "banner",
+     "url": "https://www.bannerengineering.com/us/en/company/news/press-room.html",
+     "error": "HTTP 200 but no dated entries readable (list is drawn by JavaScript)"
+    },
+    {
+     "competitor": "banner",
+     "url": "https://www.bannerengineering.com/us/en/company/news.html",
+     "error": "HTTP 200 but no dated entries readable (list is drawn by JavaScript)"
+    },
+    {
+     "competitor": "sick",
+     "url": "https://www.sick.com/us/en/annual-report-2025/s/performance",
+     "error": "HTTP 200 but page content is drawn by JavaScript; nothing readable"
+    }
+   ],
+   "items": [
+    {
+     "id": "8b6f54dfb33b7e8a9266dc22344a3b7e5acc52ed",
+     "competitor": "pepperl-fuchs",
+     "category": "new_product",
+     "tags": {
+      "technology": [
+       "Positioning",
+       "IO-Link",
+       "Industrial Ethernet"
+      ],
+      "industry": [
+       "Intralogistics",
+       "Automotive",
+       "Electronics"
+      ],
+      "application": [
+       "Absolute positioning",
+       "Storage and retrieval"
+      ]
+     },
+     "title": "PXV and PCV positioning: compact read heads, IO-Link and EtherCAT",
+     "summary": "Pepperl+Fuchs is moving its camera-based Data Matrix positioning lines, PXV and PCV, to a new hardware and software generation. First out: a compact F213 PXV read head with SSI or IO-Link, and F200 read heads with PROFINET or, for the first time, EtherCAT. The company says the new heads meet the EU Cyber Resilience Act. Sales angle: expect it in storage-and-retrieval, conveyor and automotive positioning bids where IO-Link or EtherCAT is required.",
+     "basis": "reported",
+     "fallback": false,
+     "update_of": null,
+     "sources": [
+      {
+       "url": "https://www.pepperl-fuchs.com/en-us/news/comprehensive-update-to-the-pxv-and-pcv-portfolios-absolute-positioning-taken-to-a-new-level-gn10816",
+       "publisher": "Pepperl+Fuchs",
+       "published_date": "2026-10-14",
+       "retrieved_utc": "2026-10-16T20:30:00Z"
+      }
+     ],
+     "sample": false
+    },
+    {
+     "id": "b856417614b4b1ccef52b9f9c2173ba854b7ede1",
+     "competitor": "banner",
+     "category": "event",
+     "tags": {
+      "technology": [
+       "Machine vision",
+       "Sensors"
+      ],
+      "industry": [
+       "Packaging",
+       "Food & beverage"
+      ],
+      "application": [
+       "Packaging lines"
+      ]
+     },
+     "title": "Banner at PACK EXPO International 2026",
+     "summary": "Banner exhibits at PACK EXPO in Chicago, booth N-5345, showing automation for packaging, processing and material handling. Banner, Keyence, Turck and Pepperl+Fuchs are all listed for this show.",
+     "basis": "reported",
+     "fallback": false,
+     "update_of": null,
+     "sources": [
+      {
+       "url": "https://www.bannerengineering.com/us/en/company/tradeshows/pack-expo1.html",
+       "publisher": "Banner Engineering",
+       "published_date": "2026-10-16",
+       "retrieved_utc": "2026-10-16T20:30:00Z"
+      }
+     ],
+     "event": {
+      "start_date": "2026-10-18",
+      "end_date": "2026-10-21",
+      "location": "McCormick Place, Chicago, IL",
+      "booth": "N-5345"
+     },
+     "sample": false
+    },
+    {
+     "id": "ecd67b700ff0ff2fa43341b764da416400ff1691",
+     "competitor": "turck",
+     "category": "event",
+     "tags": {
+      "technology": [
+       "IO-Link",
+       "Industrial Ethernet"
+      ],
+      "industry": [
+       "Packaging"
+      ],
+      "application": [
+       "Machine connectivity"
+      ]
+     },
+     "title": "Turck at PACK EXPO International 2026",
+     "summary": "Turck lists PACK EXPO in Chicago on its US trade-show calendar. No booth number is published on the page.",
+     "basis": "reported",
+     "fallback": false,
+     "update_of": null,
+     "sources": [
+      {
+       "url": "https://www.turck.us/en/trade-shows-134.php#pack-expo-2026",
+       "publisher": "Turck Inc.",
+       "published_date": "2026-10-16",
+       "retrieved_utc": "2026-10-16T20:30:00Z"
+      }
+     ],
+     "event": {
+      "start_date": "2026-10-18",
+      "end_date": "2026-10-21",
+      "location": "Chicago, IL",
+      "booth": ""
+     },
+     "sample": false
+    },
+    {
+     "id": "d9085706a357043ff8f425316982fe14d67c11d5",
+     "competitor": "pepperl-fuchs",
+     "category": "event",
+     "tags": {
+      "technology": [
+       "Sensors"
+      ],
+      "industry": [
+       "Packaging"
+      ],
+      "application": [
+       "Packaging lines"
+      ]
+     },
+     "title": "Pepperl+Fuchs at PACK EXPO International 2026",
+     "summary": "Pepperl+Fuchs lists PACK EXPO International in Chicago on its US fairs and events page. No booth number is given there.",
+     "basis": "reported",
+     "fallback": false,
+     "update_of": null,
+     "sources": [
+      {
+       "url": "https://www.pepperl-fuchs.com/en-us/news/stay-in-touch/fairs-events-in-usa-lp45351",
+       "publisher": "Pepperl+Fuchs",
+       "published_date": "2026-10-16",
+       "retrieved_utc": "2026-10-16T20:30:00Z"
+      }
+     ],
+     "event": {
+      "start_date": "2026-10-18",
+      "end_date": "2026-10-21",
+      "location": "Chicago, IL",
+      "booth": ""
+     },
+     "sample": false
+    },
+    {
+     "id": "3d3b237f772a09363b0114f497669c99150bddeb",
+     "competitor": "keyence",
+     "category": "event",
+     "tags": {
+      "technology": [
+       "Machine vision",
+       "Sensors"
+      ],
+      "industry": [
+       "Packaging",
+       "Food & beverage"
+      ],
+      "application": [
+       "Packaging lines"
+      ]
+     },
+     "title": "Keyence at PACK EXPO International 2026",
+     "summary": "Keyence lists PACK EXPO International 2026 in Chicago, IL on its US trade-show calendar. Banner, Turck and Pepperl+Fuchs are listed for the same show.",
+     "basis": "reported",
+     "fallback": false,
+     "update_of": null,
+     "sources": [
+      {
+       "url": "https://www.keyence.com/news-events/#trade-show-pack-expo-international-2026",
+       "publisher": "KEYENCE America",
+       "published_date": "2026-10-16",
+       "retrieved_utc": "2026-10-16T20:30:00Z"
+      }
+     ],
+     "event": {
+      "start_date": "2026-10-18",
+      "end_date": "2026-10-21",
+      "location": "Chicago, IL",
+      "booth": ""
+     },
+     "sample": false
+    },
+    {
+     "id": "0bc832627918767371152f066957e5eedf4ab315",
+     "competitor": "turck",
+     "category": "event",
+     "tags": {
+      "technology": [
+       "Connectivity"
+      ],
+      "industry": [
+       "Metal fabrication"
+      ],
+      "application": [
+       "Welding"
+      ]
+     },
+     "title": "Turck at FABTECH 2026",
+     "summary": "Turck lists FABTECH in Las Vegas on its US trade-show calendar. Keyence lists the same show. No booth number is published on the page.",
+     "basis": "reported",
+     "fallback": false,
+     "update_of": null,
+     "sources": [
+      {
+       "url": "https://www.turck.us/en/trade-shows-134.php#fabtech-2026",
+       "publisher": "Turck Inc.",
+       "published_date": "2026-10-16",
+       "retrieved_utc": "2026-10-16T20:30:00Z"
+      }
+     ],
+     "event": {
+      "start_date": "2026-10-21",
+      "end_date": "2026-10-23",
+      "location": "Las Vegas, NV",
+      "booth": ""
+     },
+     "sample": false
+    },
+    {
+     "id": "222c1e7fa6385997677351e2991307cde56c3971",
+     "competitor": "keyence",
+     "category": "event",
+     "tags": {
+      "technology": [
+       "Sensors",
+       "Measurement"
+      ],
+      "industry": [
+       "Metal fabrication"
+      ],
+      "application": [
+       "Welding"
+      ]
+     },
+     "title": "Keyence at FABTECH 2026",
+     "summary": "Keyence lists FABTECH 2026 in Las Vegas, NV on its US trade-show calendar. Turck lists the same show.",
+     "basis": "reported",
+     "fallback": false,
+     "update_of": null,
+     "sources": [
+      {
+       "url": "https://www.keyence.com/news-events/#trade-show-fabtech-2026",
+       "publisher": "KEYENCE America",
+       "published_date": "2026-10-16",
+       "retrieved_utc": "2026-10-16T20:30:00Z"
+      }
+     ],
+     "event": {
+      "start_date": "2026-10-21",
+      "end_date": "2026-10-23",
+      "location": "Las Vegas, NV",
+      "booth": ""
+     },
+     "sample": false
+    },
+    {
+     "id": "8130ab7136a6dcc5ce8c0218f192c2fb9de68a1a",
+     "competitor": "keyence",
+     "category": "event",
+     "tags": {
+      "technology": [
+       "Measurement"
+      ],
+      "industry": [
+       "Automotive"
+      ],
+      "application": [
+       "Testing and inspection"
+      ]
+     },
+     "title": "Keyence at Automotive Testing Expo 2026",
+     "summary": "Keyence lists Automotive Testing Expo 2026 in Novi, MI on its US trade-show calendar. No booth number is published on the page.",
+     "basis": "reported",
+     "fallback": false,
+     "update_of": null,
+     "sources": [
+      {
+       "url": "https://www.keyence.com/news-events/#trade-show-automotive-testing-expo-2026",
+       "publisher": "KEYENCE America",
+       "published_date": "2026-10-16",
+       "retrieved_utc": "2026-10-16T20:30:00Z"
+      }
+     ],
+     "event": {
+      "start_date": "2026-10-27",
+      "end_date": "2026-10-29",
+      "location": "Novi, MI",
+      "booth": ""
+     },
+     "sample": false
+    },
+    {
+     "id": "71fbbdbe215e3b4335d9c64c70571fb886695748",
+     "competitor": "keyence",
+     "category": "event",
+     "tags": {
+      "technology": [
+       "Machine vision",
+       "Measurement"
+      ],
+      "industry": [
+       "Medical devices"
+      ],
+      "application": [
+       "Testing and inspection"
+      ]
+     },
+     "title": "Keyence at MD&M Midwest",
+     "summary": "Keyence lists MD&M Midwest in Minneapolis, MN on its US trade-show calendar. No booth number is published on the page.",
+     "basis": "reported",
+     "fallback": false,
+     "update_of": null,
+     "sources": [
+      {
+       "url": "https://www.keyence.com/news-events/#trade-show-mdm-midwest-2026",
+       "publisher": "KEYENCE America",
+       "published_date": "2026-10-16",
+       "retrieved_utc": "2026-10-16T20:30:00Z"
+      }
+     ],
+     "event": {
+      "start_date": "2026-10-28",
+      "end_date": "2026-10-29",
+      "location": "Minneapolis, MN",
+      "booth": ""
+     },
+     "sample": false
+    },
+    {
+     "id": "862ec6fdb98a5df66eb022c28f1f759d2d1f9292",
+     "competitor": "keyence",
+     "category": "event",
+     "tags": {
+      "technology": [
+       "Sensors",
+       "Measurement"
+      ],
+      "industry": [
+       "Metals and foundry"
+      ],
+      "application": []
+     },
+     "title": "Keyence at Fundiexpo",
+     "summary": "Keyence lists Fundiexpo in Monterrey, Mexico on its US trade-show calendar. No booth number is published on the page.",
+     "basis": "reported",
+     "fallback": false,
+     "update_of": null,
+     "sources": [
+      {
+       "url": "https://www.keyence.com/news-events/#trade-show-fundiexpo-2026",
+       "publisher": "KEYENCE America",
+       "published_date": "2026-10-16",
+       "retrieved_utc": "2026-10-16T20:30:00Z"
+      }
+     ],
+     "event": {
+      "start_date": "2026-10-28",
+      "end_date": "2026-10-30",
+      "location": "Monterrey, Mexico",
+      "booth": ""
+     },
+     "sample": false
+    },
+    {
+     "id": "4cfa5e35cefa29cc1494ce831975a0f70df2af2a",
+     "competitor": "keyence",
+     "category": "event",
+     "tags": {
+      "technology": [
+       "Sensors",
+       "Machine vision"
+      ],
+      "industry": [
+       "General manufacturing"
+      ],
+      "application": []
+     },
+     "title": "Keyence at ADM Montréal 2026",
+     "summary": "Keyence lists ADM Montréal 2026 in Montreal, Canada on its US trade-show calendar. No booth number is published on the page.",
+     "basis": "reported",
+     "fallback": false,
+     "update_of": null,
+     "sources": [
+      {
+       "url": "https://www.keyence.com/news-events/#trade-show-adm-montreal-2026",
+       "publisher": "KEYENCE America",
+       "published_date": "2026-10-16",
+       "retrieved_utc": "2026-10-16T20:30:00Z"
+      }
+     ],
+     "event": {
+      "start_date": "2026-11-11",
+      "end_date": "2026-11-12",
+      "location": "Montreal, Canada",
+      "booth": ""
+     },
+     "sample": false
+    },
+    {
+     "id": "8db31068c5793f27bd530c0bd4f24271a3cf94fd",
+     "competitor": "keyence",
+     "category": "event",
+     "tags": {
+      "technology": [
+       "Sensors",
+       "Machine vision"
+      ],
+      "industry": [
+       "General manufacturing"
+      ],
+      "application": []
+     },
+     "title": "Keyence at Smart Technology Expo",
+     "summary": "Keyence lists Smart Technology Expo in Guadalajara, Mexico on its US trade-show calendar. No booth number is published on the page.",
+     "basis": "reported",
+     "fallback": false,
+     "update_of": null,
+     "sources": [
+      {
+       "url": "https://www.keyence.com/news-events/#trade-show-smart-technology-expo-2026",
+       "publisher": "KEYENCE America",
+       "published_date": "2026-10-16",
+       "retrieved_utc": "2026-10-16T20:30:00Z"
+      }
+     ],
+     "event": {
+      "start_date": "2026-11-18",
+      "end_date": "2026-11-20",
+      "location": "Guadalajara, Mexico",
+      "booth": ""
+     },
+     "sample": false
+    },
+    {
+     "id": "f49a8c90887c7aa46a0a0b07d64c93eba8f3ddf9",
+     "competitor": "ifm",
+     "category": "strategy",
+     "tags": {
+      "technology": [
+       "Flow",
+       "Temperature"
+      ],
+      "industry": [
+       "Process"
+      ],
+      "application": [
+       "Process instrumentation"
+      ]
+     },
+     "title": "Analysis: ifm is adding US capacity for process sensors",
+     "summary": "No new ifm item could be confirmed this week. Background for sales calls: in July 2025 ifm prover opened a 90,000 sq ft manufacturing and technology center in Malvern, Pennsylvania, building ultrasonic and vortex flow sensors and temperature instruments, and said it expects to double staff and sales there within a few years. Our reading: expect ifm to lead with US-built process instrumentation in flow and temperature opportunities.",
+     "basis": "analysis",
+     "fallback": true,
+     "update_of": null,
+     "sources": [
+      {
+       "url": "https://www.newswire.com/news/ifm-prover-cuts-ribbon-on-new-expansion-of-manufacturing-and-22613740",
+       "publisher": "Newswire (ifm prover release)",
+       "published_date": "2025-07-24",
+       "retrieved_utc": "2026-10-16T20:30:00Z"
+      }
+     ],
+     "sample": false
+    },
+    {
+     "id": "6e9fe4e101fd581a213468d35bcfcc653ce723e1",
+     "competitor": "sick",
+     "category": "strategy",
+     "tags": {
+      "technology": [
+       "Industrial AI"
+      ],
+      "industry": [
+       "Intralogistics"
+      ],
+      "application": []
+     },
+     "title": "Analysis: SICK is under margin pressure and doubling down on AI and logistics",
+     "summary": "No new SICK item was published this week. Background from its 2025 results (released April 2026): sales grew 6.5%, Americas growth was under 3%, profitability stayed low, and SICK named price pressure, especially from Chinese competitors, plus tariffs as headwinds. Management said it will cut costs in Germany and focus on automation, logistics and industrial AI. Our reading: expect SICK to compete hard on price in the Americas and to lead with AI and logistics stories.",
+     "basis": "analysis",
+     "fallback": true,
+     "update_of": null,
+     "sources": [
+      {
+       "url": "https://www.sick.com/us/en/sick-achieves-more-sales-in-the-2025-fiscal-year-/w/press-2026-fiscal-year-2025",
+       "publisher": "SICK AG",
+       "published_date": "2026-04-29",
+       "retrieved_utc": "2026-10-16T20:30:00Z"
+      }
+     ],
+     "sample": false
+    }
+   ]
+  }
+ ],
  "sample_runs": [
   {
    "run_date": "2026-10-16",
