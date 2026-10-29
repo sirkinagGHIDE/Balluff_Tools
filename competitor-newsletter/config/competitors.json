@@ -26,9 +26,9 @@
         {
           "type": "newsroom",
           "url": "https://gillian-alicea.suite.accessnewswire.com/browse/rss",
-          "verified": false,
+          "verified": true,
           "fetched_on": "2026-10-29",
-          "fetch_note": "RSS feed of the ifm efector media room on ACCESS Newswire. Readable by automated clients, with a pubDate on every item. Use it while ifm.com returns 403. Operator to confirm."
+          "fetch_note": "RSS feed of the ifm efector media room on ACCESS Newswire. Readable by automated clients, with a pubDate on every item. Operator confirmed 2026-10-29."
         }
       ]
     },
@@ -122,14 +122,7 @@
           "url": "https://www.bannerengineering.com/us/en/company/news/press-room.html",
           "verified": true,
           "fetched_on": "2026-10-16",
-          "fetch_note": ""
-        },
-        {
-          "type": "newsroom",
-          "url": "https://www.bannerengineering.com/us/en/company/news.html",
-          "verified": true,
-          "fetched_on": "2026-10-16",
-          "fetch_note": "News hub."
+          "fetch_note": "Static HTML with dated entries (format '29 Nov 2023'). Newest release is 29 Nov 2023, so Banner appears to have stopped using this page. Keep it as a check; do not report it as a failure when it has nothing new."
         },
         {
           "type": "product_news",
@@ -137,6 +130,13 @@
           "verified": true,
           "fetched_on": "2026-10-16",
           "fetch_note": ""
+        },
+        {
+          "type": "product_news",
+          "url": "https://www.bannerengineering.com/us/en/company/banner-blog.html",
+          "verified": false,
+          "fetched_on": "2026-10-29",
+          "fetch_note": "Banner blog. Static HTML with dated posts (format '2 Oct 2026'). Use it for technology and application themes. Operator to confirm."
         },
         {
           "type": "events",
@@ -189,14 +189,7 @@
           "url": "https://www.sick.com/us/en/shareholder-relations-at-sick-ag/w/investor-relations",
           "verified": true,
           "fetched_on": "2026-10-16",
-          "fetch_note": ""
-        },
-        {
-          "type": "investor",
-          "url": "https://www.sick.com/us/en/annual-report-2025/s/performance",
-          "verified": true,
-          "fetched_on": "2026-10-16",
-          "fetch_note": "HTTP 200; content is rendered by JavaScript, so the operator should confirm it in a browser. Linked from the shareholder-relations page."
+          "fetch_note": "Shareholder-relations page. SICK's annual report site is a JavaScript app that renders nothing readable, even in a browser; annual results are published as a dated press release on the press releases page, so take financial figures from there."
         }
       ]
     },

@@ -152,22 +152,29 @@ It expects `data/sample` and the whole repo to pass, and every file in
 If a product family name is flagged as a part number, add the exact token to
 `part_numbers.allowlist`. Do not loosen a pattern to get one item through.
 
-## Verifying sources (operator, before the first scheduled run)
+## Verifying sources (operator)
 
-Every source in `config/competitors.json` was fetched during the build on 2026-10-16
-and starts as `"verified": false`. For each one:
+Every new source in `config/competitors.json` starts as `"verified": false`. Add a source
+only after fetching it. To verify one:
 
 1. Open the URL in a browser. Confirm it is the competitor's official page, it is public
    (no login, no paywall) and it lists what its `type` says: `newsroom`, `product_news`,
    `events` or `investor`.
-2. Check the `fetch_note`. Notes that need attention:
-   - **ifm:** the site returns HTTP 403 to non-browser clients. Decide whether the run
-     can read it without working around the block. If not, the run should log it in
-     `source_failures` each week and rely on fallback sources.
-   - **SICK annual report page:** content is drawn by JavaScript. Confirm it in a browser.
-   - **Keyence:** no English investor-relations page was confirmed. The annual report
-     PDF URL changes every year.
-3. Set `"verified": true` and commit.
+2. Fetch it the way a run does (plain HTTP, no browser). The page must return dated
+   entries in its HTML. A page whose list is drawn by JavaScript gives a run nothing;
+   look for an RSS feed, a static listing or a press-release page instead.
+3. Read the `fetch_note`, set `"verified": true` and commit.
+
+Known source behavior:
+
+- **ifm:** ifm.com returns HTTP 403 to automated clients. Runs use the ifm efector media
+  room RSS feed on ACCESS Newswire instead. Do not work around the block.
+- **Banner:** the press room is readable but has had no release since 29 Nov 2023. New
+  products, trade shows, events and the blog carry the current dated entries.
+- **SICK:** the annual report site is a JavaScript app with no readable content. Annual
+  results come out as a dated press release on the press releases page.
+- **Keyence:** no English investor-relations page was confirmed. The annual report
+  PDF URL changes every year.
 
 Gaps the build could not fill with a fetched URL: an events page for ifm and SICK, and an
 investor page for ifm, Turck and Pepperl+Fuchs (all three are privately held). Add one only
