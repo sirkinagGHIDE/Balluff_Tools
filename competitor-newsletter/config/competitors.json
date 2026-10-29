@@ -1,0 +1,228 @@
+{
+  "_comment": "Every URL below was fetched successfully during the build on 2026-10-16 (HTTP 200 unless fetch_note says otherwise). All sources are verified=false until the operator confirms them. source.type is one of: newsroom, product_news, events, investor.",
+  "competitors": [
+    {
+      "id": "ifm",
+      "display_name": "ifm",
+      "legal_name": "ifm electronic gmbh",
+      "parent_company": "ifm electronic gmbh",
+      "ownership": "private",
+      "parent_reporting": false,
+      "sources": [
+        {
+          "type": "newsroom",
+          "url": "https://www.ifm.com/us/en/news",
+          "verified": false,
+          "fetched_on": "2026-10-16",
+          "fetch_note": "Returns HTTP 403 to non-browser clients (Akamai). Loaded normally in a browser during the build. Also lists US product news."
+        },
+        {
+          "type": "newsroom",
+          "url": "https://www.ifm.com/us/en/shared/topic/press-portal/releases",
+          "verified": false,
+          "fetched_on": "2026-10-16",
+          "fetch_note": "Press portal. Same 403 behavior for non-browser clients; loaded in a browser during the build."
+        }
+      ]
+    },
+    {
+      "id": "keyence",
+      "display_name": "Keyence",
+      "legal_name": "KEYENCE CORPORATION",
+      "parent_company": "KEYENCE CORPORATION",
+      "ownership": "public",
+      "parent_reporting": false,
+      "sources": [
+        {
+          "type": "product_news",
+          "url": "https://www.keyence.com/news-events/",
+          "verified": false,
+          "fetched_on": "2026-10-16",
+          "fetch_note": "News & Events page. Lists new products; trade shows are on the same page (#trade-show anchor)."
+        },
+        {
+          "type": "events",
+          "url": "https://www.keyence.com/news-events/",
+          "verified": false,
+          "fetched_on": "2026-10-16",
+          "fetch_note": "Same page as product_news; trade-show listing section."
+        },
+        {
+          "type": "investor",
+          "url": "https://www.keyence.com/about-us/corporate/",
+          "verified": false,
+          "fetched_on": "2026-10-16",
+          "fetch_note": "Corporate overview with annual report download. No dedicated English IR page was confirmed during the build."
+        },
+        {
+          "type": "investor",
+          "url": "https://www.keyence.co.jp/pdf/AnnualReport_2025_en.pdf",
+          "verified": false,
+          "fetched_on": "2026-10-16",
+          "fetch_note": "Annual Report 2025 (PDF). Replace with the newest report each year."
+        }
+      ]
+    },
+    {
+      "id": "turck",
+      "display_name": "Turck",
+      "legal_name": "Turck Inc. (USA)",
+      "parent_company": "Turck group (Hans Turck GmbH & Co. KG)",
+      "ownership": "private",
+      "parent_reporting": false,
+      "sources": [
+        {
+          "type": "newsroom",
+          "url": "https://www.turck.us/en/press-releases-135.php",
+          "verified": false,
+          "fetched_on": "2026-10-16",
+          "fetch_note": ""
+        },
+        {
+          "type": "newsroom",
+          "url": "https://www.turck.us/en/company-news-2863.php",
+          "verified": false,
+          "fetched_on": "2026-10-16",
+          "fetch_note": "Company news."
+        },
+        {
+          "type": "product_news",
+          "url": "https://www.turck.us/en/product-news-2860.php",
+          "verified": false,
+          "fetched_on": "2026-10-16",
+          "fetch_note": ""
+        },
+        {
+          "type": "events",
+          "url": "https://www.turck.us/en/trade-shows-134.php",
+          "verified": false,
+          "fetched_on": "2026-10-16",
+          "fetch_note": ""
+        }
+      ]
+    },
+    {
+      "id": "banner",
+      "display_name": "Banner",
+      "legal_name": "Banner Engineering Corp.",
+      "parent_company": "Fortive",
+      "ownership": "public",
+      "parent_reporting": true,
+      "ownership_note": "Banner is an operating company of Fortive Corporation (NYSE: FTV). Banner does not report standalone financials; figures appear at Fortive or segment level.",
+      "sources": [
+        {
+          "type": "newsroom",
+          "url": "https://www.bannerengineering.com/us/en/company/news/press-room.html",
+          "verified": false,
+          "fetched_on": "2026-10-16",
+          "fetch_note": ""
+        },
+        {
+          "type": "newsroom",
+          "url": "https://www.bannerengineering.com/us/en/company/news.html",
+          "verified": false,
+          "fetched_on": "2026-10-16",
+          "fetch_note": "News hub."
+        },
+        {
+          "type": "product_news",
+          "url": "https://www.bannerengineering.com/us/en/company/new-products.html",
+          "verified": false,
+          "fetched_on": "2026-10-16",
+          "fetch_note": ""
+        },
+        {
+          "type": "events",
+          "url": "https://www.bannerengineering.com/us/en/company/tradeshows.html",
+          "verified": false,
+          "fetched_on": "2026-10-16",
+          "fetch_note": ""
+        },
+        {
+          "type": "events",
+          "url": "https://www.bannerengineering.com/us/en/company/events.html",
+          "verified": false,
+          "fetched_on": "2026-10-16",
+          "fetch_note": ""
+        },
+        {
+          "type": "investor",
+          "url": "https://investors.fortive.com/",
+          "verified": false,
+          "fetched_on": "2026-10-16",
+          "fetch_note": "Parent company (Fortive) investor relations."
+        },
+        {
+          "type": "investor",
+          "url": "https://investors.fortive.com/financial-information/financial-results",
+          "verified": false,
+          "fetched_on": "2026-10-16",
+          "fetch_note": "Parent company (Fortive) quarterly and annual results."
+        }
+      ]
+    },
+    {
+      "id": "sick",
+      "display_name": "SICK",
+      "legal_name": "SICK AG",
+      "parent_company": "SICK AG",
+      "ownership": "private",
+      "parent_reporting": false,
+      "ownership_note": "SICK AG is not exchange-listed; it publishes an annual report and shareholder-relations page.",
+      "sources": [
+        {
+          "type": "newsroom",
+          "url": "https://www.sick.com/us/en/press/pressreleases",
+          "verified": false,
+          "fetched_on": "2026-10-16",
+          "fetch_note": "Global press releases, includes product launches. No separate product-news or events page was confirmed during the build."
+        },
+        {
+          "type": "investor",
+          "url": "https://www.sick.com/us/en/shareholder-relations-at-sick-ag/w/investor-relations",
+          "verified": false,
+          "fetched_on": "2026-10-16",
+          "fetch_note": ""
+        },
+        {
+          "type": "investor",
+          "url": "https://www.sick.com/us/en/annual-report-2025/s/performance",
+          "verified": false,
+          "fetched_on": "2026-10-16",
+          "fetch_note": "HTTP 200; content is rendered by JavaScript, so the operator should confirm it in a browser. Linked from the shareholder-relations page."
+        }
+      ]
+    },
+    {
+      "id": "pepperl-fuchs",
+      "display_name": "Pepperl+Fuchs",
+      "legal_name": "Pepperl+Fuchs SE",
+      "parent_company": "Pepperl+Fuchs SE",
+      "ownership": "private",
+      "parent_reporting": false,
+      "sources": [
+        {
+          "type": "newsroom",
+          "url": "https://www.pepperl-fuchs.com/en-us/news/public-relations-gp32054",
+          "verified": false,
+          "fetched_on": "2026-10-16",
+          "fetch_note": "Press and media center."
+        },
+        {
+          "type": "product_news",
+          "url": "https://www.pepperl-fuchs.com/en-us/news-gp27472",
+          "verified": false,
+          "fetched_on": "2026-10-16",
+          "fetch_note": "News overview; lists product announcements."
+        },
+        {
+          "type": "events",
+          "url": "https://www.pepperl-fuchs.com/en-us/news/stay-in-touch/fairs-events-in-usa-lp45351",
+          "verified": false,
+          "fetched_on": "2026-10-16",
+          "fetch_note": "US fairs and events."
+        }
+      ]
+    }
+  ]
+}

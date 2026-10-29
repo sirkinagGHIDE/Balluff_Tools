@@ -1,0 +1,23 @@
+{
+  "_fixture": "Expect rule 3: summary over 80 words.",
+  "run_date": "2026-10-16",
+  "window_start_utc": "2026-10-09T00:00:00Z",
+  "window_end_utc": "2026-10-16T00:00:00Z",
+  "status": "ok",
+  "source_failures": [],
+  "items": [
+    {
+      "id": "f2b25696f503ceeec3d249b157f9c266d0737b26",
+      "competitor": "turck",
+      "category": "new_product",
+      "tags": {"technology": ["IO-Link"], "industry": ["Packaging"], "application": ["Machine connectivity"]},
+      "title": "Fixture item r03",
+      "summary": "word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word",
+      "basis": "reported",
+      "fallback": false,
+      "update_of": null,
+      "sources": [{"url": "https://example.com/fixture/r03", "publisher": "Fixture publisher", "published_date": "2026-10-14", "retrieved_utc": "2026-10-16T06:00:00Z"}],
+      "sample": false
+    }
+  ]
+}

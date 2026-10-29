@@ -1,0 +1,36 @@
+{
+  "_fixture": "Expect rule 6: the same id twice without update_of.",
+  "run_date": "2026-10-16",
+  "window_start_utc": "2026-10-09T00:00:00Z",
+  "window_end_utc": "2026-10-16T00:00:00Z",
+  "status": "ok",
+  "source_failures": [],
+  "items": [
+    {
+      "id": "74fe4e6c85014e9f3661d33fed4d7a6f11a2b7bb",
+      "competitor": "turck",
+      "category": "new_product",
+      "tags": {"technology": ["IO-Link"], "industry": ["Packaging"], "application": ["Machine connectivity"]},
+      "title": "Fixture item r06",
+      "summary": "A short fixture summary in plain words.",
+      "basis": "reported",
+      "fallback": false,
+      "update_of": null,
+      "sources": [{"url": "https://example.com/fixture/r06", "publisher": "Fixture publisher", "published_date": "2026-10-14", "retrieved_utc": "2026-10-16T06:00:00Z"}],
+      "sample": false
+    },
+    {
+      "id": "74fe4e6c85014e9f3661d33fed4d7a6f11a2b7bb",
+      "competitor": "turck",
+      "category": "competitor_summary",
+      "tags": {"technology": ["IO-Link"], "industry": ["Packaging"], "application": ["Machine connectivity"]},
+      "title": "Fixture item r06",
+      "summary": "A short fixture summary in plain words.",
+      "basis": "reported",
+      "fallback": false,
+      "update_of": null,
+      "sources": [{"url": "https://example.com/fixture/r06", "publisher": "Fixture publisher", "published_date": "2026-10-14", "retrieved_utc": "2026-10-16T06:00:00Z"}],
+      "sample": false
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "_comment": "Read by scripts/validate.py. Patterns are Python regular expressions. Pricing and part-number checks run on every item's title and summary.",
+  "lookback_days": 7,
+  "event_horizon_days": 90,
+  "summary_max_words": 80,
+  "competitors": ["ifm", "keyence", "turck", "banner", "sick", "pepperl-fuchs"],
+  "categories": ["new_product", "competitor_summary", "event", "financial", "strategy"],
+  "basis_values": ["reported", "analysis"],
+  "pricing": {
+    "_comment": "always: product-pricing language, checked in every category. currency_amounts: any money amount, checked in every category except financial (company-level figures such as revenue are allowed there).",
+    "always": [
+      "(?i)\\blist\\s+price",
+      "(?i)\\bMSRP\\b",
+      "(?i)\\bper\\s+(unit|piece|pc|device|sensor|license|seat)\\b",
+      "(?i)\\b(unit|street|net|dealer|distributor|introductory|promotional|sale)\\s+price",
+      "(?i)\\bpriced\\s+(at|from)\\b",
+      "(?i)\\b(starting|starts)\\s+at\\s*[$\u20ac\u00a3\u00a5]",
+      "(?i)\\b\\d+(\\.\\d+)?\\s?%\\s+(off|discount)\\b",
+      "(?i)\\bdiscount(s|ed)?\\b",
+      "(?i)\\bprice\\s+(list|quote|sheet|tag)s?\\b",
+      "(?i)\\bquot(e|ed|es|ation)\\s+(of|at|for)\\s*[$€£¥\\d]"
+    ],
+    "currency_amounts": [
+      "[$\u20ac\u00a3\u00a5]\\s?\\d",
+      "(?i)\\b\\d[\\d,.]*\\s?(USD|EUR|GBP|JPY|CAD|MXN|BRL|dollars?|euros?|yen)\\b",
+      "(?i)\\b(USD|EUR|GBP|JPY|CAD|MXN|BRL|US\\$)\\s?\\d"
+    ]
+  },
+  "part_numbers": {
+    "_comment": "A token that matches any pattern is rejected unless it appears in allowlist (exact, case-sensitive). Family names such as 'IV4', 'SEC200' or 'TBEN-L' do not match the patterns and need no allowlist entry.",
+    "patterns": [
+      "\\b(?!(?:Q[1-4]|H[12]|FY)[-/]\\d{2,4}\\b)(?=[A-Z0-9./-]{7,}\\b)(?=[A-Z0-9./-]*\\d)(?=[A-Z0-9./-]*[A-Z])[A-Z0-9]+(?:[-./][A-Z0-9]+){1,}\\b",
+      "\\b[A-Z]{1,4}\\d+[A-Z]+\\d+[A-Z0-9]*\\b",
+      "(?<![\\d,.])\\b\\d{6,12}\\b(?![,.]\\d)"
+    ],
+    "allowlist": [
+      "COVID-19",
+      "ISO-9001",
+      "EN-61496",
+      "IEC-61131",
+      "IEC-62443"
+    ]
+  },
+  "redaction_note": "The digest never redacts silently. validate.py fails the run instead, and the run author rewrites the item."
+}

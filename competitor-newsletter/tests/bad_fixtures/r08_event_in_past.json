@@ -1,0 +1,24 @@
+{
+  "_fixture": "Expect rule 8: event start_date before the run date.",
+  "run_date": "2026-10-16",
+  "window_start_utc": "2026-10-09T00:00:00Z",
+  "window_end_utc": "2026-10-16T00:00:00Z",
+  "status": "ok",
+  "source_failures": [],
+  "items": [
+    {
+      "id": "2ebebb4c84b9efb5ce7aec4b1ef5545da133e2cc",
+      "competitor": "sick",
+      "category": "event",
+      "tags": {"technology": ["IO-Link"], "industry": ["Packaging"], "application": ["Machine connectivity"]},
+      "title": "Fixture item r08",
+      "summary": "A short fixture summary in plain words.",
+      "basis": "reported",
+      "fallback": false,
+      "update_of": null,
+      "sources": [{"url": "https://example.com/fixture/r08", "publisher": "Fixture publisher", "published_date": "2026-10-14", "retrieved_utc": "2026-10-16T06:00:00Z"}],
+      "event": {"start_date": "2026-10-01", "end_date": "2026-10-03", "location": "Fixture City", "booth": ""},
+      "sample": false
+    }
+  ]
+}
