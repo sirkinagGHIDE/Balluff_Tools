@@ -1,5 +1,5 @@
 {
-  "_comment": "Every URL below was fetched successfully during the build on 2026-10-16 (HTTP 200 unless fetch_note says otherwise). All sources are verified=false until the operator confirms them. source.type is one of: newsroom, product_news, events, investor.",
+  "_comment": "Every URL below was fetched successfully during the build on 2026-10-16 (HTTP 200 unless fetch_note says otherwise). The operator confirmed the original 23 sources on 2026-10-29. A source added later stays verified=false until the operator checks it. source.type is one of: newsroom, product_news, events, investor.",
   "competitors": [
     {
       "id": "ifm",
@@ -12,16 +12,23 @@
         {
           "type": "newsroom",
           "url": "https://www.ifm.com/us/en/news",
-          "verified": false,
+          "verified": true,
           "fetched_on": "2026-10-16",
           "fetch_note": "Returns HTTP 403 to non-browser clients (Akamai). Loaded normally in a browser during the build. Also lists US product news."
         },
         {
           "type": "newsroom",
           "url": "https://www.ifm.com/us/en/shared/topic/press-portal/releases",
-          "verified": false,
+          "verified": true,
           "fetched_on": "2026-10-16",
           "fetch_note": "Press portal. Same 403 behavior for non-browser clients; loaded in a browser during the build."
+        },
+        {
+          "type": "newsroom",
+          "url": "https://gillian-alicea.suite.accessnewswire.com/browse/rss",
+          "verified": false,
+          "fetched_on": "2026-10-29",
+          "fetch_note": "RSS feed of the ifm efector media room on ACCESS Newswire. Readable by automated clients, with a pubDate on every item. Use it while ifm.com returns 403. Operator to confirm."
         }
       ]
     },
@@ -36,28 +43,28 @@
         {
           "type": "product_news",
           "url": "https://www.keyence.com/news-events/",
-          "verified": false,
+          "verified": true,
           "fetched_on": "2026-10-16",
           "fetch_note": "News & Events page. Lists new products; trade shows are on the same page (#trade-show anchor)."
         },
         {
           "type": "events",
           "url": "https://www.keyence.com/news-events/",
-          "verified": false,
+          "verified": true,
           "fetched_on": "2026-10-16",
           "fetch_note": "Same page as product_news; trade-show listing section."
         },
         {
           "type": "investor",
           "url": "https://www.keyence.com/about-us/corporate/",
-          "verified": false,
+          "verified": true,
           "fetched_on": "2026-10-16",
           "fetch_note": "Corporate overview with annual report download. No dedicated English IR page was confirmed during the build."
         },
         {
           "type": "investor",
           "url": "https://www.keyence.co.jp/pdf/AnnualReport_2025_en.pdf",
-          "verified": false,
+          "verified": true,
           "fetched_on": "2026-10-16",
           "fetch_note": "Annual Report 2025 (PDF). Replace with the newest report each year."
         }
@@ -74,28 +81,28 @@
         {
           "type": "newsroom",
           "url": "https://www.turck.us/en/press-releases-135.php",
-          "verified": false,
+          "verified": true,
           "fetched_on": "2026-10-16",
           "fetch_note": ""
         },
         {
           "type": "newsroom",
           "url": "https://www.turck.us/en/company-news-2863.php",
-          "verified": false,
+          "verified": true,
           "fetched_on": "2026-10-16",
           "fetch_note": "Company news."
         },
         {
           "type": "product_news",
           "url": "https://www.turck.us/en/product-news-2860.php",
-          "verified": false,
+          "verified": true,
           "fetched_on": "2026-10-16",
           "fetch_note": ""
         },
         {
           "type": "events",
           "url": "https://www.turck.us/en/trade-shows-134.php",
-          "verified": false,
+          "verified": true,
           "fetched_on": "2026-10-16",
           "fetch_note": ""
         }
@@ -113,49 +120,49 @@
         {
           "type": "newsroom",
           "url": "https://www.bannerengineering.com/us/en/company/news/press-room.html",
-          "verified": false,
+          "verified": true,
           "fetched_on": "2026-10-16",
           "fetch_note": ""
         },
         {
           "type": "newsroom",
           "url": "https://www.bannerengineering.com/us/en/company/news.html",
-          "verified": false,
+          "verified": true,
           "fetched_on": "2026-10-16",
           "fetch_note": "News hub."
         },
         {
           "type": "product_news",
           "url": "https://www.bannerengineering.com/us/en/company/new-products.html",
-          "verified": false,
+          "verified": true,
           "fetched_on": "2026-10-16",
           "fetch_note": ""
         },
         {
           "type": "events",
           "url": "https://www.bannerengineering.com/us/en/company/tradeshows.html",
-          "verified": false,
+          "verified": true,
           "fetched_on": "2026-10-16",
           "fetch_note": ""
         },
         {
           "type": "events",
           "url": "https://www.bannerengineering.com/us/en/company/events.html",
-          "verified": false,
+          "verified": true,
           "fetched_on": "2026-10-16",
           "fetch_note": ""
         },
         {
           "type": "investor",
           "url": "https://investors.fortive.com/",
-          "verified": false,
+          "verified": true,
           "fetched_on": "2026-10-16",
           "fetch_note": "Parent company (Fortive) investor relations."
         },
         {
           "type": "investor",
           "url": "https://investors.fortive.com/financial-information/financial-results",
-          "verified": false,
+          "verified": true,
           "fetched_on": "2026-10-16",
           "fetch_note": "Parent company (Fortive) quarterly and annual results."
         }
@@ -173,21 +180,21 @@
         {
           "type": "newsroom",
           "url": "https://www.sick.com/us/en/press/pressreleases",
-          "verified": false,
+          "verified": true,
           "fetched_on": "2026-10-16",
           "fetch_note": "Global press releases, includes product launches. No separate product-news or events page was confirmed during the build."
         },
         {
           "type": "investor",
           "url": "https://www.sick.com/us/en/shareholder-relations-at-sick-ag/w/investor-relations",
-          "verified": false,
+          "verified": true,
           "fetched_on": "2026-10-16",
           "fetch_note": ""
         },
         {
           "type": "investor",
           "url": "https://www.sick.com/us/en/annual-report-2025/s/performance",
-          "verified": false,
+          "verified": true,
           "fetched_on": "2026-10-16",
           "fetch_note": "HTTP 200; content is rendered by JavaScript, so the operator should confirm it in a browser. Linked from the shareholder-relations page."
         }
@@ -204,21 +211,21 @@
         {
           "type": "newsroom",
           "url": "https://www.pepperl-fuchs.com/en-us/news/public-relations-gp32054",
-          "verified": false,
+          "verified": true,
           "fetched_on": "2026-10-16",
           "fetch_note": "Press and media center."
         },
         {
           "type": "product_news",
           "url": "https://www.pepperl-fuchs.com/en-us/news-gp27472",
-          "verified": false,
+          "verified": true,
           "fetched_on": "2026-10-16",
           "fetch_note": "News overview; lists product announcements."
         },
         {
           "type": "events",
           "url": "https://www.pepperl-fuchs.com/en-us/news/stay-in-touch/fairs-events-in-usa-lp45351",
-          "verified": false,
+          "verified": true,
           "fetched_on": "2026-10-16",
           "fetch_note": "US fairs and events."
         }
