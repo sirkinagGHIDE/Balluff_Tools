@@ -645,7 +645,7 @@ window.DIGEST = {
      "title": "[Sample] Compact 2D LiDAR family for mobile robots",
      "summary": "Sample item. A smaller 2D LiDAR family aimed at autonomous mobile robots and automated guided vehicles. The pitch: smaller housing, lower power draw, and a wider field of view than the previous generation. Reported from a trade publication because the competitor's own newsroom failed to load this week.",
      "basis": "reported",
-     "fallback": true,
+     "fallback": false,
      "update_of": null,
      "sources": [
       {
@@ -779,6 +779,49 @@ window.DIGEST = {
        "url": "https://example.com/sample/banner-wireless-2",
        "publisher": "Sample publisher",
        "published_date": "2026-10-14",
+       "retrieved_utc": "2026-10-16T06:00:00Z"
+      }
+     ],
+     "sample": true
+    },
+    {
+     "id": "0142afd1309f3691534b207ad7d29b762f41f616",
+     "competitor": "turck",
+     "category": "strategy",
+     "tags": {
+      "technology": [
+       "IO-Link",
+       "Industrial Ethernet"
+      ],
+      "industry": [
+       "Packaging"
+      ],
+      "application": [
+       "Machine connectivity"
+      ]
+     },
+     "title": "[Sample] Go-to-market: Turck in packaging",
+     "summary": "Sample item. In packaging, the competitor leads with on-machine block I/O and IO-Link masters rather than single sensors, pitching fewer cabinets and faster format changes. It sells through OEM machine builders and distributors, backs that with packaging case studies, and shows up at the major packaging trade shows. Expect it in OEM accounts where the machine builder owns the architecture.",
+     "basis": "analysis",
+     "fallback": true,
+     "update_of": null,
+     "sources": [
+      {
+       "url": "https://example.com/sample/turck-newsroom#strategy-profile-2026-10-16",
+       "publisher": "Sample publisher",
+       "published_date": "2026-10-16",
+       "retrieved_utc": "2026-10-16T06:00:00Z"
+      },
+      {
+       "url": "https://example.com/sample/turck-packaging-industry-page",
+       "publisher": "Sample publisher",
+       "published_date": "2026-03-02",
+       "retrieved_utc": "2026-10-16T06:00:00Z"
+      },
+      {
+       "url": "https://example.com/sample/turck-packaging-case-study",
+       "publisher": "Sample publisher",
+       "published_date": "2026-05-19",
        "retrieved_utc": "2026-10-16T06:00:00Z"
       }
      ],

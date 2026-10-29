@@ -284,7 +284,7 @@
     children.push(el("p", { className: "item__summary", text: item.summary }));
 
     if (item.fallback) {
-      children.push(el("p", { className: "item__note", text: "Fallback: the competitor's own channel was not usable for this item, so it is reported from the secondary source below." }));
+      children.push(el("p", { className: "item__note", text: "Background: no new strategy news this week, so this is a profile of how the competitor goes to market, built from earlier public sources." }));
     }
     if (item.update_of) {
       var original = null;

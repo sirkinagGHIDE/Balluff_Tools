@@ -39,10 +39,16 @@ For each of: ifm, Keyence, Turck, Banner, SICK, Pepperl+Fuchs:
   - basis = "reported", fallback = false, update_of = null. tags = the union of the tags on that competitor's items this run.
   - sources: first, the competitor's first configured newsroom URL with the fragment `#digest-summary-<run_date>` appended (publisher = the competitor, published_date = run_date). This gives the summary its own id (the sha1 of that URL), since it cites the same URLs as its items. Then add the primary source of each of that competitor's items this run.
 
-## 5. No-news fallback
-If a competitor has zero reported items in the window:
+## 5. Go-to-market profile (strategy fallback)
+Goal: every week, readers learn something about how each competitor goes to market, even when there is no strategy news.
+
+If a competitor has no reported strategy item in this run (whether or not it had other news):
 - Write ONE strategy item: basis = "analysis", fallback = true.
-- Build it only from cited public sources of any date, preferring the last 12 months. Cover a technology, application, or industry theme.
+- Title: "Go-to-market: <Competitor> in <technology group or industry>", e.g. "Go-to-market: SICK in safety" or "Go-to-market: Keyence in food and beverage".
+- Pick ONE technology group (e.g. photoelectric, inductive, vision, RFID, IO-Link, safety, condition monitoring, process instrumentation) or ONE industry (e.g. automotive, packaging, food and beverage, intralogistics, metals). Prefer a topic tied to this week's news for that competitor. Never repeat a topic used for that competitor's profiles in the last 8 runs; check the titles of earlier strategy items in data/items.
+- Summary (≤80 words): how the competitor goes to market in that topic. Cover what applies: which product families it leads with, which customers and applications it targets, how it sells (direct sales force, distributors, OEM or integrator partners, online), the message it repeats, and where it shows up (trade shows, webinars, case studies). End with one sentence on what a Balluff rep should expect when meeting it in that space.
+- Build it only from cited public sources of any date, preferring the last 12 months: product family pages, industry or solution pages, case studies, annual reports, press releases, trade-show pages. Cite at least two sources when they exist.
+- sources: first, the competitor's first configured newsroom URL with the fragment `#strategy-profile-<run_date>` appended (publisher = the competitor, published_date = run_date). This gives the profile its own id, since its other sources may have been cited in earlier runs. Then add the sources the profile is built from.
 - If no citable basis exists, write: "No new public activity this period." Cite the sources checked.
 - Never write an uncited claim to fill space.
 

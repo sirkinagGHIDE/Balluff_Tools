@@ -21,8 +21,9 @@ Using the page:
 - **Sharing:** filters and week live in the URL. Copy the address bar to share a filtered
   view; reloading keeps it.
 - **Labels:** *Analysis* means our own reading of several sources, not a competitor
-  statement. *Fallback* means the competitor's own channel was not usable for that item and
-  it comes from a secondary publisher. *Update* means it updates an item from an earlier week.
+  statement. *Fallback* marks a go-to-market profile: with no strategy news that week, the
+  run writes a short, cited profile of how the competitor sells in one technology group or
+  industry (RUN_SPEC.md §5). Topics rotate, so the profiles build up over the weeks. *Update* means it updates an item from an earlier week.
 - **Partial runs:** when a source could not be read, a banner lists every failed source.
 
 The page never shows product pricing or orderable part numbers. Product family names and
