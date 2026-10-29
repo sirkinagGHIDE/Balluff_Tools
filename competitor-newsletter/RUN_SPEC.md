@@ -32,6 +32,12 @@ For each of: ifm, Keyence, Turck, Banner, SICK, Pepperl+Fuchs:
 - Deduplicate:
   - Skip any item whose id is in state.seen_ids, or whose title clearly matches a prior item.
   - If a prior story has materially new information, include it with update_of = prior id.
+- Competitor summary:
+  - Write ONE competitor_summary item for each competitor with at least one reported item this run (new_product, event, financial, or reported strategy). A competitor with none gets no summary; the §5 fallback covers it.
+  - Title: "<Competitor>: week of <run_date as Mon D, YYYY>". The title-match dedup rule above does not apply to summaries.
+  - Summary: 2–3 sentences, ≤80 words, on what the competitor did this week and the one point a sales rep should take from it. State only what this run's cited items say.
+  - basis = "reported", fallback = false, update_of = null. tags = the union of the tags on that competitor's items this run.
+  - sources: first, the competitor's first configured newsroom URL with the fragment `#digest-summary-<run_date>` appended (publisher = the competitor, published_date = run_date). This gives the summary its own id (the sha1 of that URL), since it cites the same URLs as its items. Then add the primary source of each of that competitor's items this run.
 
 ## 5. No-news fallback
 If a competitor has zero reported items in the window:

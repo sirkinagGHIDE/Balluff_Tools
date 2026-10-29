@@ -72,6 +72,8 @@ The Claude scheduled task follows `RUN_SPEC.md`. In outline:
    `event_horizon_days` (90).
 4. If an item materially updates something already published, write a new item with
    `update_of` set to the earlier item's id. Never edit a committed run file.
+   Each competitor with news this week also gets one Competitor Summary item
+   (RUN_SPEC.md §4). Quiet competitors get the §5 fallback instead.
 5. Rebuild and check:
 
    ```bash
