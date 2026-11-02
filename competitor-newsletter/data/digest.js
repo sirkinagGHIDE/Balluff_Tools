@@ -47,6 +47,575 @@ window.DIGEST = {
  ],
  "runs": [
   {
+   "run_date": "2026-11-02",
+   "window_start_utc": "2026-10-16T20:21:37Z",
+   "window_end_utc": "2026-11-02T14:38:21Z",
+   "status": "partial",
+   "source_failures": [
+    {
+     "competitor": "ifm",
+     "url": "https://www.ifm.com/us/en/news",
+     "error": "HTTP 200 but no news listing readable (navigation only returned to automated clients)"
+    },
+    {
+     "competitor": "ifm",
+     "url": "https://www.ifm.com/us/en/shared/topic/press-portal/releases",
+     "error": "HTTP 200 but no release listing readable (intro text only returned to automated clients)"
+    },
+    {
+     "competitor": "sick",
+     "url": "https://www.sick.com/us/en/press/sick-at-sps-2026-creating-value-together/s/press-2026-sps-preview",
+     "error": "Linked from the press releases page but resolves to 'Not found'"
+    },
+    {
+     "competitor": "pepperl-fuchs",
+     "url": "https://www.pepperl-fuchs.com/en-us/news/public-relations-gp32054",
+     "error": "HTTP 403 Forbidden (site blocks automated clients)"
+    },
+    {
+     "competitor": "pepperl-fuchs",
+     "url": "https://www.pepperl-fuchs.com/en-us/news-gp27472",
+     "error": "HTTP 403 Forbidden (site blocks automated clients)"
+    },
+    {
+     "competitor": "pepperl-fuchs",
+     "url": "https://www.pepperl-fuchs.com/en-us/news/stay-in-touch/fairs-events-in-usa-lp45351",
+     "error": "HTTP 403 Forbidden (site blocks automated clients)"
+    },
+    {
+     "competitor": "pepperl-fuchs",
+     "url": "https://www.ien.com/new-products/product/22977544/pepperlfuchs-pepperlfuchs-surge-protection-modules-for-process-plants",
+     "error": "HTTP 403 Forbidden (trade-press page; publication date could not be confirmed)"
+    }
+   ],
+   "items": [
+    {
+     "id": "eae7f3718bf3a3e421b36fdf105631d8abad0f38",
+     "competitor": "banner",
+     "category": "financial",
+     "tags": {
+      "technology": [
+       "Sensors"
+      ],
+      "industry": [
+       "General manufacturing"
+      ],
+      "application": []
+     },
+     "title": "Fortive (Banner's parent) reports third-quarter 2026 results",
+     "summary": "Parent-level figures: Fortive, Banner's parent, does not break out Banner. For the quarter ended Oct 2, 2026, Fortive reported revenue of $1.11 billion, up 7.8% (core up 7.2%), and an adjusted EBITDA margin of 30.6%. Its Intelligent Operating Solutions segment grew revenue 9.8%. Fortive raised full-year adjusted EPS guidance to $3.10 to $3.14 and said its investments in innovation and commercial acceleration are lifting growth.",
+     "basis": "reported",
+     "fallback": false,
+     "update_of": null,
+     "sources": [
+      {
+       "url": "https://investors.fortive.com/news-events/press-releases/detail/296/fortive-reports-third-quarter-2026-results",
+       "publisher": "Fortive Corporation",
+       "published_date": "2026-10-28",
+       "retrieved_utc": "2026-11-02T14:38:21Z"
+      }
+     ],
+     "sample": false
+    },
+    {
+     "id": "221a39ecaed158761615b31b8dcc17408102444a",
+     "competitor": "sick",
+     "category": "strategy",
+     "tags": {
+      "technology": [
+       "Safety",
+       "Industrial AI",
+       "Simulation"
+      ],
+      "industry": [
+       "Robotics",
+       "Intralogistics"
+      ],
+      "application": [
+       "Human-robot collaboration",
+       "Autonomous mobile robots"
+      ]
+     },
+     "title": "SICK tests NVIDIA Halos for its Dynamic Safety concept",
+     "summary": "SICK said on Oct 22 that it is working with NVIDIA on Dynamic Safety, its plan for keeping robots and machines safe in changing environments by adding AI perception and simulation to its sensing and machine-safety expertise. SICK is testing integration with the NVIDIA Halos safety platform on IGX Thor and uses Isaac Sim for virtual sensor models. It has also joined the Halos AI Systems Inspection Lab. Why it matters: SICK is presenting robot safety as a physical-AI story.",
+     "basis": "reported",
+     "fallback": false,
+     "update_of": null,
+     "sources": [
+      {
+       "url": "https://www.sick.com/us/en/press/sick-explores-future-capabilities-of-dynamic-safety-with-nvidia-halos/s/press-2026-nvidia",
+       "publisher": "SICK AG",
+       "published_date": "2026-10-22",
+       "retrieved_utc": "2026-11-02T14:38:21Z"
+      }
+     ],
+     "sample": false
+    },
+    {
+     "id": "901ced1a505d2363513104365b7f0e1db3136d95",
+     "competitor": "keyence",
+     "category": "event",
+     "tags": {
+      "technology": [
+       "Microscopy"
+      ],
+      "industry": [
+       "Life sciences"
+      ],
+      "application": []
+     },
+     "title": "Keyence at Neuroscience 2026",
+     "summary": "Keyence lists Neuroscience 2026 in Washington, D.C. on its US trade-show calendar. No booth number is published on the page.",
+     "basis": "reported",
+     "fallback": false,
+     "update_of": null,
+     "sources": [
+      {
+       "url": "https://www.keyence.com/news-events/#trade-show-neuroscience-2026",
+       "publisher": "KEYENCE America",
+       "published_date": "2026-11-02",
+       "retrieved_utc": "2026-11-02T14:38:21Z"
+      }
+     ],
+     "event": {
+      "start_date": "2026-11-14",
+      "end_date": "2026-11-18",
+      "location": "Washington, D.C.",
+      "booth": ""
+     },
+     "sample": false
+    },
+    {
+     "id": "b2873764fb31007babd3c787908ce5261a8ddd79",
+     "competitor": "keyence",
+     "category": "event",
+     "tags": {
+      "technology": [
+       "Sensors",
+       "Machine vision"
+      ],
+      "industry": [
+       "General manufacturing"
+      ],
+      "application": []
+     },
+     "title": "Keyence at ECI CONNECT 2026",
+     "summary": "Keyence lists ECI CONNECT 2026 in Las Vegas on its US trade-show calendar. No booth number is published on the page.",
+     "basis": "reported",
+     "fallback": false,
+     "update_of": null,
+     "sources": [
+      {
+       "url": "https://www.keyence.com/news-events/#trade-show-eci-connect-2026",
+       "publisher": "KEYENCE America",
+       "published_date": "2026-11-02",
+       "retrieved_utc": "2026-11-02T14:38:21Z"
+      }
+     ],
+     "event": {
+      "start_date": "2026-11-16",
+      "end_date": "2026-11-18",
+      "location": "Las Vegas, NV",
+      "booth": ""
+     },
+     "sample": false
+    },
+    {
+     "id": "a3728078381c07f9fcde8e3ff84ddd4ef4fee242",
+     "competitor": "keyence",
+     "category": "event",
+     "tags": {
+      "technology": [
+       "Microscopy"
+      ],
+      "industry": [
+       "Life sciences"
+      ],
+      "application": []
+     },
+     "title": "Keyence at Cell Bio 2026",
+     "summary": "Keyence lists Cell Bio 2026 in San Diego on its US trade-show calendar. No booth number is published on the page.",
+     "basis": "reported",
+     "fallback": false,
+     "update_of": null,
+     "sources": [
+      {
+       "url": "https://www.keyence.com/news-events/#trade-show-cell-bio-2026",
+       "publisher": "KEYENCE America",
+       "published_date": "2026-11-02",
+       "retrieved_utc": "2026-11-02T14:38:21Z"
+      }
+     ],
+     "event": {
+      "start_date": "2026-12-12",
+      "end_date": "2026-12-15",
+      "location": "San Diego, CA",
+      "booth": ""
+     },
+     "sample": false
+    },
+    {
+     "id": "7719c0a0413c5a714f9d5df44fdf12b7303e2ba9",
+     "competitor": "banner",
+     "category": "competitor_summary",
+     "tags": {
+      "technology": [
+       "Sensors"
+      ],
+      "industry": [
+       "General manufacturing"
+      ],
+      "application": []
+     },
+     "title": "Banner: week of Nov 2, 2026",
+     "summary": "Banner posted no new products or press releases in the window. Its parent Fortive reported third-quarter 2026 revenue growth of 7.8% (7.2% core) and raised its full-year adjusted EPS guidance. Takeaway for reps: these are parent-level figures; Fortive does not break out Banner.",
+     "basis": "reported",
+     "fallback": false,
+     "update_of": null,
+     "sources": [
+      {
+       "url": "https://www.bannerengineering.com/us/en/company/news/press-room.html#digest-summary-2026-11-02",
+       "publisher": "Banner Engineering",
+       "published_date": "2026-11-02",
+       "retrieved_utc": "2026-11-02T14:38:21Z"
+      },
+      {
+       "url": "https://investors.fortive.com/news-events/press-releases/detail/296/fortive-reports-third-quarter-2026-results",
+       "publisher": "Fortive Corporation",
+       "published_date": "2026-10-28",
+       "retrieved_utc": "2026-11-02T14:38:21Z"
+      }
+     ],
+     "sample": false
+    },
+    {
+     "id": "6b1dabc19b1a0107554b6b410acd26a9132a05ff",
+     "competitor": "keyence",
+     "category": "competitor_summary",
+     "tags": {
+      "technology": [
+       "Machine vision",
+       "Microscopy",
+       "Sensors"
+      ],
+      "industry": [
+       "General manufacturing",
+       "Life sciences"
+      ],
+      "application": []
+     },
+     "title": "Keyence: week of Nov 2, 2026",
+     "summary": "Keyence added three US shows to its trade-show calendar: Neuroscience 2026 in Washington, D.C., ECI CONNECT 2026 in Las Vegas and Cell Bio 2026 in San Diego. No booth numbers are published. Takeaway for reps: two of the three new US listings are life-science research meetings, not factory-automation shows.",
+     "basis": "reported",
+     "fallback": false,
+     "update_of": null,
+     "sources": [
+      {
+       "url": "https://www.keyence.com/news-events/#digest-summary-2026-11-02",
+       "publisher": "KEYENCE America",
+       "published_date": "2026-11-02",
+       "retrieved_utc": "2026-11-02T14:38:21Z"
+      },
+      {
+       "url": "https://www.keyence.com/news-events/#trade-show-neuroscience-2026",
+       "publisher": "KEYENCE America",
+       "published_date": "2026-11-02",
+       "retrieved_utc": "2026-11-02T14:38:21Z"
+      },
+      {
+       "url": "https://www.keyence.com/news-events/#trade-show-eci-connect-2026",
+       "publisher": "KEYENCE America",
+       "published_date": "2026-11-02",
+       "retrieved_utc": "2026-11-02T14:38:21Z"
+      },
+      {
+       "url": "https://www.keyence.com/news-events/#trade-show-cell-bio-2026",
+       "publisher": "KEYENCE America",
+       "published_date": "2026-11-02",
+       "retrieved_utc": "2026-11-02T14:38:21Z"
+      }
+     ],
+     "sample": false
+    },
+    {
+     "id": "e25abb13ea597e8b71d8b65a309e694337248d98",
+     "competitor": "sick",
+     "category": "competitor_summary",
+     "tags": {
+      "technology": [
+       "Industrial AI",
+       "Safety",
+       "Simulation"
+      ],
+      "industry": [
+       "Intralogistics",
+       "Robotics"
+      ],
+      "application": [
+       "Autonomous mobile robots",
+       "Human-robot collaboration"
+      ]
+     },
+     "title": "SICK: week of Nov 2, 2026",
+     "summary": "SICK announced a collaboration with NVIDIA to explore Dynamic Safety. It is testing its sensing and machine-safety expertise with the NVIDIA Halos safety platform and uses NVIDIA simulation tools for virtual sensor models. Takeaway for reps: SICK is presenting safety for robots and autonomous machines as an AI and simulation story.",
+     "basis": "reported",
+     "fallback": false,
+     "update_of": null,
+     "sources": [
+      {
+       "url": "https://www.sick.com/us/en/press/pressreleases#digest-summary-2026-11-02",
+       "publisher": "SICK AG",
+       "published_date": "2026-11-02",
+       "retrieved_utc": "2026-11-02T14:38:21Z"
+      },
+      {
+       "url": "https://www.sick.com/us/en/press/sick-explores-future-capabilities-of-dynamic-safety-with-nvidia-halos/s/press-2026-nvidia",
+       "publisher": "SICK AG",
+       "published_date": "2026-10-22",
+       "retrieved_utc": "2026-11-02T14:38:21Z"
+      }
+     ],
+     "sample": false
+    },
+    {
+     "id": "fbfffc98edbf0f9100044e8d9e0ef3835b8ce9f3",
+     "competitor": "ifm",
+     "category": "strategy",
+     "tags": {
+      "technology": [
+       "Machine vision",
+       "Safety",
+       "Industrial AI"
+      ],
+      "industry": [
+       "Mobile machines",
+       "Construction",
+       "Agriculture"
+      ],
+      "application": [
+       "Collision avoidance",
+       "People detection"
+      ]
+     },
+     "title": "Go-to-market: ifm in mobile machines",
+     "summary": "ifm leads in mobile equipment with AI cameras: the O3M 3D camera with people detection (Oct 2025) and a new O2M 2D camera with an onboard neural processor (Mar 2026). It targets builders of construction, agricultural and off-highway machines, promises fewer false alarms and earlier operator warnings, and launches at CONEXPO-CON/AGG through a dedicated mobile-machines business team. Expect a Balluff rep to meet ifm at OEM machine builders where collision avoidance and rugged hardware drive the spec.",
+     "basis": "analysis",
+     "fallback": true,
+     "update_of": null,
+     "sources": [
+      {
+       "url": "https://www.ifm.com/us/en/news#strategy-profile-2026-11-02",
+       "publisher": "ifm efector",
+       "published_date": "2026-11-02",
+       "retrieved_utc": "2026-11-02T14:38:21Z"
+      },
+      {
+       "url": "https://www.suite.accessnewswire.com/news/ifm-launches-2d-camera-with-ai-powered-human-detection-to-increase-mobile",
+       "publisher": "ifm efector (ACCESS Newswire)",
+       "published_date": "2026-03-02",
+       "retrieved_utc": "2026-11-02T14:38:21Z"
+      },
+      {
+       "url": "https://www.aviationpros.com/directory/communication-safety-equipment/press-release/55332594/ifm-efector-inc-o3m-3d-innovative-ai-camera-for-operator-and-collision-protection",
+       "publisher": "Aviation Pros (ifm efector release)",
+       "published_date": "2025-10-07",
+       "retrieved_utc": "2026-11-02T14:38:21Z"
+      }
+     ],
+     "sample": false
+    },
+    {
+     "id": "93377186a14dd251cdf6e9829f26f233c87d8c69",
+     "competitor": "keyence",
+     "category": "strategy",
+     "tags": {
+      "technology": [
+       "Machine vision",
+       "Industrial AI"
+      ],
+      "industry": [
+       "General manufacturing"
+      ],
+      "application": [
+       "Presence and count verification"
+      ]
+     },
+     "title": "Go-to-market: Keyence in vision",
+     "summary": "Keyence leads in vision with the IV4 vision sensor with built-in AI (listed new in September 2026) and the AI-powered VS-G vision system (June 2026). Its message is that anyone can set up stable detection without vision expertise. It sells direct through technically trained sales engineers, offers free trial units and on-site support, and uses case studies and a US trade-show calendar. Expect a Balluff rep to meet a Keyence engineer already on the plant floor with a trial unit.",
+     "basis": "analysis",
+     "fallback": true,
+     "update_of": null,
+     "sources": [
+      {
+       "url": "https://www.keyence.com/news-events/#strategy-profile-2026-11-02",
+       "publisher": "KEYENCE America",
+       "published_date": "2026-11-02",
+       "retrieved_utc": "2026-11-02T14:38:21Z"
+      },
+      {
+       "url": "https://www.keyence.com/products/vision/vision-sensor/iv4/",
+       "publisher": "KEYENCE America",
+       "published_date": "2026-11-02",
+       "retrieved_utc": "2026-11-02T14:38:21Z"
+      },
+      {
+       "url": "https://www.keyence.com/about-us/service/",
+       "publisher": "KEYENCE America",
+       "published_date": "2026-11-02",
+       "retrieved_utc": "2026-11-02T14:38:21Z"
+      },
+      {
+       "url": "https://www.keyence.com/news-events/",
+       "publisher": "KEYENCE America",
+       "published_date": "2026-11-02",
+       "retrieved_utc": "2026-11-02T14:38:21Z"
+      }
+     ],
+     "sample": false
+    },
+    {
+     "id": "2800c5c601b105fa05bf3baf7036809ef9813ee5",
+     "competitor": "turck",
+     "category": "strategy",
+     "tags": {
+      "technology": [
+       "IO-Link",
+       "Remote I/O",
+       "Condition monitoring"
+      ],
+      "industry": [
+       "Data centers"
+      ],
+      "application": [
+       "Liquid cooling",
+       "Pump and fan control"
+      ]
+     },
+     "title": "Go-to-market: Turck in data centers",
+     "summary": "Turck is pursuing data centers with a dedicated Data Center Industry Guide (Aug 2026) and a new key account manager for the vertical. It leads with IP67 sensors, IO-Link condition monitoring, cabinet-free multiprotocol I/O with onboard logic, TAS software and power distribution, aimed at liquid cooling, coolant distribution units, pump skids and fan walls. Its new US CEO, appointed May 2026, was hired to support growth plans. Expect a Balluff rep to meet Turck at cooling-equipment OEMs pitching cabinet-free I/O.",
+     "basis": "analysis",
+     "fallback": true,
+     "update_of": null,
+     "sources": [
+      {
+       "url": "https://www.turck.us/en/press-releases-135.php#strategy-profile-2026-11-02",
+       "publisher": "Turck Inc.",
+       "published_date": "2026-11-02",
+       "retrieved_utc": "2026-11-02T14:38:21Z"
+      },
+      {
+       "url": "https://www.turck.us/en/press-releases-135_turck-showcases-solutions-for-data-centers--52862.php",
+       "publisher": "Turck Inc.",
+       "published_date": "2026-08-28",
+       "retrieved_utc": "2026-11-02T14:38:21Z"
+      },
+      {
+       "url": "https://www.turck.us/en/press-releases-135_turck-inc-announces-ceo-rob-nugent-52601.php",
+       "publisher": "Turck Inc.",
+       "published_date": "2026-05-05",
+       "retrieved_utc": "2026-11-02T14:38:21Z"
+      }
+     ],
+     "sample": false
+    },
+    {
+     "id": "91ec73680cd003cb385ab8acf916701c51c6c800",
+     "competitor": "banner",
+     "category": "strategy",
+     "tags": {
+      "technology": [
+       "Safety",
+       "IO-Link"
+      ],
+      "industry": [
+       "General manufacturing"
+      ],
+      "application": [
+       "Machine guarding"
+      ]
+     },
+     "title": "Go-to-market: Banner in safety",
+     "summary": "Banner keeps refreshing its machine-safety line. In September 2026 it launched the RSr remote safety relay and updated the S4B Type 4 safety light curtain with a 360-degree multicolor status endcap, reduced resolution against nuisance trips and IO-Link diagnostics. It backs launches with educational blog posts, the newest on machine safety ratings (Oct 2026), and offers in-person or virtual demos. Expect a Balluff rep to meet Banner where IO-Link diagnostics on safety devices are part of the pitch.",
+     "basis": "analysis",
+     "fallback": true,
+     "update_of": null,
+     "sources": [
+      {
+       "url": "https://www.bannerengineering.com/us/en/company/news/press-room.html#strategy-profile-2026-11-02",
+       "publisher": "Banner Engineering",
+       "published_date": "2026-11-02",
+       "retrieved_utc": "2026-11-02T14:38:21Z"
+      },
+      {
+       "url": "https://www.bannerengineering.com/us/en/company/new-products/s4b-safety-light-curtains-fid4.html",
+       "publisher": "Banner Engineering",
+       "published_date": "2026-09-23",
+       "retrieved_utc": "2026-11-02T14:38:21Z"
+      },
+      {
+       "url": "https://www.bannerengineering.com/us/en/company/new-products.html",
+       "publisher": "Banner Engineering",
+       "published_date": "2026-10-06",
+       "retrieved_utc": "2026-11-02T14:38:21Z"
+      },
+      {
+       "url": "https://www.bannerengineering.com/us/en/company/banner-blog.html",
+       "publisher": "Banner Engineering",
+       "published_date": "2026-10-02",
+       "retrieved_utc": "2026-11-02T14:38:21Z"
+      }
+     ],
+     "sample": false
+    },
+    {
+     "id": "44f9c158b937e07047639e11cb0beeff43e28bf9",
+     "competitor": "pepperl-fuchs",
+     "category": "strategy",
+     "tags": {
+      "technology": [
+       "Explosion protection",
+       "Surge protection",
+       "Process instrumentation"
+      ],
+      "industry": [
+       "Process industries",
+       "Oil and gas",
+       "Chemical"
+      ],
+      "application": [
+       "Hazardous-area signal protection"
+      ]
+     },
+     "title": "Go-to-market: Pepperl+Fuchs in explosion protection",
+     "summary": "Pepperl+Fuchs presents itself as the expert in explosion protection and sells into process plants with hazardous-area hardware such as its M-LB surge-protection family. The message is plant and personnel safety: DIN-rail modules approved up to SIL 3, ATEX and IECEx certified to Zone 1, UL-certified for Div. 1, and slim enough to replace terminal blocks in marshalling cabinets. Expect a Balluff rep to meet Pepperl+Fuchs in process plants where hazardous-area certification decides the spec.",
+     "basis": "analysis",
+     "fallback": true,
+     "update_of": null,
+     "sources": [
+      {
+       "url": "https://www.pepperl-fuchs.com/en-us/news/public-relations-gp32054#strategy-profile-2026-11-02",
+       "publisher": "Pepperl+Fuchs",
+       "published_date": "2026-11-02",
+       "retrieved_utc": "2026-11-02T14:38:21Z"
+      },
+      {
+       "url": "https://www.automationworld.com/supplier-news/news/21565356/pepperlfuchs-pepperlfuchs-new-m-lb-2000-system-easily-protects-against-surge-transients",
+       "publisher": "Automation World (Pepperl+Fuchs release)",
+       "published_date": "2021-07-19",
+       "retrieved_utc": "2026-11-02T14:38:21Z"
+      },
+      {
+       "url": "https://www.designworldonline.com/pepperlfuchs-m-lb-2000-system-protects-against-surge-transients/",
+       "publisher": "Design World",
+       "published_date": "2021-07-15",
+       "retrieved_utc": "2026-11-02T14:38:21Z"
+      }
+     ],
+     "sample": false
+    }
+   ]
+  },
+  {
    "run_date": "2026-10-16",
    "window_start_utc": "2026-10-09T20:21:37Z",
    "window_end_utc": "2026-10-16T20:21:37Z",
