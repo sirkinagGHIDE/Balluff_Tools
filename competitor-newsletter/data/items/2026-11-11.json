@@ -1,0 +1,650 @@
+{
+  "run_date": "2026-11-11",
+  "window_start_utc": "2026-11-02T14:38:21Z",
+  "window_end_utc": "2026-11-11T02:35:44Z",
+  "status": "partial",
+  "source_failures": [
+    {
+      "competitor": "ifm",
+      "url": "https://www.ifm.com/us/en/news",
+      "error": "HTTP 200 but no news listing readable (navigation only returned to automated clients)"
+    },
+    {
+      "competitor": "ifm",
+      "url": "https://www.ifm.com/us/en/shared/topic/press-portal/releases",
+      "error": "HTTP 200 but no release listing readable (intro text only returned to automated clients)"
+    },
+    {
+      "competitor": "pepperl-fuchs",
+      "url": "https://www.pepperl-fuchs.com/en-us/news/public-relations-gp32054",
+      "error": "HTTP 403 Forbidden (site blocks automated clients)"
+    },
+    {
+      "competitor": "pepperl-fuchs",
+      "url": "https://www.pepperl-fuchs.com/en-us/news-gp27472",
+      "error": "HTTP 403 Forbidden (site blocks automated clients)"
+    },
+    {
+      "competitor": "pepperl-fuchs",
+      "url": "https://www.pepperl-fuchs.com/en-us/news/stay-in-touch/fairs-events-in-usa-lp45351",
+      "error": "HTTP 403 Forbidden (site blocks automated clients)"
+    },
+    {
+      "competitor": "pepperl-fuchs",
+      "url": "https://www.manufacturing.net/technology/product/22976658/pepperlfuchs-camerabased-linear-positioning-systems-add-compact-design-iolink-and-ethercat-interfaces",
+      "error": "HTTP 403 Forbidden (trade-press page)"
+    },
+    {
+      "competitor": "sick",
+      "url": "https://www.sick.com/us/en/press/sensingcam-sec200-reliable-1d-and-2d-code-reading-made-simple/s/press-2026-sgl-sec200",
+      "error": "HTTP 200 but no readable content (page renders by JavaScript only)"
+    },
+    {
+      "competitor": "sick",
+      "url": "https://www.sick.com/us/en/press/sick-at-sps-2026-creating-value-together/s/press-2026-sps-preview",
+      "error": "HTTP 200 but no readable content (page renders by JavaScript only)"
+    }
+  ],
+  "items": [
+    {
+      "id": "aacd6d88e22d604a396004c320530069888d3a28",
+      "competitor": "keyence",
+      "category": "new_product",
+      "tags": {
+        "technology": [
+          "Marking and coding"
+        ],
+        "industry": [
+          "General manufacturing"
+        ],
+        "application": [
+          "Product coding"
+        ]
+      },
+      "title": "Keyence lists a new continuous inkjet printer series",
+      "summary": "Keyence's US News & Events page lists a new continuous inkjet printer series under November 2026. Keyence says the print head is cleaned in place on the line, a swappable head core module restores printing in minutes, and real-time control of ink-drop charge allows clean printing from longer distances. Relevance for reps: Keyence keeps widening its coding and marking range for production lines, where it already sells sensors and code readers.",
+      "basis": "reported",
+      "fallback": false,
+      "update_of": null,
+      "sources": [
+        {
+          "url": "https://www.keyence.com/products/marker/inkjet-printers/mk-r1000/pr/210288001.jsp",
+          "publisher": "KEYENCE America",
+          "published_date": "2026-11-11",
+          "retrieved_utc": "2026-11-11T02:35:44Z"
+        }
+      ],
+      "sample": false
+    },
+    {
+      "id": "c5a2879e7d848cf66cf0359c6091c78938144103",
+      "competitor": "keyence",
+      "category": "new_product",
+      "tags": {
+        "technology": [
+          "Barcode and code reading",
+          "Mobile computers"
+        ],
+        "industry": [
+          "Logistics"
+        ],
+        "application": [
+          "Warehouse scanning",
+          "Traceability"
+        ]
+      },
+      "title": "Keyence lists a new long-range handheld computer series",
+      "summary": "Keyence's News & Events page lists a new handheld computer series under November 2026. Keyence says it reads codes from 1 inch to 150 feet with a triple camera, uses an AI core trained on over 100,000 images plus AI-based text reading, and offers Aim Assist so operators read only the intended code. It is IP68 rated, survives 13 ft drops and runs up to 40 hours. Relevance for reps: it targets warehouse and forklift scanning.",
+      "basis": "reported",
+      "fallback": false,
+      "update_of": null,
+      "sources": [
+        {
+          "url": "https://www.keyence.com/products/mobile-computers/handheld-computers/bt-a800/",
+          "publisher": "KEYENCE America",
+          "published_date": "2026-11-11",
+          "retrieved_utc": "2026-11-11T02:35:44Z"
+        }
+      ],
+      "sample": false
+    },
+    {
+      "id": "f607323b5b5539ca2cd01b7551fd609621ef8850",
+      "competitor": "keyence",
+      "category": "event",
+      "tags": {
+        "technology": [
+          "Sensors",
+          "Machine vision"
+        ],
+        "industry": [
+          "Firearms and sporting goods"
+        ],
+        "application": []
+      },
+      "title": "Keyence at NSSF SHOT Show 2027",
+      "summary": "Keyence lists NSSF SHOT Show 2027 in Las Vegas on its US trade-show calendar. No booth number is published on the page.",
+      "basis": "reported",
+      "fallback": false,
+      "update_of": null,
+      "sources": [
+        {
+          "url": "https://www.keyence.com/news-events/#trade-show-nssf-shot-show-2027",
+          "publisher": "KEYENCE America",
+          "published_date": "2026-11-11",
+          "retrieved_utc": "2026-11-11T02:35:44Z"
+        }
+      ],
+      "event": {
+        "start_date": "2027-01-18",
+        "end_date": "2027-01-19",
+        "location": "Las Vegas, NV",
+        "booth": ""
+      },
+      "sample": false
+    },
+    {
+      "id": "8c6f1085b7ac0009dbcf81cd577b41bf28a6484c",
+      "competitor": "ifm",
+      "category": "event",
+      "tags": {
+        "technology": [
+          "Process sensors",
+          "IO-Link",
+          "HMI"
+        ],
+        "industry": [
+          "Data centers"
+        ],
+        "application": [
+          "Liquid cooling"
+        ]
+      },
+      "title": "ifm at Supercomputing 2026",
+      "summary": "ifm will exhibit at Supercomputing 2026 (SC26) at McCormick Place in Chicago, booth 7015. Its event page promotes pressure, temperature and flow sensors and HMIs with preloaded programs for data center cooling and monitoring.",
+      "basis": "reported",
+      "fallback": false,
+      "update_of": null,
+      "sources": [
+        {
+          "url": "https://www.ifm.com/us/en/shared/events/trade-fair/2026-events/us-supercomputing-2026",
+          "publisher": "ifm efector",
+          "published_date": "2026-11-11",
+          "retrieved_utc": "2026-11-11T02:35:44Z"
+        }
+      ],
+      "event": {
+        "start_date": "2026-11-15",
+        "end_date": "2026-11-19",
+        "location": "McCormick Place, Chicago, IL",
+        "booth": "7015"
+      },
+      "sample": false
+    },
+    {
+      "id": "2a9941fffaa813369bbfee039b271d6a904d8c0d",
+      "competitor": "pepperl-fuchs",
+      "category": "event",
+      "tags": {
+        "technology": [
+          "Sensors",
+          "Explosion protection"
+        ],
+        "industry": [
+          "Process industries",
+          "General manufacturing"
+        ],
+        "application": []
+      },
+      "title": "Pepperl+Fuchs at Automation Fair 2026",
+      "summary": "Pepperl+Fuchs appears on the exhibitor list for Rockwell Automation's Automation Fair 2026 in Boston, booth 669.",
+      "basis": "reported",
+      "fallback": false,
+      "update_of": null,
+      "sources": [
+        {
+          "url": "https://www.rockwellautomation.com/en-us/events/automation-fair/expo/exhibitors.html#exhibitor-pepperl-fuchs",
+          "publisher": "Rockwell Automation",
+          "published_date": "2026-11-11",
+          "retrieved_utc": "2026-11-11T02:35:44Z"
+        }
+      ],
+      "event": {
+        "start_date": "2026-11-16",
+        "end_date": "2026-11-19",
+        "location": "Boston, MA",
+        "booth": "669"
+      },
+      "sample": false
+    },
+    {
+      "id": "8601d77904d89ef7843675cf3597754ff36043f7",
+      "competitor": "keyence",
+      "category": "competitor_summary",
+      "tags": {
+        "technology": [
+          "Barcode and code reading",
+          "Machine vision",
+          "Marking and coding",
+          "Mobile computers",
+          "Sensors"
+        ],
+        "industry": [
+          "Firearms and sporting goods",
+          "General manufacturing",
+          "Logistics"
+        ],
+        "application": [
+          "Product coding",
+          "Traceability",
+          "Warehouse scanning"
+        ]
+      },
+      "title": "Keyence: week of Nov 11, 2026",
+      "summary": "Keyence listed two new products for November 2026, a continuous inkjet printer series and a long-range handheld computer, and added NSSF SHOT Show 2027 in Las Vegas to its US trade-show calendar. Takeaway for reps: both launches extend Keyence beyond sensing into product coding and warehouse scanning.",
+      "basis": "reported",
+      "fallback": false,
+      "update_of": null,
+      "sources": [
+        {
+          "url": "https://www.keyence.com/news-events/#digest-summary-2026-11-11",
+          "publisher": "KEYENCE America",
+          "published_date": "2026-11-11",
+          "retrieved_utc": "2026-11-11T02:35:44Z"
+        },
+        {
+          "url": "https://www.keyence.com/products/marker/inkjet-printers/mk-r1000/pr/210288001.jsp",
+          "publisher": "KEYENCE America",
+          "published_date": "2026-11-11",
+          "retrieved_utc": "2026-11-11T02:35:44Z"
+        },
+        {
+          "url": "https://www.keyence.com/products/mobile-computers/handheld-computers/bt-a800/",
+          "publisher": "KEYENCE America",
+          "published_date": "2026-11-11",
+          "retrieved_utc": "2026-11-11T02:35:44Z"
+        },
+        {
+          "url": "https://www.keyence.com/news-events/#trade-show-nssf-shot-show-2027",
+          "publisher": "KEYENCE America",
+          "published_date": "2026-11-11",
+          "retrieved_utc": "2026-11-11T02:35:44Z"
+        }
+      ],
+      "sample": false
+    },
+    {
+      "id": "85b22ed75570381b945ad2fcb2f1590f919cfadd",
+      "competitor": "ifm",
+      "category": "competitor_summary",
+      "tags": {
+        "technology": [
+          "HMI",
+          "IO-Link",
+          "Process sensors"
+        ],
+        "industry": [
+          "Data centers"
+        ],
+        "application": [
+          "Liquid cooling"
+        ]
+      },
+      "title": "ifm: week of Nov 11, 2026",
+      "summary": "ifm listed Supercomputing 2026 in Chicago (booth 7015), where it will show process sensors and HMIs for data center cooling and monitoring. No new ifm press release was found in the window. Takeaway for reps: ifm is taking its process-sensor and IO-Link pitch straight to the data center community.",
+      "basis": "reported",
+      "fallback": false,
+      "update_of": null,
+      "sources": [
+        {
+          "url": "https://www.ifm.com/us/en/news#digest-summary-2026-11-11",
+          "publisher": "ifm efector",
+          "published_date": "2026-11-11",
+          "retrieved_utc": "2026-11-11T02:35:44Z"
+        },
+        {
+          "url": "https://www.ifm.com/us/en/shared/events/trade-fair/2026-events/us-supercomputing-2026",
+          "publisher": "ifm efector",
+          "published_date": "2026-11-11",
+          "retrieved_utc": "2026-11-11T02:35:44Z"
+        }
+      ],
+      "sample": false
+    },
+    {
+      "id": "4cfeba4614ab8f83041f7f1f7fa5896ff7d39e7f",
+      "competitor": "pepperl-fuchs",
+      "category": "competitor_summary",
+      "tags": {
+        "technology": [
+          "Explosion protection",
+          "Sensors"
+        ],
+        "industry": [
+          "General manufacturing",
+          "Process industries"
+        ],
+        "application": []
+      },
+      "title": "Pepperl+Fuchs: week of Nov 11, 2026",
+      "summary": "Pepperl+Fuchs is listed as an exhibitor at Rockwell Automation's Automation Fair 2026 in Boston, booth 669. Its own news pages blocked automated access, so no new release could be checked. Takeaway for reps: expect Pepperl+Fuchs on the floor at Rockwell's main US customer event.",
+      "basis": "reported",
+      "fallback": false,
+      "update_of": null,
+      "sources": [
+        {
+          "url": "https://www.pepperl-fuchs.com/en-us/news/public-relations-gp32054#digest-summary-2026-11-11",
+          "publisher": "Pepperl+Fuchs",
+          "published_date": "2026-11-11",
+          "retrieved_utc": "2026-11-11T02:35:44Z"
+        },
+        {
+          "url": "https://www.rockwellautomation.com/en-us/events/automation-fair/expo/exhibitors.html#exhibitor-pepperl-fuchs",
+          "publisher": "Rockwell Automation",
+          "published_date": "2026-11-11",
+          "retrieved_utc": "2026-11-11T02:35:44Z"
+        }
+      ],
+      "sample": false
+    },
+    {
+      "id": "9da1ad2ecace87a110c6a6d42d1c65ca2c1d7115",
+      "competitor": "ifm",
+      "category": "strategy",
+      "tags": {
+        "technology": [
+          "Process sensors",
+          "IO-Link",
+          "HMI"
+        ],
+        "industry": [
+          "Data centers"
+        ],
+        "application": [
+          "Liquid cooling",
+          "Coolant distribution units"
+        ]
+      },
+      "title": "Go-to-market: ifm in data centers",
+      "summary": "ifm presents AI data centers as industrial-scale liquid cooling plants that need monitoring to meet Tier III and IV uptime. It leads with process sensors, including dual-element temperature, pressure and flow, and with IO-Link for plug-and-work cooling equipment such as coolant distribution units and immersion tanks, plus HMIs with preloaded programs. Its message is faster commissioning and less overcooling, and it exhibits at Supercomputing 2026. Expect a Balluff rep to meet ifm at cooling-equipment builders standardizing on IO-Link.",
+      "basis": "analysis",
+      "fallback": true,
+      "update_of": null,
+      "sources": [
+        {
+          "url": "https://www.ifm.com/us/en/news#strategy-profile-2026-11-11",
+          "publisher": "ifm efector",
+          "published_date": "2026-11-11",
+          "retrieved_utc": "2026-11-11T02:35:44Z"
+        },
+        {
+          "url": "https://www.ifm.com/us/en/us/industries/data-centers/data-center-monitoring-solutions",
+          "publisher": "ifm efector",
+          "published_date": "2026-11-11",
+          "retrieved_utc": "2026-11-11T02:35:44Z"
+        },
+        {
+          "url": "https://www.ifm.com/us/en/shared/events/trade-fair/2026-events/us-supercomputing-2026",
+          "publisher": "ifm efector",
+          "published_date": "2026-11-11",
+          "retrieved_utc": "2026-11-11T02:35:44Z"
+        }
+      ],
+      "sample": false
+    },
+    {
+      "id": "f86222b6189c9d67e87803f6fcf031bbc6df149f",
+      "competitor": "keyence",
+      "category": "strategy",
+      "tags": {
+        "technology": [
+          "Barcode and code reading",
+          "Machine vision",
+          "Mobile computers"
+        ],
+        "industry": [
+          "Logistics",
+          "Intralogistics"
+        ],
+        "application": [
+          "Package sortation",
+          "Traceability"
+        ]
+      },
+      "title": "Go-to-market: Keyence in logistics",
+      "summary": "Keyence pitches logistics as a single-source portfolio: barcode readers, ST Series scan tunnels, handheld computers such as its new long-range series, plus vision, controls and safety. It targets warehouses, fulfillment and distribution centers, promising fewer no-reads, quick-disconnect cabling for faster commissioning, and traceability from receiving to shipping. It sells direct, with its engineers assessing customer processes on site. Expect a Balluff rep to meet Keyence in distribution centers where code reading and traceability open the door.",
+      "basis": "analysis",
+      "fallback": true,
+      "update_of": null,
+      "sources": [
+        {
+          "url": "https://www.keyence.com/news-events/#strategy-profile-2026-11-11",
+          "publisher": "KEYENCE America",
+          "published_date": "2026-11-11",
+          "retrieved_utc": "2026-11-11T02:35:44Z"
+        },
+        {
+          "url": "https://www.keyence.com/ss/solutions/industries/logistics/",
+          "publisher": "KEYENCE America",
+          "published_date": "2026-11-11",
+          "retrieved_utc": "2026-11-11T02:35:44Z"
+        },
+        {
+          "url": "https://www.keyence.com/products/mobile-computers/handheld-computers/bt-a800/",
+          "publisher": "KEYENCE America",
+          "published_date": "2026-11-11",
+          "retrieved_utc": "2026-11-11T02:35:44Z"
+        }
+      ],
+      "sample": false
+    },
+    {
+      "id": "02d5c20c4cc66c94eb80918c1f407fb28e3e1323",
+      "competitor": "turck",
+      "category": "strategy",
+      "tags": {
+        "technology": [
+          "RFID"
+        ],
+        "industry": [
+          "Intralogistics",
+          "Automotive",
+          "Retail supply chain"
+        ],
+        "application": [
+          "Asset tracking",
+          "Inventory tracking"
+        ]
+      },
+      "title": "Go-to-market: Turck in RFID",
+      "summary": "Turck sells RFID as tracking systems, not just readers. It leads with UHF read/write heads such as the Q150 (July 2026), which connect directly to Profinet, EtherNet/IP, Modbus TCP or EtherCAT, plus gate systems and a forklift system that reports asset moves to ERP or WMS. It targets production lines, intralogistics and automotive, and partners with label maker BSN for retail item tracking. Expect a Balluff rep to meet Turck where RFID data must reach both PLC and warehouse system.",
+      "basis": "analysis",
+      "fallback": true,
+      "update_of": null,
+      "sources": [
+        {
+          "url": "https://www.turck.us/en/press-releases-135.php#strategy-profile-2026-11-11",
+          "publisher": "Turck Inc.",
+          "published_date": "2026-11-11",
+          "retrieved_utc": "2026-11-11T02:35:44Z"
+        },
+        {
+          "url": "https://www.turck.us/en/product-news-2860_q150-uhf-rfid-allinone-readwrite-head-with-ethernet-interface-52893.php",
+          "publisher": "Turck Inc.",
+          "published_date": "2026-07-04",
+          "retrieved_utc": "2026-11-11T02:35:44Z"
+        },
+        {
+          "url": "https://www.turck.us/en/product-news-2860_compact-ethercat-rfid-interfaces-50899.php",
+          "publisher": "Turck Inc.",
+          "published_date": "2025-03-01",
+          "retrieved_utc": "2026-11-11T02:35:44Z"
+        },
+        {
+          "url": "https://www.turck.us/en/press-releases-135_rfid-forklift-system-for-automated-product-tracking-45573.php",
+          "publisher": "Turck Inc.",
+          "published_date": "2023-03-17",
+          "retrieved_utc": "2026-11-11T02:35:44Z"
+        },
+        {
+          "url": "https://www.turck.us/en/company-news-2863_bsn-and-turck-us-form-collaboration-to-offer-turnkey-itemlevel-tracking-to-the-retail-supply-chain-45379.php",
+          "publisher": "Turck Inc.",
+          "published_date": "2023-01-05",
+          "retrieved_utc": "2026-11-11T02:35:44Z"
+        }
+      ],
+      "sample": false
+    },
+    {
+      "id": "efa3d5a4c20cc426d4eaa73e180984a507059a8e",
+      "competitor": "banner",
+      "category": "strategy",
+      "tags": {
+        "technology": [
+          "Pick-to-light",
+          "Radar",
+          "Barcode and code reading",
+          "Indication"
+        ],
+        "industry": [
+          "Material handling",
+          "Intralogistics"
+        ],
+        "application": [
+          "Conveyor control",
+          "Order picking",
+          "Loading docks"
+        ]
+      },
+      "title": "Go-to-market: Banner in material handling",
+      "summary": "Banner courts material handling with application stories and a broad catalog: pick-to-light for picking and kitting, radar for loading docks, sensors for conveyor zone control, measuring light curtains for carton sizing, barcode readers and indicator lights. It says several of the world's top 10 material handling system providers use Banner, as do large North American e-commerce and retail distribution centers. It also markets at logistics trade shows. Expect a Balluff rep to meet Banner at conveyor OEMs and distribution centers.",
+      "basis": "analysis",
+      "fallback": true,
+      "update_of": null,
+      "sources": [
+        {
+          "url": "https://www.bannerengineering.com/us/en/company/news/press-room.html#strategy-profile-2026-11-11",
+          "publisher": "Banner Engineering",
+          "published_date": "2026-11-11",
+          "retrieved_utc": "2026-11-11T02:35:44Z"
+        },
+        {
+          "url": "https://www.bannerengineering.com/us/en/industries/material-handling.html",
+          "publisher": "Banner Engineering",
+          "published_date": "2026-11-11",
+          "retrieved_utc": "2026-11-11T02:35:44Z"
+        },
+        {
+          "url": "https://www.bannerengineering.com/us/en/company/tradeshows/logistics---automation.html",
+          "publisher": "Banner Engineering",
+          "published_date": "2026-11-11",
+          "retrieved_utc": "2026-11-11T02:35:44Z"
+        }
+      ],
+      "sample": false
+    },
+    {
+      "id": "e079106eb5c45f026dc21fd34ae17ec6bf8c87f6",
+      "competitor": "sick",
+      "category": "strategy",
+      "tags": {
+        "technology": [
+          "Machine vision",
+          "Barcode and code reading",
+          "Industrial AI",
+          "IO-Link"
+        ],
+        "industry": [
+          "Logistics",
+          "General manufacturing"
+        ],
+        "application": [
+          "Quality inspection",
+          "Code reading"
+        ]
+      },
+      "title": "Go-to-market: SICK in machine vision",
+      "summary": "SICK sells machine vision as software plus sensors. At SPS 2026 in Nuremberg it is presenting SICK Nova 3D, which evaluates 3D sensor data, including AI-based inspection, without traditional programming. For code reading it leads with compact image-based readers such as the sensingCam SEC200 (Sep 2026) and Lector82x for logistics and industrial lines. It pairs vision with its Sentio IIoT platform. Expect a Balluff rep to meet SICK where code reading and inspection come bundled with data integration.",
+      "basis": "analysis",
+      "fallback": true,
+      "update_of": null,
+      "sources": [
+        {
+          "url": "https://www.sick.com/us/en/press/pressreleases#strategy-profile-2026-11-11",
+          "publisher": "SICK AG",
+          "published_date": "2026-11-11",
+          "retrieved_utc": "2026-11-11T02:35:44Z"
+        },
+        {
+          "url": "https://www.computer-automation.de/sensor-technology/sick-sps-2026-safety-machine-vision-iiot.htm",
+          "publisher": "Computer&Automation",
+          "published_date": "2026-10-26",
+          "retrieved_utc": "2026-11-11T02:35:44Z"
+        },
+        {
+          "url": "https://www.sick.com/us/en/press/pressreleases",
+          "publisher": "SICK AG",
+          "published_date": "2026-09-08",
+          "retrieved_utc": "2026-11-11T02:35:44Z"
+        },
+        {
+          "url": "https://www.engineeringnews.co.za/article/image-based-code-reader-enables-fast-scanning-for-logistics-and-industrial-sectors-2026-09-25",
+          "publisher": "Engineering News",
+          "published_date": "2026-09-25",
+          "retrieved_utc": "2026-11-11T02:35:44Z"
+        }
+      ],
+      "sample": false
+    },
+    {
+      "id": "07e65b0e0739b975f49239ecde8a4bfe353527ef",
+      "competitor": "pepperl-fuchs",
+      "category": "strategy",
+      "tags": {
+        "technology": [
+          "Positioning systems",
+          "IO-Link"
+        ],
+        "industry": [
+          "Intralogistics"
+        ],
+        "application": [
+          "AS/RS",
+          "Pallet shuttles"
+        ]
+      },
+      "title": "Go-to-market: Pepperl+Fuchs in positioning",
+      "summary": "Pepperl+Fuchs leads in positioning with its camera-based PXV and PCV Data Matrix systems, which it is moving to a new hardware generation with IO-Link, PROFINET and EtherCAT read heads (Oct 2026). It targets intralogistics machine builders and showcases Italian shuttle maker Eurofork, whose pallet shuttles read PCV code tapes for absolute 3-D warehouse positioning, through its own Amplify stories and trade press. Expect a Balluff rep to meet Pepperl+Fuchs at AS/RS and shuttle builders choosing absolute positioning.",
+      "basis": "analysis",
+      "fallback": true,
+      "update_of": null,
+      "sources": [
+        {
+          "url": "https://www.pepperl-fuchs.com/en-us/news/public-relations-gp32054#strategy-profile-2026-11-11",
+          "publisher": "Pepperl+Fuchs",
+          "published_date": "2026-11-11",
+          "retrieved_utc": "2026-11-11T02:35:44Z"
+        },
+        {
+          "url": "https://www.pepperl-fuchs.com/en-us/news/comprehensive-update-to-the-pxv-and-pcv-portfolios-absolute-positioning-taken-to-a-new-level-gn10816",
+          "publisher": "Pepperl+Fuchs",
+          "published_date": "2026-10-14",
+          "retrieved_utc": "2026-11-11T02:35:44Z"
+        },
+        {
+          "url": "https://amplify.pepperl-fuchs.com/?p=6524",
+          "publisher": "Pepperl+Fuchs Amplify",
+          "published_date": "2026-05-11",
+          "retrieved_utc": "2026-11-11T02:35:44Z"
+        },
+        {
+          "url": "https://wiot-group.com/think/en/news/pepperl-fuchs-pcv-positioning-pallet-shuttles/",
+          "publisher": "WIOT Group",
+          "published_date": "2026-06-01",
+          "retrieved_utc": "2026-11-11T02:35:44Z"
+        }
+      ],
+      "sample": false
+    }
+  ]
+}
