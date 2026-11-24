@@ -438,7 +438,7 @@ const UPFRONT = [
   {id:'training', label:'Training', cur:null, neu:null},
 ];
 const OPERATING = [
-  {id:'downtime',   label:'Downtime', cur:25000},
+  {id:'downtime',   label:'Downtime'},
   {id:'opslabor',   label:'Operations labor'},
   {id:'maint',      label:'Maintenance / PMs'},
   {id:'energy',     label:'Energy / utilities'},
@@ -461,7 +461,7 @@ const FREQS = [
   {id:'month', label:'Per month',  unit:'month'},
   {id:'year',  label:'Per year',   unit:'year'},
 ];
-const STORE_KEY = 'balluff-roi-calculator-v2';
+const STORE_KEY = 'balluff-roi-calculator-v3';
 
 const CN = () => (S.curName||'').trim() || 'Current system';
 const NN = () => (S.newName||'').trim() || 'Proposed solution';
@@ -473,7 +473,7 @@ function defaults(){
     target:null, horizon:5, defReduction:null,
     sched:{hpd:24, dpw:7},
     up: Object.fromEntries(UPFRONT.map(r=>[r.id,{cur:r.cur, neu:r.neu, note:''}])),
-    op: Object.fromEntries(OPERATING.map(r=>[r.id,{cur:r.cur||0, mode:'pct', pct:null, neu:0, note:'', calc:{}}])),
+    op: Object.fromEntries(OPERATING.map(r=>[r.id,{cur:r.cur??null, mode:'pct', pct:null, neu:0, note:'', calc:{}}])),
     fc:{cost:50, count:1, freq:'day', build:false, dur:30, rate:0, parts:0},
   };
 }
@@ -616,7 +616,7 @@ function wireTables(){
   for(const r of OPERATING){
     const o=S.op[r.id];
     const cur=document.getElementById(`o-${r.id}-cur`), pct=document.getElementById(`o-${r.id}-pct`), neu=document.getElementById(`o-${r.id}-neu`);
-    cur.addEventListener('input',()=>{ o.cur=parseNum(cur.value); delete o.calc.cur; renderCalcNotes(r.id); refreshOpValues(r.id,'cur'); update(); });
+    cur.addEventListener('input',()=>{ o.cur=parseOpt(cur.value); delete o.calc.cur; renderCalcNotes(r.id); refreshOpValues(r.id,'cur'); update(); });
     cur.addEventListener('blur',()=>{ cur.value=fmtInput(o.cur); });
     pct.addEventListener('input',()=>{
       o.mode='pct'; o.pct = pct.value.trim()==='' ? null : Math.min(100, parseNum(pct.value)); delete o.calc.neu; renderCalcNotes(r.id);
@@ -642,7 +642,7 @@ function refreshOpValues(onlyId, typing){
       else { pct.value = p===null ? '' : nf1.format(p); pct.placeholder = p===null?'–':''; }
     }
     pct.classList.toggle('computed', o.mode==='abs');
-    if(typing!=='neu') neu.value = fmtInput(Math.round(proposedOp(o)*100)/100);
+    if(typing!=='neu') neu.value = (o.mode!=='abs' && (o.cur===null||o.cur===undefined)) ? '' : fmtInput(Math.round(proposedOp(o)*100)/100);
     neu.classList.toggle('computed', o.mode!=='abs');
   }
 }
