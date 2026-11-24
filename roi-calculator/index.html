@@ -144,6 +144,10 @@ select.input{appearance:none; padding-right:32px; background-image:url("data:ima
 .crow.head .r{text-align:right;}
 .crow.total{font-weight:700; border-bottom:2px solid var(--color-gray-900); font-size:14px;}
 .crow .cat{font-size:14px; font-weight:600; padding-left:4px;}
+.scale-tog{display:none; align-items:center; gap:6px; font-size:12px; font-weight:400; color:var(--color-gray-600); margin-top:4px; cursor:pointer; width:max-content;}
+.scale-tog input{accent-color:var(--color-balluff-red); width:14px; height:14px; margin:0;}
+.scaling .scale-tog{display:flex;}
+.scaling .crow:has(.scale-tog input:not(:checked)) .cat{color:var(--color-gray-800);}
 .crow .diff{font-size:14px; text-align:right; padding-right:4px; font-variant-numeric:tabular-nums;}
 .crow .tot{text-align:right; padding-right:13px; font-variant-numeric:tabular-nums;}
 .crow .note-in{font-size:14px;}
@@ -483,8 +487,8 @@ function defaults(){
     curName:'', newName:'',
     target:null, horizon:5, defReduction:null, qty:null, qtyUnit:'stations',
     sched:{hpd:24, dpw:7},
-    up: Object.fromEntries(UPFRONT.map(r=>[r.id,{cur:r.cur, neu:r.neu, note:''}])),
-    op: Object.fromEntries(OPERATING.map(r=>[r.id,{cur:r.cur??null, mode:'pct', pct:null, neu:0, note:'', calc:{}}])),
+    up: Object.fromEntries(UPFRONT.map(r=>[r.id,{cur:r.cur, neu:r.neu, note:'', scale:true}])),
+    op: Object.fromEntries(OPERATING.map(r=>[r.id,{cur:r.cur??null, mode:'pct', pct:null, neu:0, note:'', calc:{}, scale:true}])),
     fc:{cost:50, count:1, freq:'day', build:false, dur:30, rate:0, parts:0},
   };
 }
@@ -535,13 +539,18 @@ const unitOne = () => (S.qtyUnit||'stations').replace(/s$/,'');
 const hasTarget = () => S.target!==null && S.target!==undefined && S.target>0;
 function compute(){
   let upCur=0, upNew=0, opCur=0, opNew=0;
-  for(const r of UPFRONT){ upCur+=S.up[r.id].cur||0; upNew+=S.up[r.id].neu||0; }
+  // Rows are entered per unit and multiplied by the project quantity, unless a row
+  // is marked project-wide (scale:false), which counts once.
+  const q = qtyN(), mult = row => row.scale===false ? 1 : q;
+  const u = {upCur:0, upNew:0, opCur:0, opNew:0};   // as entered
+  let fixedRows = 0;
+  for(const r of UPFRONT){ const x=S.up[r.id], m=mult(x);
+    u.upCur+=x.cur||0; u.upNew+=x.neu||0; upCur+=(x.cur||0)*m; upNew+=(x.neu||0)*m;
+    if(x.scale===false && (x.cur||x.neu)) fixedRows++; }
   const cats=[];
-  for(const r of OPERATING){ const o=S.op[r.id]; const c=o.cur||0, n=proposedOp(o); opCur+=c; opNew+=n; cats.push({id:r.id,label:r.label,cur:c,neu:n}); }
-  // Table inputs are for one unit; results cover the whole project (× quantity).
-  const q = qtyN(), u = {upCur, upNew, opCur, opNew};
-  upCur*=q; upNew*=q; opCur*=q; opNew*=q;
-  cats.forEach(c=>{ c.cur*=q; c.neu*=q; });
+  for(const r of OPERATING){ const o=S.op[r.id], m=mult(o); const c=o.cur||0, n=proposedOp(o);
+    u.opCur+=c; u.opNew+=n; opCur+=c*m; opNew+=n*m; cats.push({id:r.id,label:r.label,cur:c*m,neu:n*m});
+    if(o.scale===false && (c||n)) fixedRows++; }
   const investment = upNew - upCur;           // Summary!C23 (net of current upfront)
   const savings = opCur - opNew;              // Summary!C24
   let payback = null;                         // Summary!C25
@@ -551,7 +560,7 @@ function compute(){
   const netAt = t => savings*t - investment;  // Calculations!B3:G3
   const netN = netAt(N);
   const roi = investment>0 ? netN/investment*100 : null;
-  return {q, u, upCur, upNew, opCur, opNew, investment, savings, payback, N, netAt, netN, roi, cats,
+  return {q, u, fixedRows, upCur, upNew, opCur, opNew, investment, savings, payback, N, netAt, netN, roi, cats,
     empty: investment===0 && savings===0, meets: hasTarget() ? (payback!==null && payback <= +S.target) : null};
 }
 
@@ -586,7 +595,7 @@ function renderTables(){
   for(const r of UPFRONT){
     const u=S.up[r.id];
     h += `<div class="crow" role="row" data-up="${r.id}">
-      <div class="cat">${esc(r.label)}</div>
+      <div class="cat">${esc(r.label)}<label class="scale-tog"><input type="checkbox" data-scale="up:${r.id}"${u.scale===false?'':' checked'}> Per <span class="unit-one">station</span></label></div>
       <div><span class="m-label">${cn}</span>${moneyInput('u-'+r.id+'-cur',u.cur,r.label+', '+(CN()))}</div>
       <div><span class="m-label">${nn}</span>${moneyInput('u-'+r.id+'-neu',u.neu,r.label+', '+(NN()))}</div>
       <div><span class="m-label">Difference</span><div class="diff" id="u-${r.id}-diff"></div></div>
@@ -602,7 +611,7 @@ function renderTables(){
   for(const r of OPERATING){
     const o=S.op[r.id];
     h += `<div class="crow" role="row" data-op="${r.id}">
-      <div class="cat">${esc(r.label)}</div>
+      <div class="cat">${esc(r.label)}<label class="scale-tog"><input type="checkbox" data-scale="op:${r.id}"${o.scale===false?'':' checked'}> Per <span class="unit-one">station</span></label></div>
       <div><span class="m-label">${cn} / yr</span>${moneyInput('o-'+r.id+'-cur',o.cur,r.label+', '+(CN())+' per year')}</div>
       <div><span class="m-label">Reduction</span><div class="adorn post"><input class="input pct" id="o-${r.id}-pct" inputmode="decimal" autocomplete="off" aria-label="${esc(r.label)} reduction percent"><span>%</span></div></div>
       <div><span class="m-label">${nn} / yr</span>${moneyInput('o-'+r.id+'-neu',0,r.label+', '+(NN())+' per year')}</div>
@@ -626,6 +635,8 @@ function wireMoney(el, get, set){
   el.addEventListener('blur',()=>{ el.value = fmtInput(get()); });
 }
 function wireTables(){
+  document.querySelectorAll('[data-scale]').forEach(cb=>cb.addEventListener('change',()=>{
+    const [t,id]=cb.dataset.scale.split(':'); S[t][id].scale = cb.checked; update(); }));
   for(const r of UPFRONT){
     const u=S.up[r.id];
     wireMoney(document.getElementById(`u-${r.id}-cur`), ()=>u.cur, v=>{u.cur=v;});
@@ -1001,8 +1012,8 @@ function paybackText(R){
 function kpiHTML(R){
   const months = R.payback!==null && R.payback>0 ? `${nf0.format(R.payback*12)} months` : (R.payback===0?'No net investment':'Savings do not cover the investment');
   return `
-  <div class="kpi"><p class="k-label">Net investment</p><p class="k-value">${usd(R.investment)}</p><p class="k-sub">${R.q!==1?`${usd(R.investment/R.q)} per ${unitOne()} × ${nf2.format(R.q)}`:`${usd(R.upNew)} proposed − ${usd(R.upCur)} current`}</p></div>
-  <div class="kpi"><p class="k-label">Annual savings</p><p class="k-value">${usd(R.savings)}</p><p class="k-sub">${R.q!==1?`${usd(R.savings/R.q)} per ${unitOne()} × ${nf2.format(R.q)}`:R.opCur>0?nf0.format(R.savings/R.opCur*100)+'% lower operating cost':'Operating cost per year'}</p></div>
+  <div class="kpi"><p class="k-label">Net investment</p><p class="k-value">${usd(R.investment)}</p><p class="k-sub">${R.q!==1?`Project total, ${nf2.format(R.q)} ${S.qtyUnit}`:`${usd(R.upNew)} proposed − ${usd(R.upCur)} current`}</p></div>
+  <div class="kpi"><p class="k-label">Annual savings</p><p class="k-value">${usd(R.savings)}</p><p class="k-sub">${R.q!==1?`Project total, ${nf2.format(R.q)} ${S.qtyUnit}`:R.opCur>0?nf0.format(R.savings/R.opCur*100)+'% lower operating cost':'Operating cost per year'}</p></div>
   <div class="kpi"><p class="k-label">Payback</p><p class="k-value">${paybackText(R)}</p><p class="k-sub">${months}</p></div>
   <div class="kpi"><p class="k-label">${R.N}-year net benefit</p><p class="k-value">${usd(R.netN)}</p><p class="k-sub">Savings minus investment</p></div>
   <div class="kpi"><p class="k-label">${R.N}-year ROI</p><p class="k-value">${R.roi===null?'–':nf0.format(R.roi)+'%'}</p><p class="k-sub">Net benefit ÷ net investment</p></div>`;
@@ -1021,7 +1032,10 @@ function update(){
   const R=compute();
   // tables
   for(const r of UPFRONT){ const u=S.up[r.id], d=(u.cur||0)-(u.neu||0); const el=document.getElementById(`u-${r.id}-diff`); el.textContent=usd(d); el.classList.toggle('neg',d<0); }
-  const per = R.q!==1 ? `, per ${unitOne()}` : '';
+  const per = R.q!==1 ? ', as entered' : '';
+  document.getElementById('t-up').classList.toggle('scaling', R.q!==1);
+  document.getElementById('t-op').classList.toggle('scaling', R.q!==1);
+  document.querySelectorAll('.unit-one').forEach(e=>e.textContent=unitOne());
   const projLbl = `Project total (× ${nf2.format(R.q)} ${S.qtyUnit})`;
   document.getElementById('u-tot-lbl').textContent='Upfront total'+per;
   document.getElementById('o-tot-lbl').textContent='Annual total'+per;
@@ -1038,7 +1052,7 @@ function update(){
   const opd=document.getElementById('o-proj-diff'); opd.textContent=usd(R.savings); opd.classList.toggle('neg',R.savings<0);
   document.getElementById('qty-help').textContent = R.q===1
     ? 'Enter costs above for one station, machine or line, then set how many the project covers. Blank = 1.'
-    : `Costs above are for one ${unitOne()}. Results below cover ${nf2.format(R.q)} ${S.qtyUnit}. Payback stays the same; totals, net benefit and charts scale.`;
+    : `Rows ticked "Per ${unitOne()}" are multiplied by ${nf2.format(R.q)}; untick a row in the tables above to count it once for the whole project (e.g. software, training). ` + (R.fixedRows ? `${R.fixedRows} row${R.fixedRows>1?'s are':' is'} project-wide.` : 'Payback stays the same while every row is per unit.');
   for(const r of OPERATING){ const o=S.op[r.id], d=(o.cur||0)-proposedOp(o); const el=document.getElementById(`o-${r.id}-diff`); el.textContent=usd(d); el.classList.toggle('neg',d<0); }
   document.getElementById('o-tot-cur').textContent=usd(R.u.opCur);
   document.getElementById('o-tot-neu').textContent=usd(R.u.opNew);
@@ -1090,7 +1104,8 @@ function buildReport(R){
   const rowHTML = (list, src, isOp) => list.map(r=>{
     const o=src[r.id]; const c=o.cur||0, n=isOp?proposedOp(o):(o.neu||0);
     if(!c && !n) return null;
-    return `<tr><td>${esc(r.label)}</td><td class="n">${usd(c)}</td><td class="n">${usd(n)}</td><td class="n">${usd(c-n)}</td><td>${esc(o.note||'')}</td></tr>`;
+    const tag = qtyN()!==1 ? `<span style="color:var(--color-gray-600)"> · ${o.scale===false?'project-wide':'per '+unitOne()}</span>` : '';
+    return `<tr><td>${esc(r.label)}${tag}</td><td class="n">${usd(c)}</td><td class="n">${usd(n)}</td><td class="n">${usd(c-n)}</td><td>${esc(o.note||'')}</td></tr>`;
   }).filter(Boolean);
   const nCats = R.cats.filter(c=>c.cur||c.neu).length;
   const catH = Math.min(300, Math.max(120, 36 + nCats*26));
@@ -1137,10 +1152,10 @@ function buildReport(R){
   const thead = `<thead><tr><th>Cost item</th><th class="n">${cn}</th><th class="n">${nn}</th><th class="n">Difference</th><th>Notes</th></tr></thead>`;
   const tableRows = [
     `<tr class="grp"><td colspan="5">Upfront costs (one time)</td></tr>`, ...rowHTML(UPFRONT,S.up,false),
-    `<tr class="sub"><td>Upfront total${R.q!==1?`, per ${unitOne()}`:''}</td><td class="n">${usd(R.u.upCur)}</td><td class="n">${usd(R.u.upNew)}</td><td class="n">${usd(R.u.upCur-R.u.upNew)}</td><td></td></tr>`,
+    `<tr class="sub"><td>Upfront total${R.q!==1?', as entered':''}</td><td class="n">${usd(R.u.upCur)}</td><td class="n">${usd(R.u.upNew)}</td><td class="n">${usd(R.u.upCur-R.u.upNew)}</td><td></td></tr>`,
     ...(R.q!==1?[`<tr class="sub"><td>Project total (× ${nf2.format(R.q)} ${S.qtyUnit})</td><td class="n">${usd(R.upCur)}</td><td class="n">${usd(R.upNew)}</td><td class="n">${usd(R.upCur-R.upNew)}</td><td></td></tr>`]:[]),
     `<tr class="grp"><td colspan="5">Operating costs (per year)</td></tr>`, ...rowHTML(OPERATING,S.op,true),
-    `<tr class="sub"><td>Annual total${R.q!==1?`, per ${unitOne()}`:''}</td><td class="n">${usd(R.u.opCur)}</td><td class="n">${usd(R.u.opNew)}</td><td class="n">${usd(R.u.opCur-R.u.opNew)}</td><td></td></tr>`,
+    `<tr class="sub"><td>Annual total${R.q!==1?', as entered':''}</td><td class="n">${usd(R.u.opCur)}</td><td class="n">${usd(R.u.opNew)}</td><td class="n">${usd(R.u.opCur-R.u.opNew)}</td><td></td></tr>`,
     ...(R.q!==1?[`<tr class="sub"><td>Project total (× ${nf2.format(R.q)} ${S.qtyUnit})</td><td class="n">${usd(R.opCur)}</td><td class="n">${usd(R.opNew)}</td><td class="n">${usd(R.savings)}</td><td></td></tr>`]:[])];
 
   newPage();
