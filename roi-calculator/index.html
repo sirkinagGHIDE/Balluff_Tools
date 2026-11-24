@@ -108,7 +108,7 @@ h1{font-size:36px; line-height:1.1; margin:0 0 16px; font-weight:800; font-varia
 .adorn{position:relative;}
 .adorn > span{position:absolute; top:50%; transform:translateY(-50%); font-size:14px; color:var(--color-gray-600); pointer-events:none;}
 .adorn.pre > span{left:10px;} .adorn.pre .input{padding-left:22px;} .adorn.pre .input:focus{padding-left:21px;}
-.adorn.post > span{right:10px;} .adorn.post .input{padding-right:26px;} .adorn.post .input:focus{padding-right:25px;}
+.adorn.post > span{right:10px;} .adorn.post .input{padding-right:42px;} .adorn.post .input:focus{padding-right:41px;}
 select.input{appearance:none; padding-right:32px; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23414140' stroke-width='1.6'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 12px center;}
 .grid-2{display:grid; gap:16px;}
 @media (min-width:640px){ .grid-2{grid-template-columns:1fr 1fr;} }
@@ -667,38 +667,57 @@ function renderCalcNotes(onlyId){
    Frequency calculator (Summary!B27:C31 + Calculations time conversion)
    ========================================================================= */
 const calcs=[];
+const QTY_UNITS = ['stations','machines','lines','sites','units'];
+const LABOR_ROWS = ['opslabor','maint','changeover','optraining'];
+function fcDefaults(rowId){
+  return {cost:null, count:1, freq:'day', build:LABOR_ROWS.includes(rowId), dur:null, workers:null, lrate:null, ot:1, rate:null, parts:null, qty:1, qtyUnit:'stations'};
+}
+const usdC = v => { const a=Math.abs(v||0); return (v<0?'−$':'$') + (Number.isInteger(a) ? nf0.format(a) : a.toLocaleString('en-US',{minimumFractionDigits:2, maximumFractionDigits:2})); };
 function FreqCalc(root, opts){
   const p = opts.prefix;
-  const st = opts.state; // shared S.fc for main; own object for dialog
+  const st = opts.state;
+  const num = (id, ph='0') => `<input class="input money" id="${p}-${id}" inputmode="decimal" autocomplete="off" placeholder="${ph}">`;
   root.innerHTML = `
   <div class="fc">
     <div>
-      <div class="grid-2">
-        <div class="field"><label for="${p}-cost">Cost per occurrence</label>
-          <div class="adorn pre"><span>$</span><input class="input money" id="${p}-cost" inputmode="decimal" autocomplete="off"></div></div>
-        <div class="field"><label for="${p}-count">Occurrences</label>
-          <input class="input money" id="${p}-count" inputmode="decimal" autocomplete="off" style="text-align:right"></div>
-      </div>
+      <div class="field"><label for="${p}-cost">Cost per occurrence</label>
+        <div class="adorn pre"><span>$</span>${num('cost')}</div></div>
       <label class="check" style="margin-top:12px"><input type="checkbox" id="${p}-build"> Build up the cost per occurrence</label>
       <div class="fc-build" id="${p}-buildbox">
         <div class="grid-3">
-          <div class="field"><label for="${p}-dur">Duration</label><div class="adorn post"><input class="input pct" id="${p}-dur" inputmode="decimal"><span>min</span></div></div>
-          <div class="field"><label for="${p}-rate">Cost per hour</label><div class="adorn pre"><span>$</span><input class="input money" id="${p}-rate" inputmode="decimal"></div><span class="help">Lost margin, labor, overhead</span></div>
-          <div class="field"><label for="${p}-parts">Parts / materials</label><div class="adorn pre"><span>$</span><input class="input money" id="${p}-parts" inputmode="decimal"></div><span class="help">Per occurrence</span></div>
+          <div class="field"><label for="${p}-dur">Duration</label><div class="adorn post"><input class="input pct" id="${p}-dur" inputmode="decimal" autocomplete="off" placeholder="0"><span>min</span></div><span class="help">Per occurrence</span></div>
+          <div class="field"><label for="${p}-rate">Downtime cost / hour</label><div class="adorn pre"><span>$</span>${num('rate')}</div><span class="help">Lost margin, overhead</span></div>
+          <div class="field"><label for="${p}-parts">Parts / materials</label><div class="adorn pre"><span>$</span>${num('parts')}</div><span class="help">Per occurrence</span></div>
         </div>
+        <p class="subhead" style="margin:20px 0 8px">Labor</p>
+        <div class="grid-3">
+          <div class="field"><label for="${p}-workers">Workers</label>${num('workers')}</div>
+          <div class="field"><label for="${p}-lrate">Labor rate / hour</label><div class="adorn pre"><span>$</span>${num('lrate')}</div><span class="help">Loaded straight-time rate</span></div>
+          <div class="field"><label for="${p}-ot">Overtime</label>
+            <select class="input" id="${p}-ot"><option value="1">None (1×)</option><option value="1.5">1.5×</option><option value="2">2×</option></select></div>
+        </div>
+        <p class="formula" id="${p}-bd" style="font-size:12px; color:var(--color-gray-600); margin:12px 0 0"></p>
+      </div>
+
+      <div class="grid-2" style="margin-top:20px">
+        <div class="field"><label for="${p}-count">Occurrences</label>${num('count','1')}</div>
+        <div class="field"><label for="${p}-qty">Multiply across</label>
+          <div style="display:flex; gap:8px">${num('qty','1')}
+            <select class="input" id="${p}-qunit" aria-label="Unit" style="max-width:130px">${QTY_UNITS.map(u=>`<option>${u}</option>`).join('')}</select></div>
+          <span class="help">Work out one, then scale to the project.</span></div>
       </div>
       <div class="field" style="margin-top:16px"><span class="label" id="${p}-freq-l">Frequency</span>
         <div class="seg" role="group" aria-labelledby="${p}-freq-l" id="${p}-freq" style="flex-wrap:wrap">${FREQS.map(f=>`<button type="button" data-f="${f.id}">${f.label.replace('Per ','')}</button>`).join('')}</div>
       </div>
       <p class="subhead" style="margin-top:24px">Operating schedule</p>
       <div class="grid-2">
-        <div class="field"><label for="${p}-hpd">Hours per day</label><div class="adorn post"><input class="input pct" id="${p}-hpd" inputmode="decimal"><span>h</span></div></div>
-        <div class="field"><label for="${p}-dpw">Days per week</label><div class="adorn post"><input class="input pct" id="${p}-dpw" inputmode="decimal"><span>d</span></div></div>
+        <div class="field" id="${p}-hpd-f"><label for="${p}-hpd">Hours per day</label><div class="adorn post"><input class="input pct" id="${p}-hpd" inputmode="decimal"><span>h</span></div></div>
+        <div class="field" id="${p}-dpw-f"><label for="${p}-dpw">Days per week</label><div class="adorn post"><input class="input pct" id="${p}-dpw" inputmode="decimal"><span>d</span></div></div>
       </div>
       <p class="help" id="${p}-sched" style="font-size:12px; color:var(--color-gray-600); margin:8px 0 0"></p>
     </div>
     <div class="fc-out" aria-live="polite">
-      <div><p class="k-label">Annual cost</p><p class="big" id="${p}-annual">–</p></div>
+      <div><p class="k-label">Annual cost</p><p class="big" id="${p}-annual">–</p><p class="formula" id="${p}-per" style="margin-top:4px"></p></div>
       <div><p class="k-label">Occurrences per year</p><p class="mid" id="${p}-occ">–</p></div>
       <p class="formula" id="${p}-formula"></p>
       <div class="fc-apply">
@@ -711,16 +730,35 @@ function FreqCalc(root, opts){
   </div>`;
   const $ = id => document.getElementById(`${p}-${id}`);
   let col = opts.col || 'cur';
-  const numFields = {cost:'cost', count:'count', dur:'dur', rate:'rate', parts:'parts'};
-  for(const [fid,key] of Object.entries(numFields)){
-    const el=$(fid); el.value=fmtInput(st[key]);
-    el.addEventListener('input',()=>{ st[key]=parseNum(el.value); if(['dur','rate','parts'].includes(key)) syncCost(); recalc(); });
+  const BUILD_KEYS = ['dur','rate','parts','workers','lrate'];
+  for(const key of ['cost','count','qty',...BUILD_KEYS]){
+    const el=$(key); el.value=fmtInput(st[key]);
+    el.addEventListener('input',()=>{ st[key]=parseOpt(el.value); if(BUILD_KEYS.includes(key)) syncCost(); recalc(); });
     el.addEventListener('blur',()=>{ el.value=fmtInput(st[key]); });
   }
-  $('cost').addEventListener('input',()=>{ if(st.build){ st.build=false; $('build').checked=false; $('buildbox').hidden=true; } });
+  // Typing a cost directly switches the build-up off.
+  $('cost').addEventListener('input',()=>{ if(st.build){ st.build=false; $('build').checked=false; $('buildbox').hidden=true; recalc(); } });
   $('build').checked=st.build; $('buildbox').hidden=!st.build;
   $('build').addEventListener('change',()=>{ st.build=$('build').checked; $('buildbox').hidden=!st.build; if(st.build) syncCost(); recalc(); });
-  function syncCost(){ if(!st.build) return; st.cost = Math.round(((st.dur||0)/60*(st.rate||0) + (st.parts||0))*100)/100; $('cost').value=fmtInput(st.cost); }
+  $('ot').value=String(st.ot||1);
+  $('ot').addEventListener('change',()=>{ st.ot=+$('ot').value; syncCost(); recalc(); });
+  $('qunit').value=st.qtyUnit||'stations';
+  $('qunit').addEventListener('change',()=>{ st.qtyUnit=$('qunit').value; recalc(); });
+
+  function buildCost(){
+    const h=(st.dur||0)/60, labor=(st.workers||0)*(st.lrate||0)*(st.ot||1);
+    return {h, labor, cost: Math.round((h*(labor+(st.rate||0)) + (st.parts||0))*100)/100};
+  }
+  function buildText(){
+    const bits=[];
+    const otTxt = (st.ot||1)>1 ? ` × ${st.ot}× OT` : '';
+    if(st.workers && st.lrate) bits.push(`labor ${nf2.format(st.workers)} × ${usdC(st.lrate)}/h${otTxt}`);
+    if(st.rate) bits.push(`downtime ${usdC(st.rate)}/h`);
+    let t = bits.length ? `${nf2.format(st.dur||0)} min × (${bits.join(' + ')})` : '';
+    if(st.parts) t += (t?' + ':'') + `${usdC(st.parts)} parts`;
+    return t;
+  }
+  function syncCost(){ if(!st.build) return; st.cost = buildCost().cost; $('cost').value=fmtInput(st.cost); }
   $('freq').querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{ st.freq=b.dataset.f; recalc(); }));
   for(const k of ['hpd','dpw']){
     const el=$(k); el.value=fmtInput(S.sched[k]);
@@ -732,21 +770,35 @@ function FreqCalc(root, opts){
   function paintCol(){ $('col').querySelectorAll('button').forEach(b=>{ b.setAttribute('aria-pressed', String(b.dataset.c===col)); b.textContent = b.dataset.c==='cur' ? (CN()) : (NN()); }); }
   paintCol();
 
-  function result(){ const occ = (st.count||0)*annualFactor(st.freq); return {occ, annual:(st.cost||0)*occ}; }
+  const qty = () => (st.qty===null||st.qty===undefined) ? 1 : st.qty;
+  const cnt = () => (st.count===null||st.count===undefined) ? 1 : st.count;
+  function result(){ const per=cnt()*annualFactor(st.freq); const occ=per*qty(); return {per, occ, annual:(st.cost||0)*occ}; }
   function describe(){
     const f=FREQS.find(x=>x.id===st.freq); const {occ,annual}=result();
-    return `${usd(st.cost)} × ${nf2.format(st.count)} per ${f.unit} = ${nf1.format(occ)} occurrences/yr → ${usd(annual)}/yr`
-      + (['sec','min','hour','day'].includes(st.freq) && (S.sched.hpd!==24||S.sched.dpw!==7) ? ` (${nf2.format(S.sched.hpd)} h/day, ${nf2.format(S.sched.dpw)} days/wk)` : '');
+    let t = `${usdC(st.cost)} × ${nf2.format(cnt())} per ${f.unit}`;
+    if(qty()!==1) t += ` × ${nf2.format(qty())} ${st.qtyUnit}`;
+    t += ` = ${nf1.format(occ)} occurrences/yr → ${usd(annual)}/yr`;
+    if(['sec','min','hour','day'].includes(st.freq) && (S.sched.hpd!==24||S.sched.dpw!==7)) t += ` (${nf2.format(S.sched.hpd)} h/day, ${nf2.format(S.sched.dpw)} days/wk)`;
+    if(st.build && buildText()) t += `. Cost per occurrence: ${buildText()}`;
+    return t;
   }
   function recalc(){
     $('freq').querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed', String(b.dataset.f===st.freq)));
-    const {occ,annual}=result();
+    const {per,occ,annual}=result(), q=qty();
     $('annual').textContent=usd(annual);
+    $('per').textContent = q!==1 ? `${usd(annual/(q||1))}/yr per ${st.qtyUnit.replace(/s$/,'')} × ${nf2.format(q)} ${st.qtyUnit}` : '';
     $('occ').textContent=nf1.format(occ);
     const f=FREQS.find(x=>x.id===st.freq);
-    $('formula').textContent = `${usd(st.cost)} per occurrence × ${nf2.format(st.count)} per ${f.unit} × ${nf2.format(annualFactor(st.freq)/1)} ${f.unit}s per year`;
-    const opDays=365*S.sched.dpw/7;
-    $('sched').textContent = `${nf0.format(opDays)} operating days and ${nf0.format(opDays*S.sched.hpd)} operating hours per year. Week, month and year frequencies use the calendar.`;
+    $('formula').textContent = `${usdC(st.cost)} per occurrence × ${nf2.format(cnt())} per ${f.unit} × ${nf2.format(annualFactor(st.freq))} ${f.unit}s per year` + (q!==1?` × ${nf2.format(q)} ${st.qtyUnit}`:'');
+    const bt=buildText(); $('bd').textContent = bt ? `${bt} = ${usdC(buildCost().cost)} per occurrence` : 'Fill in any of the fields above; blanks count as 0.';
+    // Schedule: say which inputs the selected frequency uses, and dim the ones it ignores.
+    const opDays=365*S.sched.dpw/7, opHrs=opDays*S.sched.hpd;
+    const usesH = ['sec','min','hour'].includes(st.freq), usesD = usesH || st.freq==='day';
+    $('hpd-f').style.opacity = usesH ? 1 : .5; $('dpw-f').style.opacity = usesD ? 1 : .5;
+    $('sched').textContent = usesH ? `Per ${f.unit} uses operating hours: ${nf2.format(S.sched.hpd)} h × ${nf0.format(opDays)} days = ${nf0.format(opHrs)} h per year.`
+      : st.freq==='day' ? `Per day uses operating days: ${nf0.format(opDays)} per year. Hours per day only applies to second, minute and hour frequencies.`
+      : `Per ${f.unit} uses the calendar (${nf2.format(annualFactor(st.freq))} per year), so the operating schedule doesn't apply.`;
+    if(opts.onChange) opts.onChange(st);
     save();
   }
   $('apply').addEventListener('click',()=>{
@@ -771,10 +823,12 @@ let dlgCalc=null;
 function openCalcDialog(rowId){
   const lbl=OPERATING.find(r=>r.id===rowId).label;
   document.getElementById('fcd-title').textContent = `${lbl}: frequency calculator`;
-  document.getElementById('fcd-sub').textContent = 'Work out the annual cost, then apply it to the row.';
+  document.getElementById('fcd-sub').textContent = 'Work out the annual cost, then apply it to the row. Entries are kept for this row.';
   if(dlgCalc){ const i=calcs.indexOf(dlgCalc); if(i>=0) calcs.splice(i,1); }
-  const st = Object.assign({}, S.fc);
-  dlgCalc = FreqCalc(document.getElementById('fc-dlg'), {prefix:'fcd', state:st, row:rowId, col:'cur', onApplied:()=>dlg.close()});
+  const o=S.op[rowId];
+  const st = Object.assign(fcDefaults(rowId), o.fcIn||{});
+  dlgCalc = FreqCalc(document.getElementById('fc-dlg'), {prefix:'fcd', state:st, row:rowId, col:'cur',
+    onChange:s=>{ o.fcIn=Object.assign({}, s); }, onApplied:()=>dlg.close()});
   document.getElementById('fcd-row').disabled = true;
   dlg.showModal();
   setTimeout(()=>document.getElementById('fcd-cost').focus(),30);
@@ -786,7 +840,9 @@ dlg.addEventListener('click',e=>{ if(e.target===dlg) dlg.close(); });
    Charts
    ========================================================================= */
 const C = {blue:'#6A9DC6', gray:'#94A7B4', silver:'#BCBCBC', red:'#e73446', ink:'#1d1d1b', g600:'#6b6b6a', g800:'#414140', g200:'#e6e6e6'};
-const blueInk = '#4f82ab', grayInk='#73889a'; // darkened ink relatives for line work
+// Current = achromatic silver (dashed line), proposed = steel blue. Darkened ink relatives do the line work.
+const blueInk = '#3f78a8', grayInk='#7d7d7d';
+const curDash = `repeating-linear-gradient(90deg,${grayInk} 0 5px,transparent 5px 8px)`;
 Chart.defaults.font.family = '"Roboto Flex", system-ui, sans-serif';
 Chart.defaults.font.size = 12;
 Chart.defaults.color = C.g600;
@@ -878,13 +934,13 @@ function tcoConfig(R, print){
   return {
     type:'line',
     data:{datasets:[
-      {label:CN(), data:a, borderColor:grayInk, backgroundColor:C.gray, borderWidth:3, pointRadius:3, pointBackgroundColor:grayInk, tension:0},
+      {label:CN(), data:a, borderColor:grayInk, backgroundColor:C.silver, borderWidth:3, borderDash:[7,5], pointRadius:3, pointBackgroundColor:grayInk, tension:0},
       {label:NN(), data:b, borderColor:blueInk, backgroundColor:C.blue, borderWidth:3, pointRadius:3, pointBackgroundColor:blueInk, tension:0},
     ]},
     options:{responsive:!print, maintainAspectRatio:false, animation:print?false:{duration:250}, devicePixelRatio:print?3:undefined,
       interaction:{mode:'index', intersect:false}, layout:{padding:{top:20, right:4}},
       scales:Object.assign(baseScales(N,fs), {y:{beginAtZero:true, grace:'8%', ticks:{font:{size:fs}, callback:v=>usdCompact(v)}, grid:{color:C.g200, drawTicks:false}, border:{display:false}}}),
-      plugins:{legend:{display:false}, markers:mk, pointLabels:{show:true, fs:print?9:11, dec:N<=5?1:0, colors:['#5d7080','#3f6f96']},
+      plugins:{legend:{display:false}, markers:mk, pointLabels:{show:true, fs:print?9:11, dec:N<=5?1:0, colors:['#5f5f5f','#2f6690']},
         tooltip:{callbacks:{title:i=>`Year ${i[0].parsed.x}`, label:i=>`${i.dataset.label}: ${usd(i.parsed.y)}`}}}},
     plugins:[pointLabelPlugin, markerPlugin]
   };
@@ -895,7 +951,7 @@ function catConfig(R, print){
   return {
     type:'bar',
     data:{labels:rows.map(r=>r.label), datasets:[
-      {label:CN(), data:rows.map(r=>r.cur), backgroundColor:C.gray, borderRadius:0, barPercentage:.8, categoryPercentage:.75},
+      {label:CN(), data:rows.map(r=>r.cur), backgroundColor:C.silver, borderRadius:0, barPercentage:.8, categoryPercentage:.75},
       {label:NN(), data:rows.map(r=>r.neu), backgroundColor:C.blue, borderRadius:0, barPercentage:.8, categoryPercentage:.75},
     ]},
     options:{indexAxis:'y', responsive:!print, maintainAspectRatio:false, animation:print?false:{duration:250}, devicePixelRatio:print?3:undefined,
@@ -904,8 +960,8 @@ function catConfig(R, print){
       plugins:{legend:{display:false}, tooltip:{callbacks:{label:i=>`${i.dataset.label}: ${usd(i.parsed.x)}/yr`}}}}
   };
 }
-function legendHTML(){ return `<span><i style="background:${blueInk}"></i>${esc(NN())}</span><span><i style="background:${grayInk}"></i>${esc(CN())}</span>`; }
-function legendSq(){ return `<span><i class="sq" style="background:${C.gray}"></i>${esc(CN())}</span><span><i class="sq" style="background:${C.blue}"></i>${esc(NN())}</span>`; }
+function legendHTML(){ return `<span><i style="background:${blueInk}"></i>${esc(NN())}</span><span><i style="background:${curDash}"></i>${esc(CN())}</span>`; }
+function legendSq(){ return `<span><i class="sq" style="background:${C.silver}"></i>${esc(CN())}</span><span><i class="sq" style="background:${C.blue}"></i>${esc(NN())}</span>`; }
 
 let chPay, chTco, chCat;
 function drawCharts(R){

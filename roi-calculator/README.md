@@ -10,7 +10,7 @@ Sales tool that compares the cost of a customer's current system with a proposed
 2. **Upfront costs (one time):** hardware, software, labor, training for each solution. Fields start empty with ghost text; empty counts as $0.
 3. **Annual operating costs:** downtime, operations labor, maintenance / PMs, energy / utilities, scrap / rework / quality, MRO, licenses, expedites, changeover, fines / penalties / liabilities, training, lost production. Each row takes a current $/yr and either a reduction % or a proposed $/yr; editing one updates the other.
 4. **Results:** net investment, annual savings, payback, N-year net benefit and ROI, a target check, and three charts: payback timeline, cumulative cost of ownership (each year's cumulative cost labelled for both solutions), and operating cost by category.
-5. **Frequency of occurrence calculator:** the timer button on each operating row opens it in a dialog. Cost per occurrence × occurrences × frequency (second to year) = annual cost. An optional build-up computes cost per occurrence from duration × cost per hour + parts. Apply the result to the current or proposed column of that row. Applied values are listed on the PDF under "Basis for estimates".
+5. **Frequency of occurrence calculator:** the timer button on each operating row opens it in a dialog. Annual cost = cost per occurrence × occurrences × periods per year × quantity. "Multiply across" scales one station / machine / line / site to the whole project. The optional build-up computes cost per occurrence as duration × (workers × labor rate × overtime factor [none, 1.5× or 2×] + downtime cost per hour) + parts. It opens automatically for operations labor, maintenance, changeover and training. Entries are kept per row, so reopening a row's calculator shows what was entered. Apply the result to the current or proposed column; the working is listed on the PDF under "Basis for estimates".
 6. **Export PDF:** downloads a two-page Letter summary (KPIs, verdict, payback and cost-of-ownership charts; cost comparison table, category chart, basis for estimates).
 
 Inputs are saved in the browser (localStorage). **Reset** clears them.
@@ -26,7 +26,7 @@ Inputs are saved in the browser (localStorage). **Reset** clears them.
 | N-year ROI | net position at year N ÷ net investment | — |
 | Annual occurrences | occurrences × periods per year | Summary!C30 / Calculations!A7:H13 |
 
-Periods per year: second, minute, hour and day scale with the operating schedule (hours per day, days per week). The default 24 h × 7 days matches the spreadsheet exactly (8,760 h, 365 days). Week = 365 / 7, month = 12, year = 1.
+Periods per year: second, minute and hour use operating hours (hours per day × operating days); day uses operating days only, so hours per day has no effect on a per-day frequency; week, month and year use the calendar. The default 24 h × 7 days matches the spreadsheet exactly (8,760 h, 365 days). Week = 365 / 7, month = 12, year = 1.
 
 ## Files
 
@@ -39,6 +39,6 @@ Periods per year: second, minute, hour and day scale with the operating schedule
 Follows `design.md` / `tokens.css` in ai-marketing2:
 
 - **Type:** Roboto Flex only; headings use heavier `wght` and narrower `wdth`.
-- **Color:** achromatic surface. Balluff Red only on the Export PDF button, focus states, section-nav arrows and the payback marker. Charts use the data-viz palette: steel blue = proposed, cool gray = current. Target and warning states use the UI-state palette.
+- **Color:** achromatic surface. Balluff Red only on the Export PDF button, focus states, section-nav arrows and the payback marker. Charts use the data-viz palette: steel blue (solid line) = proposed, silver (dashed line) = current, so the two read apart by hue, lightness and line style. Target and warning states use the UI-state palette.
 - **Layout:** square corners, left-aligned 1/4 + 3/4 sections, wordmark top-left on the page and top-right on the PDF (print convention), quiet footer with the claim lockup.
 - **Voice:** numbers carry the claims; no superlatives.
