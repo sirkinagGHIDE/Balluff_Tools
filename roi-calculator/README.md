@@ -6,14 +6,14 @@ Sales tool that compares the cost of a customer's current system with a proposed
 
 ## What it does
 
-1. **Project:** customer, project, prepared by, date, and names for the two solutions (shown on the PDF). Assumptions: target payback (the spreadsheet's "Max ROI (Years)", default 2), analysis period (3, 5, 7 or 10 years, default 5) and a default cost reduction (default 80%, the spreadsheet's `=C*0.2`).
-2. **Upfront costs (one time):** hardware, software, labor, training for each solution.
+1. **Project:** customer, project, prepared by, date, and names for the two solutions (shown on the PDF; blank names show as "Current system" / "Proposed solution"). Assumptions: target payback (the spreadsheet's "Max ROI (Years)"; blank skips the target check), analysis period (3, 5, 7 or 10 years, default 5) and a default cost reduction (blank counts as 0%; the spreadsheet used 80%, `=C*0.2`).
+2. **Upfront costs (one time):** hardware, software, labor, training for each solution. Fields start empty with ghost text; empty counts as $0.
 3. **Annual operating costs:** downtime, operations labor, maintenance / PMs, energy / utilities, scrap / rework / quality, MRO, licenses, expedites, changeover, fines / penalties / liabilities, training, lost production. Each row takes a current $/yr and either a reduction % or a proposed $/yr; editing one updates the other.
-4. **Results:** net investment, annual savings, payback, N-year net benefit and ROI, a target check, and three charts: payback timeline, cumulative cost of ownership, and operating cost by category.
-5. **Frequency of occurrence calculator:** cost per occurrence × occurrences × frequency (second to year) = annual cost. An optional build-up computes cost per occurrence from duration × cost per hour + parts. Apply the result to any operating row, either column. Each row also has a timer button that opens the calculator in a dialog for that row. Applied values are listed on the PDF under "Basis for estimates".
+4. **Results:** net investment, annual savings, payback, N-year net benefit and ROI, a target check, and three charts: payback timeline, cumulative cost of ownership (each year's cumulative cost labelled for both solutions), and operating cost by category.
+5. **Frequency of occurrence calculator:** the timer button on each operating row opens it in a dialog. Cost per occurrence × occurrences × frequency (second to year) = annual cost. An optional build-up computes cost per occurrence from duration × cost per hour + parts. Apply the result to the current or proposed column of that row. Applied values are listed on the PDF under "Basis for estimates".
 6. **Export PDF:** downloads a two-page Letter summary (KPIs, verdict, payback and cost-of-ownership charts; cost comparison table, category chart, basis for estimates).
 
-Inputs are saved in the browser (localStorage). **Reset** returns to the example values from the spreadsheet.
+Inputs are saved in the browser (localStorage). **Reset** clears them.
 
 ## Formulas
 

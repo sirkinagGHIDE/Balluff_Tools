@@ -291,7 +291,6 @@ dialog.modal::backdrop{background:rgba(29,29,27,.45);}
       <li><a href="#s-upfront">Upfront costs</a></li>
       <li><a href="#s-operating">Operating costs</a></li>
       <li><a href="#s-results">Results</a></li>
-      <li><a href="#s-freq">Frequency calculator</a></li>
     </ul>
   </div>
 
@@ -312,20 +311,20 @@ dialog.modal::backdrop{background:rgba(29,29,27,.45);}
         </div>
         <p class="subhead">Solutions compared</p>
         <div class="grid-2">
-          <div class="field"><label for="p-curname">Current system</label><input class="input" id="p-curname" data-k="curName" autocomplete="off"></div>
-          <div class="field"><label for="p-newname">Proposed solution</label><input class="input" id="p-newname" data-k="newName" autocomplete="off"></div>
+          <div class="field"><label for="p-curname">Current system</label><input class="input" id="p-curname" data-k="curName" autocomplete="off" placeholder="Current system"></div>
+          <div class="field"><label for="p-newname">Proposed solution</label><input class="input" id="p-newname" data-k="newName" autocomplete="off" placeholder="Proposed solution"></div>
         </div>
         <p class="subhead">Assumptions</p>
         <div class="grid-3">
           <div class="field"><label for="p-target">Target payback</label>
-            <div class="adorn post"><input class="input pct" id="p-target" data-k="target" inputmode="decimal"><span>yrs</span></div>
-            <span class="help">The customer's maximum acceptable payback.</span></div>
+            <div class="adorn post"><input class="input pct" id="p-target" data-k="target" inputmode="decimal" placeholder="e.g. 2"><span>yrs</span></div>
+            <span class="help">The customer's maximum acceptable payback. Leave blank to skip the target check.</span></div>
           <div class="field"><label for="p-horizon">Analysis period</label>
             <select class="input" id="p-horizon" data-k="horizon"><option value="3">3 years</option><option value="5">5 years</option><option value="7">7 years</option><option value="10">10 years</option></select>
             <span class="help">Length of the payback timeline and net benefit.</span></div>
           <div class="field"><label for="p-red">Default cost reduction</label>
-            <div class="adorn post"><input class="input pct" id="p-red" data-k="defReduction" inputmode="decimal"><span>%</span></div>
-            <span class="help">Applied to each operating cost unless you set a row value.</span></div>
+            <div class="adorn post"><input class="input pct" id="p-red" data-k="defReduction" inputmode="decimal" placeholder="e.g. 80"><span>%</span></div>
+            <span class="help">Applied to each operating cost unless you set a row value. Blank counts as 0%.</span></div>
         </div>
       </div>
     </div>
@@ -370,12 +369,12 @@ dialog.modal::backdrop{background:rgba(29,29,27,.45);}
         <div class="chart-card wide">
           <h3>Payback timeline</h3>
           <p id="cap-payback">Cumulative net position: annual savings minus net investment.</p>
-          <div class="legend"><span><i style="background:var(--color-chart-blue)"></i>Net position</span><span><i class="dot" style="background:var(--color-balluff-red)"></i>Payback point</span><span><i style="background:repeating-linear-gradient(90deg,var(--color-gray-800) 0 4px,transparent 4px 7px)"></i>Target payback</span></div>
+          <div class="legend"><span><i style="background:var(--color-chart-blue)"></i>Net position</span><span><i class="dot" style="background:var(--color-balluff-red)"></i>Payback point</span><span id="lg-target"><i style="background:repeating-linear-gradient(90deg,var(--color-gray-800) 0 4px,transparent 4px 7px)"></i>Target payback</span></div>
           <div class="chart-box"><canvas id="c-payback" role="img" aria-label="Payback timeline chart"></canvas></div>
         </div>
         <div class="chart-card">
           <h3>Cumulative cost of ownership</h3>
-          <p>Upfront cost plus operating cost to date. The lines cross at payback.</p>
+          <p>Upfront cost plus operating cost to date, labelled at each year. The lines cross at payback.</p>
           <div class="legend" id="lg-tco"></div>
           <div class="chart-box"><canvas id="c-tco" role="img" aria-label="Cumulative cost of ownership chart"></canvas></div>
         </div>
@@ -389,18 +388,6 @@ dialog.modal::backdrop{background:rgba(29,29,27,.45);}
     </div>
   </section>
 
-  <!-- 5. Frequency calculator -->
-  <section class="section" id="s-freq" aria-labelledby="h-freq">
-    <div class="container section-grid">
-      <div class="section-intro">
-        <p class="eyebrow">Helper</p>
-        <h2 id="h-freq">Frequency of occurrence calculator</h2>
-        <p>Turn a cost per event into an annual cost: downtime per stop, labor per changeover, MRO per replacement.</p>
-        <p>Set the operating schedule to match the plant. 24 h × 7 days counts every hour of the year.</p>
-      </div>
-      <div id="fc-main"></div>
-    </div>
-  </section>
 </main>
 
 <footer class="footer">
@@ -445,10 +432,10 @@ dialog.modal::backdrop{background:rgba(29,29,27,.45);}
    Model — mirrors INTCAI_ROI_Calculator_rev1.xlsx (Summary + Calculations)
    ========================================================================= */
 const UPFRONT = [
-  {id:'hardware', label:'Hardware', cur:0, neu:50000},
-  {id:'software', label:'Software', cur:0, neu:5000},
-  {id:'labor',    label:'Labor',    cur:0, neu:0},
-  {id:'training', label:'Training', cur:0, neu:10000},
+  {id:'hardware', label:'Hardware', cur:null, neu:null},
+  {id:'software', label:'Software', cur:null, neu:null},
+  {id:'labor',    label:'Labor',    cur:null, neu:null},
+  {id:'training', label:'Training', cur:null, neu:null},
 ];
 const OPERATING = [
   {id:'downtime',   label:'Downtime', cur:25000},
@@ -474,14 +461,16 @@ const FREQS = [
   {id:'month', label:'Per month',  unit:'month'},
   {id:'year',  label:'Per year',   unit:'year'},
 ];
-const STORE_KEY = 'balluff-roi-calculator-v1';
+const STORE_KEY = 'balluff-roi-calculator-v2';
 
+const CN = () => (S.curName||'').trim() || 'Current system';
+const NN = () => (S.newName||'').trim() || 'Proposed solution';
 function today(){ const d=new Date(); return new Date(d.getTime()-d.getTimezoneOffset()*60000).toISOString().slice(0,10); }
 function defaults(){
   return {
     customer:'', project:'', preparedBy:'', date:today(),
-    curName:'Current system', newName:'Proposed solution',
-    target:2, horizon:5, defReduction:80,
+    curName:'', newName:'',
+    target:null, horizon:5, defReduction:null,
     sched:{hpd:24, dpw:7},
     up: Object.fromEntries(UPFRONT.map(r=>[r.id,{cur:r.cur, neu:r.neu, note:''}])),
     op: Object.fromEntries(OPERATING.map(r=>[r.id,{cur:r.cur||0, mode:'pct', pct:null, neu:0, note:'', calc:{}}])),
@@ -515,12 +504,13 @@ const usdSigned = v => (v>0?'+':'') + usd(v);
 const usdCompact = v => { const a=Math.abs(v); const s=v<0?'−$':'$';
   if(a>=1e6) return s+nf1.format(a/1e6)+'M'; if(a>=1e3) return s+nf0.format(a/1e3)+'k'; return s+nf0.format(a); };
 function parseNum(s){ if(typeof s==='number') return s; const v=parseFloat(String(s).replace(/[^0-9.\-]/g,'')); return isFinite(v)?v:0; }
+function parseOpt(s){ return String(s??'').trim()==='' ? null : parseNum(s); }
 function fmtInput(v){ return v===null||v===undefined||v==='' ? '' : nf2.format(v); }
 function esc(s){ return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 function yrs(v){ return nf1.format(v)+(Math.abs(v-1)<0.05?' year':' years'); }
 
 /* ---------- core calculations ---------- */
-function rowPct(r){ return r.pct===null||r.pct===undefined||r.pct==='' ? S.defReduction : r.pct; }
+function rowPct(r){ return r.pct===null||r.pct===undefined||r.pct==='' ? (S.defReduction ?? 0) : r.pct; }
 function proposedOp(r){ return r.mode==='abs' ? (r.neu||0) : (r.cur||0)*(1-rowPct(r)/100); }
 function effPct(r){ if(r.mode!=='abs') return rowPct(r); return r.cur>0 ? (1-(r.neu||0)/r.cur)*100 : null; }
 
@@ -529,6 +519,7 @@ function annualFactor(freq){
   return {sec:opHrs*3600, min:opHrs*60, hour:opHrs, day:opDays, week:365/7, month:12, year:1}[freq] ?? 0;
 }
 
+const hasTarget = () => S.target!==null && S.target!==undefined && S.target>0;
 function compute(){
   let upCur=0, upNew=0, opCur=0, opNew=0;
   for(const r of UPFRONT){ upCur+=S.up[r.id].cur||0; upNew+=S.up[r.id].neu||0; }
@@ -538,13 +529,13 @@ function compute(){
   const savings = opCur - opNew;              // Summary!C24
   let payback = null;                         // Summary!C25
   if(savings>0) payback = Math.max(0, investment/savings);
-  else if(investment<=0 && savings>=0) payback = 0;
+  else if(investment<0 && savings>=0) payback = 0;
   const N = +S.horizon;
   const netAt = t => savings*t - investment;  // Calculations!B3:G3
   const netN = netAt(N);
   const roi = investment>0 ? netN/investment*100 : null;
   return {upCur, upNew, opCur, opNew, investment, savings, payback, N, netAt, netN, roi, cats,
-    meets: payback!==null && payback <= +S.target};
+    empty: investment===0 && savings===0, meets: hasTarget() ? (payback!==null && payback <= +S.target) : null};
 }
 
 /* =========================================================================
@@ -555,7 +546,7 @@ document.querySelectorAll('[data-k]').forEach(el=>{
   const numeric = ['target','defReduction'].includes(k);
   el.value = numeric ? fmtInput(S[k]) : S[k];
   el.addEventListener('input',()=>{
-    if(numeric){ S[k] = parseNum(el.value); }
+    if(numeric){ S[k] = parseOpt(el.value); }
     else if(k==='horizon'){ S[k] = +el.value; }
     else S[k] = el.value;
     if(k==='curName'||k==='newName') renderTables();
@@ -569,18 +560,18 @@ document.querySelectorAll('[data-k]').forEach(el=>{
    Cost tables
    ========================================================================= */
 function moneyInput(id, val, aria, cls=''){
-  return `<div class="adorn pre"><span>$</span><input class="input money ${cls}" id="${id}" inputmode="decimal" autocomplete="off" aria-label="${esc(aria)}" value="${fmtInput(val)}"></div>`;
+  return `<div class="adorn pre"><span>$</span><input class="input money ${cls}" id="${id}" placeholder="0" inputmode="decimal" autocomplete="off" aria-label="${esc(aria)}" value="${fmtInput(val)}"></div>`;
 }
 function renderTables(){
-  const cn=esc(S.curName||'Current'), nn=esc(S.newName||'Proposed');
+  const cn=esc(CN()), nn=esc(NN());
   // Upfront
   let h = `<div class="crow head" role="row"><div>Cost item</div><div class="r">${cn}</div><div class="r">${nn}</div><div class="r">Difference</div><div>Notes</div></div>`;
   for(const r of UPFRONT){
     const u=S.up[r.id];
     h += `<div class="crow" role="row" data-up="${r.id}">
       <div class="cat">${esc(r.label)}</div>
-      <div><span class="m-label">${cn}</span>${moneyInput('u-'+r.id+'-cur',u.cur,r.label+', '+(S.curName||'current'))}</div>
-      <div><span class="m-label">${nn}</span>${moneyInput('u-'+r.id+'-neu',u.neu,r.label+', '+(S.newName||'proposed'))}</div>
+      <div><span class="m-label">${cn}</span>${moneyInput('u-'+r.id+'-cur',u.cur,r.label+', '+(CN()))}</div>
+      <div><span class="m-label">${nn}</span>${moneyInput('u-'+r.id+'-neu',u.neu,r.label+', '+(NN()))}</div>
       <div><span class="m-label">Difference</span><div class="diff" id="u-${r.id}-diff"></div></div>
       <div class="note-cell"><input class="input note-in" id="u-${r.id}-note" placeholder="Notes" aria-label="${esc(r.label)} notes" value="${esc(u.note)}"></div>
     </div>`;
@@ -594,9 +585,9 @@ function renderTables(){
     const o=S.op[r.id];
     h += `<div class="crow" role="row" data-op="${r.id}">
       <div class="cat">${esc(r.label)}</div>
-      <div><span class="m-label">${cn} / yr</span>${moneyInput('o-'+r.id+'-cur',o.cur,r.label+', '+(S.curName||'current')+' per year')}</div>
+      <div><span class="m-label">${cn} / yr</span>${moneyInput('o-'+r.id+'-cur',o.cur,r.label+', '+(CN())+' per year')}</div>
       <div><span class="m-label">Reduction</span><div class="adorn post"><input class="input pct" id="o-${r.id}-pct" inputmode="decimal" autocomplete="off" aria-label="${esc(r.label)} reduction percent"><span>%</span></div></div>
-      <div><span class="m-label">${nn} / yr</span>${moneyInput('o-'+r.id+'-neu',0,r.label+', '+(S.newName||'proposed')+' per year')}</div>
+      <div><span class="m-label">${nn} / yr</span>${moneyInput('o-'+r.id+'-neu',0,r.label+', '+(NN())+' per year')}</div>
       <div><span class="m-label">Savings / yr</span><div class="diff" id="o-${r.id}-diff"></div></div>
       <div class="note-cell"><input class="input note-in" id="o-${r.id}-note" placeholder="Notes" aria-label="${esc(r.label)} notes" value="${esc(o.note)}"></div>
       <div class="calc-cell"><button class="icon-btn" type="button" data-calc="${r.id}" title="Work out ${esc(r.label.toLowerCase())} with the frequency calculator" aria-label="Frequency calculator for ${esc(r.label)}"><img src="assets/icons/timer.svg" alt=""></button></div>
@@ -612,7 +603,7 @@ function renderTables(){
 }
 
 function wireMoney(el, get, set){
-  el.addEventListener('input',()=>{ set(parseNum(el.value)); update(); });
+  el.addEventListener('input',()=>{ set(parseOpt(el.value)); update(); });
   el.addEventListener('blur',()=>{ el.value = fmtInput(get()); });
 }
 function wireTables(){
@@ -647,7 +638,7 @@ function refreshOpValues(onlyId, typing){
     if(!pct) continue;
     if(typing!=='pct'){
       const p = effPct(o);
-      if(o.mode==='pct' && (o.pct===null||o.pct===undefined)){ pct.value=''; pct.placeholder=nf1.format(S.defReduction); }
+      if(o.mode==='pct' && (o.pct===null||o.pct===undefined)){ pct.value=''; pct.placeholder=nf1.format(S.defReduction ?? 0); }
       else { pct.value = p===null ? '' : nf1.format(p); pct.placeholder = p===null?'–':''; }
     }
     pct.classList.toggle('computed', o.mode==='abs');
@@ -662,7 +653,7 @@ function renderCalcNotes(onlyId){
     const o=S.op[r.id], box=document.getElementById(`o-${r.id}-calc`); if(!box) continue;
     const parts=[];
     for(const col of ['cur','neu']){
-      if(o.calc && o.calc[col]) parts.push(`<div class="calc-note"><span>${esc(col==='cur'?(S.curName||'Current'):(S.newName||'Proposed'))}: ${esc(o.calc[col])}</span><button type="button" data-clr="${r.id}:${col}">Clear</button></div>`);
+      if(o.calc && o.calc[col]) parts.push(`<div class="calc-note"><span>${esc(col==='cur'?(CN()):(NN()))}: ${esc(o.calc[col])}</span><button type="button" data-clr="${r.id}:${col}">Clear</button></div>`);
     }
     box.innerHTML = parts.join('');
     box.hidden = !parts.length;
@@ -738,7 +729,7 @@ function FreqCalc(root, opts){
   }
   if(opts.row) $('row').value=opts.row;
   $('col').querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{ col=b.dataset.c; paintCol(); }));
-  function paintCol(){ $('col').querySelectorAll('button').forEach(b=>{ b.setAttribute('aria-pressed', String(b.dataset.c===col)); b.textContent = b.dataset.c==='cur' ? (S.curName||'Current') : (S.newName||'Proposed'); }); }
+  function paintCol(){ $('col').querySelectorAll('button').forEach(b=>{ b.setAttribute('aria-pressed', String(b.dataset.c===col)); b.textContent = b.dataset.c==='cur' ? (CN()) : (NN()); }); }
   paintCol();
 
   function result(){ const occ = (st.count||0)*annualFactor(st.freq); return {occ, annual:(st.cost||0)*occ}; }
@@ -756,7 +747,7 @@ function FreqCalc(root, opts){
     $('formula').textContent = `${usd(st.cost)} per occurrence × ${nf2.format(st.count)} per ${f.unit} × ${nf2.format(annualFactor(st.freq)/1)} ${f.unit}s per year`;
     const opDays=365*S.sched.dpw/7;
     $('sched').textContent = `${nf0.format(opDays)} operating days and ${nf0.format(opDays*S.sched.hpd)} operating hours per year. Week, month and year frequencies use the calendar.`;
-    if(opts.state===S.fc) save();
+    save();
   }
   $('apply').addEventListener('click',()=>{
     const id=$('row').value, o=S.op[id], {annual}=result(), val=Math.round(annual*100)/100;
@@ -766,7 +757,7 @@ function FreqCalc(root, opts){
     const curEl=document.getElementById(`o-${id}-cur`); if(curEl) curEl.value=fmtInput(o.cur);
     refreshOpValues(id); renderCalcNotes(id); update();
     const lbl=OPERATING.find(r=>r.id===id).label;
-    toast(`${lbl}: ${usd(val)}/yr applied to ${col==='cur'?(S.curName||'current'):(S.newName||'proposed')}`);
+    toast(`${lbl}: ${usd(val)}/yr applied to ${col==='cur'?(CN()):(NN())}`);
     if(opts.onApplied) opts.onApplied();
   });
   const api = { syncSched(){ $('hpd').value=fmtInput(S.sched.hpd); $('dpw').value=fmtInput(S.sched.dpw); recalc(); }, paintCol, recalc };
@@ -775,7 +766,6 @@ function FreqCalc(root, opts){
   return api;
 }
 
-const mainCalc = FreqCalc(document.getElementById('fc-main'), {prefix:'fcm', state:S.fc});
 const dlg = document.getElementById('fc-dialog');
 let dlgCalc=null;
 function openCalcDialog(rowId){
@@ -800,6 +790,38 @@ const blueInk = '#4f82ab', grayInk='#73889a'; // darkened ink relatives for line
 Chart.defaults.font.family = '"Roboto Flex", system-ui, sans-serif';
 Chart.defaults.font.size = 12;
 Chart.defaults.color = C.g600;
+
+const fmtK = (v, dec) => { const a=Math.abs(v), s=v<0?'−$':'$';
+  if(a>=1e6) return s+nf2.format(a/1e6)+'M';
+  if(a>=1e3) return s+new Intl.NumberFormat('en-US',{maximumFractionDigits:dec}).format(a/1e3)+'k';
+  return s+nf0.format(a); };
+// Labels each year point of a two-series line chart; the higher series is labelled above, the lower below.
+const pointLabelPlugin = {
+  id:'pointLabels',
+  afterDatasetsDraw(chart, args, o){
+    if(!o || !o.show) return;
+    const {ctx, chartArea:{bottom}} = chart;
+    const m0=chart.getDatasetMeta(0), m1=chart.getDatasetMeta(1);
+    const d0=chart.data.datasets[0].data, d1=chart.data.datasets[1].data;
+    const n=d0.length, fs=o.fs||11;
+    ctx.save(); ctx.font=`650 ${fs}px "Roboto Flex"`; ctx.lineJoin='round';
+    for(let i=0;i<n;i++){
+      const p0=m0.data[i], p1=m1.data[i]; if(!p0||!p1) continue;
+      const curHigher = d0[i].y >= d1[i].y;
+      const items=[{p:p0, v:d0[i].y, col:o.colors[0], up:curHigher}, {p:p1, v:d1[i].y, col:o.colors[1], up:!curHigher}];
+      for(const it of items){
+        let y = it.up ? it.p.y-8 : it.p.y+fs+6;
+        if(!it.up && y > bottom-2) y = it.p.y-8-(fs+4);   // keep clear of the x axis
+        ctx.textAlign = i===0 ? 'left' : (i===n-1 ? 'right' : 'center');
+        const x = it.p.x + (i===0?2:(i===n-1?-2:0));
+        const t=fmtK(it.v, o.dec);
+        ctx.lineWidth=4; ctx.strokeStyle='#fff'; ctx.strokeText(t,x,y);
+        ctx.fillStyle=it.col; ctx.fillText(t,x,y);
+      }
+    }
+    ctx.restore();
+  }
+};
 
 const markerPlugin = {
   id:'markers',
@@ -834,7 +856,7 @@ function baseScales(N, fs){
 function paybackConfig(R, print){
   const N=R.N, fs=print?10:12, pts=[];
   for(let t=0;t<=N;t++) pts.push({x:t,y:R.netAt(t)});
-  const mk={lines:[{x:+S.target, color:C.g800, label:`Target ${nf1.format(+S.target)} yrs`}], points:[], fs};
+  const mk={lines:hasTarget()?[{x:+S.target, color:C.g800, label:`Target ${nf1.format(+S.target)} yrs`}]:[], points:[], fs};
   if(R.payback!==null && R.payback>0 && R.payback<=N){ pts.push({x:R.payback,y:0}); pts.sort((a,b)=>a.x-b.x); mk.points.push({x:R.payback,y:0,label:`Payback ${nf1.format(R.payback)} yrs`, above:false}); }
   return {
     type:'line',
@@ -856,15 +878,15 @@ function tcoConfig(R, print){
   return {
     type:'line',
     data:{datasets:[
-      {label:S.curName||'Current', data:a, borderColor:grayInk, backgroundColor:C.gray, borderWidth:3, pointRadius:print?0:3, pointBackgroundColor:grayInk, tension:0},
-      {label:S.newName||'Proposed', data:b, borderColor:blueInk, backgroundColor:C.blue, borderWidth:3, pointRadius:print?0:3, pointBackgroundColor:blueInk, tension:0},
+      {label:CN(), data:a, borderColor:grayInk, backgroundColor:C.gray, borderWidth:3, pointRadius:3, pointBackgroundColor:grayInk, tension:0},
+      {label:NN(), data:b, borderColor:blueInk, backgroundColor:C.blue, borderWidth:3, pointRadius:3, pointBackgroundColor:blueInk, tension:0},
     ]},
     options:{responsive:!print, maintainAspectRatio:false, animation:print?false:{duration:250}, devicePixelRatio:print?3:undefined,
-      interaction:{mode:'index', intersect:false},
-      scales:Object.assign(baseScales(N,fs), {y:{beginAtZero:true, ticks:{font:{size:fs}, callback:v=>usdCompact(v)}, grid:{color:C.g200, drawTicks:false}, border:{display:false}}}),
-      plugins:{legend:{display:false}, markers:mk,
+      interaction:{mode:'index', intersect:false}, layout:{padding:{top:20, right:4}},
+      scales:Object.assign(baseScales(N,fs), {y:{beginAtZero:true, grace:'8%', ticks:{font:{size:fs}, callback:v=>usdCompact(v)}, grid:{color:C.g200, drawTicks:false}, border:{display:false}}}),
+      plugins:{legend:{display:false}, markers:mk, pointLabels:{show:true, fs:print?9:11, dec:N<=5?1:0, colors:['#5d7080','#3f6f96']},
         tooltip:{callbacks:{title:i=>`Year ${i[0].parsed.x}`, label:i=>`${i.dataset.label}: ${usd(i.parsed.y)}`}}}},
-    plugins:[markerPlugin]
+    plugins:[pointLabelPlugin, markerPlugin]
   };
 }
 function catConfig(R, print){
@@ -873,8 +895,8 @@ function catConfig(R, print){
   return {
     type:'bar',
     data:{labels:rows.map(r=>r.label), datasets:[
-      {label:S.curName||'Current', data:rows.map(r=>r.cur), backgroundColor:C.gray, borderRadius:0, barPercentage:.8, categoryPercentage:.75},
-      {label:S.newName||'Proposed', data:rows.map(r=>r.neu), backgroundColor:C.blue, borderRadius:0, barPercentage:.8, categoryPercentage:.75},
+      {label:CN(), data:rows.map(r=>r.cur), backgroundColor:C.gray, borderRadius:0, barPercentage:.8, categoryPercentage:.75},
+      {label:NN(), data:rows.map(r=>r.neu), backgroundColor:C.blue, borderRadius:0, barPercentage:.8, categoryPercentage:.75},
     ]},
     options:{indexAxis:'y', responsive:!print, maintainAspectRatio:false, animation:print?false:{duration:250}, devicePixelRatio:print?3:undefined,
       scales:{x:{beginAtZero:true, ticks:{font:{size:fs}, callback:v=>usdCompact(v)}, grid:{color:C.g200, drawTicks:false}, border:{display:false}},
@@ -882,8 +904,8 @@ function catConfig(R, print){
       plugins:{legend:{display:false}, tooltip:{callbacks:{label:i=>`${i.dataset.label}: ${usd(i.parsed.x)}/yr`}}}}
   };
 }
-function legendHTML(){ return `<span><i style="background:${blueInk}"></i>${esc(S.newName||'Proposed')}</span><span><i style="background:${grayInk}"></i>${esc(S.curName||'Current')}</span>`; }
-function legendSq(){ return `<span><i class="sq" style="background:${C.gray}"></i>${esc(S.curName||'Current')}</span><span><i class="sq" style="background:${C.blue}"></i>${esc(S.newName||'Proposed')}</span>`; }
+function legendHTML(){ return `<span><i style="background:${blueInk}"></i>${esc(NN())}</span><span><i style="background:${grayInk}"></i>${esc(CN())}</span>`; }
+function legendSq(){ return `<span><i class="sq" style="background:${C.gray}"></i>${esc(CN())}</span><span><i class="sq" style="background:${C.blue}"></i>${esc(NN())}</span>`; }
 
 let chPay, chTco, chCat;
 function drawCharts(R){
@@ -895,14 +917,15 @@ function drawCharts(R){
   else { set(chPay,paybackConfig(R)); set(chTco,tcoConfig(R)); set(chCat,catConfig(R)); }
   document.getElementById('lg-tco').innerHTML = legendHTML() + `<span><i class="dot" style="background:${C.red}"></i>Payback point</span>`;
   document.getElementById('lg-cat').innerHTML = legendSq();
-  document.getElementById('cap-payback').textContent = `Cumulative net position over ${R.N} years: annual savings minus net investment. Above zero, the ${S.newName||'proposed solution'} has paid for itself.`;
+  document.getElementById('lg-target').hidden = !hasTarget();
+  document.getElementById('cap-payback').textContent = `Cumulative net position over ${R.N} years: annual savings minus net investment. Above zero, the ${NN()} has paid for itself.`;
 }
 
 /* =========================================================================
    Results + summary
    ========================================================================= */
 function paybackText(R){
-  if(R.payback===null) return 'No payback';
+  if(R.empty) return '–'; if(R.payback===null) return 'No payback';
   if(R.payback===0) return 'Immediate';
   return yrs(R.payback);
 }
@@ -916,9 +939,11 @@ function kpiHTML(R){
   <div class="kpi"><p class="k-label">${R.N}-year ROI</p><p class="k-value">${R.roi===null?'–':nf0.format(R.roi)+'%'}</p><p class="k-sub">Net benefit ÷ net investment</p></div>`;
 }
 function verdict(R){
-  const nn=S.newName||'the proposed solution', t=+S.target;
+  const nn=NN(), t=+S.target;
+  if(R.empty) return {cls:'info', title:'Enter costs to see the payback', body:'Add upfront costs and annual operating costs for both solutions above. The results update as you type.'};
   if(R.payback===null) return {cls:'warning', title:'No payback within any period', body:`Annual operating cost for ${nn} is not lower than the current system, so the ${usd(R.investment)} investment is not recovered.`};
   if(R.payback===0) return {cls:'success', title:'Pays back immediately', body:`${nn} needs no net investment and saves ${usd(R.savings)} per year.`};
+  if(!hasTarget()) return {cls:'info', title:`Pays back in ${yrs(R.payback)}`, body:`${usd(R.savings)} in annual savings recovers the ${usd(R.investment)} net investment. Net benefit after ${R.N} years: ${usd(R.netN)}. Enter a target payback to check it against the customer's requirement.`};
   if(R.meets) return {cls:'success', title:`Pays back in ${yrs(R.payback)}, within the ${nf1.format(t)}-year target`, body:`${usd(R.savings)} in annual savings recovers the ${usd(R.investment)} net investment. Net benefit after ${R.N} years: ${usd(R.netN)}.`};
   return {cls:'warning', title:`Pays back in ${yrs(R.payback)}, ${nf1.format(R.payback-t)} years beyond the ${nf1.format(t)}-year target`, body:`${usd(R.savings)} in annual savings recovers the ${usd(R.investment)} net investment. To meet the target, annual savings need to reach ${usd(R.investment/t)}, or the investment needs to fall to ${usd(R.savings*t)}.`};
 }
@@ -939,7 +964,7 @@ function update(){
   const v=verdict(R);
   document.getElementById('verdict').innerHTML = `<div class="alert ${v.cls}" role="status"><div><strong>${esc(v.title)}</strong>${esc(v.body)}</div></div>`;
   // sticky bar
-  document.getElementById('sb-payback').innerHTML = esc(paybackText(R)) + (R.payback!==null && R.payback>0 ? `<span class="pill ${R.meets?'ok':'no'}">${R.meets?'Within target':'Over target'}</span>` : '');
+  document.getElementById('sb-payback').innerHTML = esc(paybackText(R)) + (hasTarget() && R.payback!==null && R.payback>0 ? `<span class="pill ${R.meets?'ok':'no'}">${R.meets?'Within target':'Over target'}</span>` : '');
   document.getElementById('sb-savings').textContent = usd(R.savings)+'/yr';
   document.getElementById('sb-inv').textContent = usd(R.investment);
   drawCharts(R);
@@ -959,7 +984,7 @@ async function ensurePdfLibs(){
 function fmtDate(s){ if(!s) return ''; const [y,m,d]=s.split('-').map(Number); return new Date(y,m-1,d).toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'}); }
 
 function buildReport(R){
-  const cn=esc(S.curName||'Current system'), nn=esc(S.newName||'Proposed solution');
+  const cn=esc(CN()), nn=esc(NN());
   const title = esc(S.project || 'ROI comparison');
   const metaBits=[S.customer, S.preparedBy && ('Prepared by '+S.preparedBy), fmtDate(S.date)].filter(Boolean).map(esc).join(' · ');
   const v=verdict(R);
@@ -971,9 +996,9 @@ function buildReport(R){
     <div class="alert ${v.cls}" style="margin:0 0 18px"><div><strong>${esc(v.title)}</strong>${esc(v.body)}</div></div>
     <div class="kpis">${kpiHTML(R)}</div>
     <h3>Payback timeline</h3><p class="cap">Cumulative net position over ${R.N} years. Above zero, the ${nn} has paid for itself.</p>
-    <div class="legend"><span><i style="background:${blueInk}"></i>Net position</span><span><i class="dot" style="background:${C.red}"></i>Payback point</span><span><i style="background:${C.g800}"></i>Target payback (${nf1.format(+S.target)} yrs)</span></div>
+    <div class="legend"><span><i style="background:${blueInk}"></i>Net position</span><span><i class="dot" style="background:${C.red}"></i>Payback point</span>${hasTarget()?`<span><i style="background:${C.g800}"></i>Target payback (${nf1.format(+S.target)} yrs)</span>`:''}</div>
     <div style="height:205px"><canvas id="rp-pay" width="704" height="205"></canvas></div>
-    <h3>Cumulative cost of ownership</h3><p class="cap">Upfront cost plus operating cost to date. The lines cross at payback.</p>
+    <h3>Cumulative cost of ownership</h3><p class="cap">Upfront cost plus operating cost to date, labelled at each year. The lines cross at payback.</p>
     <div class="legend">${legendHTML()}</div>
     <div style="height:205px"><canvas id="rp-tco" width="704" height="205"></canvas></div>
     ${foot(1)}</div>`;
@@ -1046,7 +1071,7 @@ document.getElementById('btn-pdf').addEventListener('click', exportPdf);
 
 /* ---------- reset / toast ---------- */
 document.getElementById('btn-reset').addEventListener('click',()=>{
-  if(!confirm('Clear all inputs and return to the default example values?')) return;
+  if(!confirm('Clear all inputs?')) return;
   try{ localStorage.removeItem(STORE_KEY); }catch(e){}
   location.reload();
 });
