@@ -47,6 +47,495 @@ window.DIGEST = {
  ],
  "runs": [
   {
+   "run_date": "2026-11-24",
+   "window_start_utc": "2026-11-11T02:35:44Z",
+   "window_end_utc": "2026-11-24T16:41:19Z",
+   "status": "partial",
+   "source_failures": [
+    {
+     "competitor": "ifm",
+     "url": "https://www.ifm.com/us/en/news",
+     "error": "HTTP 200 but no news listing readable (navigation only returned to automated clients)"
+    },
+    {
+     "competitor": "ifm",
+     "url": "https://www.ifm.com/us/en/shared/topic/press-portal/releases",
+     "error": "HTTP 200 but no release listing readable (intro text only returned to automated clients)"
+    },
+    {
+     "competitor": "sick",
+     "url": "https://www.sick.com/us/en/press/pressreleases",
+     "error": "HTTP 403 Forbidden (site blocks automated clients)"
+    },
+    {
+     "competitor": "sick",
+     "url": "https://www.sick.com/us/en/shareholder-relations-at-sick-ag/w/investor-relations",
+     "error": "HTTP 403 Forbidden (site blocks automated clients)"
+    },
+    {
+     "competitor": "pepperl-fuchs",
+     "url": "https://www.pepperl-fuchs.com/en-us/news/public-relations-gp32054",
+     "error": "HTTP 403 Forbidden (site blocks automated clients)"
+    },
+    {
+     "competitor": "pepperl-fuchs",
+     "url": "https://www.pepperl-fuchs.com/en-us/news-gp27472",
+     "error": "HTTP 403 Forbidden (site blocks automated clients)"
+    },
+    {
+     "competitor": "pepperl-fuchs",
+     "url": "https://www.pepperl-fuchs.com/en-us/news/stay-in-touch/fairs-events-in-usa-lp45351",
+     "error": "HTTP 403 Forbidden (site blocks automated clients)"
+    },
+    {
+     "competitor": "banner",
+     "url": "https://www.streetinsider.com/Business+Wire/Mouser+Stocking+Wide+Selection+of+Industrial+Automation+Solutions+from+Banner+Engineering/27239085.html",
+     "error": "HTTP 403 Forbidden (trade-press page)"
+    }
+   ],
+   "items": [
+    {
+     "id": "38884b3d05af9f0deafd645d73de80268aa74d00",
+     "competitor": "banner",
+     "category": "new_product",
+     "tags": {
+      "technology": [
+       "Photoelectric",
+       "IO-Link"
+      ],
+      "industry": [
+       "Food and beverage"
+      ],
+      "application": [
+       "Washdown detection"
+      ]
+     },
+     "title": "Banner adds IO-Link and new sensing modes to its QM26-2 washdown sensor",
+     "summary": "Banner's new-products page lists an updated QM26-2 Washdown Sensor on 17 Nov 2026. Banner says it adds IO-Link configuration and data access, push/pull outputs, and adjustable-field and retroreflective laser modes. The 316L stainless housing carries IP67, IP68 and IP69K ratings and ECOLAB certification, and it runs from -40 to +60 °C. Relevance for reps: Banner is pushing IO-Link into hygienic washdown photoelectrics.",
+     "basis": "reported",
+     "fallback": false,
+     "update_of": null,
+     "sources": [
+      {
+       "url": "https://www.bannerengineering.com/us/en/company/new-products/qm26-2-washdown-sensor.html",
+       "publisher": "Banner Engineering",
+       "published_date": "2026-11-17",
+       "retrieved_utc": "2026-11-24T16:41:19Z"
+      }
+     ],
+     "sample": false
+    },
+    {
+     "id": "22cc5cfebf775d3bbfdf9b27b1b4c653a4570bad",
+     "competitor": "banner",
+     "category": "new_product",
+     "tags": {
+      "technology": [
+       "Indication",
+       "IO-Link"
+      ],
+      "industry": [
+       "General manufacturing"
+      ],
+      "application": [
+       "Machine status indication"
+      ]
+     },
+     "title": "Banner adds IO-Link and programmable discrete versions to TL70 Pro tower lights",
+     "summary": "Banner's new-products page lists TL70 Pro Select and TL70 Pro tower lights on 17 Nov 2026. Banner says TL70 Pro now has fully programmable discrete models, configured with its free Pro Editor software, while TL70 Pro Select adds IO-Link. Both use the same light and audible modules and recognize installed modules automatically. Relevance for reps: Banner pitches one modular stock for both IO-Link and discrete machines, reducing spare parts.",
+     "basis": "reported",
+     "fallback": false,
+     "update_of": null,
+     "sources": [
+      {
+       "url": "https://www.bannerengineering.com/us/en/company/new-products/tl70-pro-and-pro-select.html",
+       "publisher": "Banner Engineering",
+       "published_date": "2026-11-17",
+       "retrieved_utc": "2026-11-24T16:41:19Z"
+      }
+     ],
+     "sample": false
+    },
+    {
+     "id": "38107b82db2bf3d13ad75bab0b750e4953bc6caf",
+     "competitor": "banner",
+     "category": "new_product",
+     "tags": {
+      "technology": [
+       "Indication"
+      ],
+      "industry": [
+       "General manufacturing"
+      ],
+      "application": [
+       "Machine status indication"
+      ]
+     },
+     "title": "Banner launches the CTL50 continuous tower light",
+     "summary": "Banner's new-products page lists the CTL50 Continuous Tower Light on 11 Nov 2026. Banner says it has up to 20 individually controllable cells, letting users show more than machine status, standardize on one platform and change indication schemes as machine and process needs change. Relevance for reps: Banner keeps expanding its indicator range as a configurable display for operators, an area where it competes with Balluff's indication products.",
+     "basis": "reported",
+     "fallback": false,
+     "update_of": null,
+     "sources": [
+      {
+       "url": "https://www.bannerengineering.com/us/en/company/new-products/ctl50-continuous-tower-light.html",
+       "publisher": "Banner Engineering",
+       "published_date": "2026-11-11",
+       "retrieved_utc": "2026-11-24T16:41:19Z"
+      }
+     ],
+     "sample": false
+    },
+    {
+     "id": "3ed77ed7e26c366b9ad77bd4a36d94d5369301c8",
+     "competitor": "banner",
+     "category": "competitor_summary",
+     "tags": {
+      "technology": [
+       "IO-Link",
+       "Indication",
+       "Photoelectric"
+      ],
+      "industry": [
+       "Food and beverage",
+       "General manufacturing"
+      ],
+      "application": [
+       "Machine status indication",
+       "Washdown detection"
+      ]
+     },
+     "title": "Banner: week of Nov 24, 2026",
+     "summary": "Banner listed three new products: an updated QM26-2 washdown sensor with IO-Link and new laser modes, TL70 Pro Select and TL70 Pro tower lights with IO-Link or programmable discrete control, and the CTL50 continuous tower light with up to 20 cells. Takeaway for reps: Banner is adding IO-Link across sensors and indication while selling modularity and fewer spare parts.",
+     "basis": "reported",
+     "fallback": false,
+     "update_of": null,
+     "sources": [
+      {
+       "url": "https://www.bannerengineering.com/us/en/company/news/press-room.html#digest-summary-2026-11-24",
+       "publisher": "Banner Engineering",
+       "published_date": "2026-11-24",
+       "retrieved_utc": "2026-11-24T16:41:19Z"
+      },
+      {
+       "url": "https://www.bannerengineering.com/us/en/company/new-products/qm26-2-washdown-sensor.html",
+       "publisher": "Banner Engineering",
+       "published_date": "2026-11-17",
+       "retrieved_utc": "2026-11-24T16:41:19Z"
+      },
+      {
+       "url": "https://www.bannerengineering.com/us/en/company/new-products/tl70-pro-and-pro-select.html",
+       "publisher": "Banner Engineering",
+       "published_date": "2026-11-17",
+       "retrieved_utc": "2026-11-24T16:41:19Z"
+      },
+      {
+       "url": "https://www.bannerengineering.com/us/en/company/new-products/ctl50-continuous-tower-light.html",
+       "publisher": "Banner Engineering",
+       "published_date": "2026-11-11",
+       "retrieved_utc": "2026-11-24T16:41:19Z"
+      }
+     ],
+     "sample": false
+    },
+    {
+     "id": "c4167a7babcb98864b091bfbaced6141e6d3bb05",
+     "competitor": "ifm",
+     "category": "strategy",
+     "tags": {
+      "technology": [
+       "Machine vision",
+       "Barcode and code reading",
+       "IO-Link"
+      ],
+      "industry": [
+       "Packaging",
+       "Material handling",
+       "Mobile machines"
+      ],
+      "application": [
+       "Code reading",
+       "Inspection",
+       "Collision avoidance"
+      ]
+     },
+     "title": "Go-to-market: ifm in machine vision",
+     "summary": "ifm sells vision in two lanes. For factories, its O2U 2D cameras (detection, counting, code reading, OCR) and O2I barcode readers have IO-Link and IP65 housings and are now sold through AutomationDirect, which pitches them for packaging, material handling and logistics. For mobile machines, it launched an O2M camera with embedded AI person detection at CONEXPO-CON/AGG 2026. Expect a Balluff rep to meet ifm vision as a catalog, IO-Link-ready option bought online.",
+     "basis": "analysis",
+     "fallback": true,
+     "update_of": null,
+     "sources": [
+      {
+       "url": "https://www.ifm.com/us/en/news#strategy-profile-2026-11-24",
+       "publisher": "ifm efector",
+       "published_date": "2026-11-24",
+       "retrieved_utc": "2026-11-24T16:41:19Z"
+      },
+      {
+       "url": "https://www.workplacepub.com/new-products/ifm-efector-io-link-cameras-barcode-readers-from-automationdirect/",
+       "publisher": "Workplace Material Handling & Safety",
+       "published_date": "2026-11-05",
+       "retrieved_utc": "2026-11-24T16:41:19Z"
+      },
+      {
+       "url": "https://www.suite.accessnewswire.com/news/ifm-launches-2d-camera-with-ai-powered-human-detection-to-increase-mobile",
+       "publisher": "ifm efector (ACCESS Newswire)",
+       "published_date": "2026-03-02",
+       "retrieved_utc": "2026-11-24T16:41:19Z"
+      }
+     ],
+     "sample": false
+    },
+    {
+     "id": "18627f069e1c833552a0a680c3716544ce9b14eb",
+     "competitor": "keyence",
+     "category": "strategy",
+     "tags": {
+      "technology": [
+       "Marking and coding",
+       "Machine vision"
+      ],
+      "industry": [
+       "Packaging",
+       "General manufacturing"
+      ],
+      "application": [
+       "Product coding",
+       "Traceability"
+      ]
+     },
+     "title": "Go-to-market: Keyence in marking and coding",
+     "summary": "Keyence sells a broad coding range: continuous inkjet printers, a case coder that pairs printing with built-in inspection, UV laser coders positioned as replacements for thermal transfer overprinters, and fiber, CO2, green and UV laser markers. Its message is uptime: self-diagnosing printers, in-place head cleaning and built-in vision or distance correction. It says it supports customers from selection to line operation with on-site instruction. Expect a Balluff rep to meet Keyence direct sales bundling coding with code reading.",
+     "basis": "analysis",
+     "fallback": true,
+     "update_of": null,
+     "sources": [
+      {
+       "url": "https://www.keyence.com/news-events/#strategy-profile-2026-11-24",
+       "publisher": "KEYENCE America",
+       "published_date": "2026-11-24",
+       "retrieved_utc": "2026-11-24T16:41:19Z"
+      },
+      {
+       "url": "https://www.keyence.com/products/marker/",
+       "publisher": "KEYENCE America",
+       "published_date": "2026-11-24",
+       "retrieved_utc": "2026-11-24T16:41:19Z"
+      },
+      {
+       "url": "https://www.keyence.com/products/marker/inkjet-printers/mk-r1000/pr/210288001.jsp",
+       "publisher": "KEYENCE America",
+       "published_date": "2026-11-11",
+       "retrieved_utc": "2026-11-24T16:41:19Z"
+      }
+     ],
+     "sample": false
+    },
+    {
+     "id": "8f927cedcfec6b4687c171f560df2dce5ff0d2a7",
+     "competitor": "turck",
+     "category": "strategy",
+     "tags": {
+      "technology": [
+       "IO-Link",
+       "Industrial networking",
+       "Condition monitoring"
+      ],
+      "industry": [
+       "General manufacturing"
+      ],
+      "application": [
+       "Retrofit",
+       "Predictive maintenance"
+      ]
+     },
+     "title": "Go-to-market: Turck in IO-Link",
+     "summary": "Turck's 2026 US product news leans heavily on IO-Link. It leads with masters, including an 8-channel FEN20 and a TBEN-IOT block that also publishes sensor data to an MQTT broker, plus an inline converter that brings existing analog sensors into IO-Link. Its message is easy setup, device monitoring, quick replacement and maintenance data. Expect a Balluff rep to meet Turck offering IO-Link retrofits and IIoT data paths on installed machines.",
+     "basis": "analysis",
+     "fallback": true,
+     "update_of": null,
+     "sources": [
+      {
+       "url": "https://www.turck.us/en/press-releases-135.php#strategy-profile-2026-11-24",
+       "publisher": "Turck Inc.",
+       "published_date": "2026-11-24",
+       "retrieved_utc": "2026-11-24T16:41:19Z"
+      },
+      {
+       "url": "https://www.turck.us/en/product-news-2860_tbeniot-block-combines-iolink-master-functionality-with-mqtt-communication-52894.php",
+       "publisher": "Turck Inc.",
+       "published_date": "2026-08-04",
+       "retrieved_utc": "2026-11-24T16:41:19Z"
+      },
+      {
+       "url": "https://www.turck.us/en/product-news-2860_new-fen20-for-compact-highspeed-communication-52881.php",
+       "publisher": "Turck Inc.",
+       "published_date": "2026-05-01",
+       "retrieved_utc": "2026-11-24T16:41:19Z"
+      },
+      {
+       "url": "https://www.turck.us/en/product-news-2860_introducing-the-ilc-analog-to-iolink-inline-converter-52397.php",
+       "publisher": "Turck Inc.",
+       "published_date": "2026-02-01",
+       "retrieved_utc": "2026-11-24T16:41:19Z"
+      }
+     ],
+     "sample": false
+    },
+    {
+     "id": "f6363adb9ae091d4fb0b37ecf71f47ec48e651bd",
+     "competitor": "banner",
+     "category": "strategy",
+     "tags": {
+      "technology": [
+       "IO-Link",
+       "Photoelectric",
+       "Indication",
+       "Condition monitoring"
+      ],
+      "industry": [
+       "Food and beverage",
+       "General manufacturing"
+      ],
+      "application": [
+       "Machine status indication",
+       "Washdown detection"
+      ]
+     },
+     "title": "Go-to-market: Banner in IO-Link",
+     "summary": "Banner is spreading IO-Link across its catalog rather than selling it as a separate system. Its 2026 new-products list adds IO-Link to washdown photoelectrics and TL70 tower lights, alongside IO-Link current monitoring sensors and top-exit IO-Link masters. It sells modularity: one module stock for IO-Link and discrete versions, with free configuration software, and its US site takes orders through an online cart. Expect a Balluff rep to meet Banner offering IO-Link as an add-on to familiar Banner parts.",
+     "basis": "analysis",
+     "fallback": true,
+     "update_of": null,
+     "sources": [
+      {
+       "url": "https://www.bannerengineering.com/us/en/company/news/press-room.html#strategy-profile-2026-11-24",
+       "publisher": "Banner Engineering",
+       "published_date": "2026-11-24",
+       "retrieved_utc": "2026-11-24T16:41:19Z"
+      },
+      {
+       "url": "https://www.bannerengineering.com/us/en/company/new-products.html",
+       "publisher": "Banner Engineering",
+       "published_date": "2026-11-24",
+       "retrieved_utc": "2026-11-24T16:41:19Z"
+      },
+      {
+       "url": "https://www.bannerengineering.com/us/en/company/new-products/tl70-pro-and-pro-select.html",
+       "publisher": "Banner Engineering",
+       "published_date": "2026-11-17",
+       "retrieved_utc": "2026-11-24T16:41:19Z"
+      },
+      {
+       "url": "https://www.bannerengineering.com/us/en/company/new-products/qm26-2-washdown-sensor.html",
+       "publisher": "Banner Engineering",
+       "published_date": "2026-11-17",
+       "retrieved_utc": "2026-11-24T16:41:19Z"
+      }
+     ],
+     "sample": false
+    },
+    {
+     "id": "faf83afa3b29645933ab82569240f4f7270aacac",
+     "competitor": "sick",
+     "category": "strategy",
+     "tags": {
+      "technology": [
+       "Safety",
+       "Safety laser scanners",
+       "Safety controllers"
+      ],
+      "industry": [
+       "Intralogistics",
+       "Material handling"
+      ],
+      "application": [
+       "Machine guarding",
+       "Mobile robot safety"
+      ]
+     },
+     "title": "Go-to-market: SICK in safety",
+     "summary": "SICK sells safety as engineered solutions, not single sensors. At SPS 2026 it shows a system of two safety laser scanners and a safety controller that tells people from material at conveyor infeeds, light-curtain extensions for passing pallets and mobile robots, and a new scalable safety controller. It is also testing NVIDIA Halos. In the US it backs this with a Minnesota customer center and training academy. Expect a Balluff rep to meet SICK on complex material-flow guarding projects.",
+     "basis": "analysis",
+     "fallback": true,
+     "update_of": null,
+     "sources": [
+      {
+       "url": "https://www.sick.com/us/en/press/pressreleases#strategy-profile-2026-11-24",
+       "publisher": "SICK AG",
+       "published_date": "2026-11-24",
+       "retrieved_utc": "2026-11-24T16:41:19Z"
+      },
+      {
+       "url": "https://www.computer-automation.de/sensor-technology/sick-sps-2026-safety-machine-vision-iiot.htm",
+       "publisher": "Computer&Automation",
+       "published_date": "2026-11-24",
+       "retrieved_utc": "2026-11-24T16:41:19Z"
+      },
+      {
+       "url": "https://www.sick.com/us/en/press/sick-explores-future-capabilities-of-dynamic-safety-with-nvidia-halos/s/press-2026-nvidia",
+       "publisher": "SICK AG",
+       "published_date": "2026-10-22",
+       "retrieved_utc": "2026-11-24T16:41:19Z"
+      },
+      {
+       "url": "https://www.automation.com/article/sick-north-american-landmark-headquarters-expansion",
+       "publisher": "Automation.com",
+       "published_date": "2026-05-07",
+       "retrieved_utc": "2026-11-24T16:41:19Z"
+      }
+     ],
+     "sample": false
+    },
+    {
+     "id": "5efe19ab119ea8b17995dedbdf45b519c1bf9fbc",
+     "competitor": "pepperl-fuchs",
+     "category": "strategy",
+     "tags": {
+      "technology": [
+       "LiDAR",
+       "Industrial cameras"
+      ],
+      "industry": [
+       "Intralogistics",
+       "Logistics"
+      ],
+      "application": [
+       "AGV and AMR navigation",
+       "Process monitoring",
+       "Palletizing"
+      ]
+     },
+     "title": "Go-to-market: Pepperl+Fuchs in intralogistics",
+     "summary": "Pepperl+Fuchs markets to intralogistics through how-to blog content. It pitches R2000 LiDAR sensors for AGV and AMR navigation, stressing lens contamination warnings, hardware timestamps for sensor fusion and onboard I/O that drives beacons without extra PLC hardware. Its VOC event cameras target high-bay storage and retrieval machines and palletizing, saving footage around faults for fast troubleshooting. Expect a Balluff rep to meet Pepperl+Fuchs at mobile-robot builders and warehouse system integrators.",
+     "basis": "analysis",
+     "fallback": true,
+     "update_of": null,
+     "sources": [
+      {
+       "url": "https://www.pepperl-fuchs.com/en-us/news/public-relations-gp32054#strategy-profile-2026-11-24",
+       "publisher": "Pepperl+Fuchs",
+       "published_date": "2026-11-24",
+       "retrieved_utc": "2026-11-24T16:41:19Z"
+      },
+      {
+       "url": "https://blog.pepperl-fuchs.com/en/2026/r2000-lidar-sensor-three-intelligent-features-for-greater-precision-availability-and-flexibility/",
+       "publisher": "Pepperl+Fuchs",
+       "published_date": "2026-08-10",
+       "retrieved_utc": "2026-11-24T16:41:19Z"
+      },
+      {
+       "url": "https://blog.pepperl-fuchs.com/en/2026/which-applications-can-be-solved-with-industrial-event-cameras/",
+       "publisher": "Pepperl+Fuchs",
+       "published_date": "2026-05-22",
+       "retrieved_utc": "2026-11-24T16:41:19Z"
+      }
+     ],
+     "sample": false
+    }
+   ]
+  },
+  {
    "run_date": "2026-11-11",
    "window_start_utc": "2026-11-02T14:38:21Z",
    "window_end_utc": "2026-11-11T02:35:44Z",
