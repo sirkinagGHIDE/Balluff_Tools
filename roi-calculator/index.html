@@ -1,0 +1,1062 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ROI Calculator | Balluff</title>
+<meta name="description" content="Compare the cost of a current system with a proposed solution: upfront investment, annual operating cost, payback timeline and a PDF summary.">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<link rel="apple-touch-icon" href="assets/favicon-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wdth,wght@8..144,25..151,100..1000&display=swap">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+/* Balluff design tokens — mirrors ai-marketing2/tokens.css (design.md is the source of truth). */
+:root{
+  --color-balluff-black:#1d1d1b;
+  --color-balluff-white:#ffffff;
+  --color-balluff-red:#e73446;
+  --color-balluff-red-hover:#d42f40; /* ~8% darker, design.md § Buttons */
+  --color-gray-50:#f5f5f5;
+  --color-gray-200:#e6e6e6;
+  --color-gray-400:#9e9e9e;
+  --color-gray-600:#6b6b6a;
+  --color-gray-800:#414140;
+  --color-gray-900:#1d1d1b;
+  /* data-viz palette: charts only */
+  --color-chart-blue:#6A9DC6;
+  --color-chart-gray:#94A7B4;
+  --color-chart-silver:#BCBCBC;
+  /* UI state palette */
+  --color-error:#d32f2f;
+  --color-success:#2e7d32;
+  --color-warning:#f9a825;
+  --color-info:#6A9DC6;
+
+  --font-sans:"Roboto Flex", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --radius-sm:2px; --radius-md:4px; --radius-full:9999px;
+  --shadow-sm:0 2px 8px rgba(0,0,0,.06);
+  --shadow-md:0 4px 16px rgba(0,0,0,.08);
+  --shadow-lg:0 8px 24px rgba(0,0,0,.10);
+}
+
+*{box-sizing:border-box;}
+[hidden]{display:none!important;}
+img{max-width:100%; display:block;}
+@media (prefers-reduced-motion: reduce){ *{transition:none!important; animation:none!important;} }
+html{font-optical-sizing:auto;}
+body{
+  margin:0; background:var(--color-balluff-white); color:var(--color-gray-900);
+  font-family:var(--font-sans); font-size:16px; line-height:1.6;
+  font-optical-sizing:auto; -webkit-font-smoothing:antialiased;
+  padding-bottom:88px; /* room for the sticky summary bar */
+}
+button, input, select, textarea{font-family:inherit;}
+.num{font-variant-numeric:tabular-nums;}
+
+.container{max-width:1280px; margin-inline:auto; padding-inline:20px;}
+@media (min-width:768px){ .container{padding-inline:32px;} }
+@media (min-width:1280px){ .container{padding-inline:64px;} }
+
+/* ---------- Top nav ---------- */
+.nav{border-bottom:1px solid var(--color-gray-200); background:var(--color-balluff-white);}
+.nav-inner{height:56px; display:flex; align-items:center; justify-content:space-between; gap:16px;}
+@media (min-width:768px){ .nav-inner{height:64px;} }
+.nav-logo{display:block; padding-block:8px;}
+.nav-logo img{width:120px; height:auto;}
+.nav-meta{font-size:14px; color:var(--color-gray-600); font-weight:500;}
+
+/* ---------- Header ---------- */
+.page-head{padding-block:40px 32px;}
+@media (min-width:768px){ .page-head{padding-block:56px 40px;} }
+.crumbs{font-size:14px; color:var(--color-gray-600); display:flex; gap:8px; align-items:center; margin-bottom:24px;}
+.crumbs a{color:var(--color-gray-600); text-decoration:none;}
+.crumbs a:hover{text-decoration:underline;}
+.crumbs .current{color:var(--color-gray-900);}
+h1{font-size:36px; line-height:1.1; margin:0 0 16px; font-weight:800; font-variation-settings:"wdth" 88; letter-spacing:-.01em;}
+@media (min-width:768px){ h1{font-size:48px;} }
+.lede{font-size:18px; line-height:1.5; color:var(--color-gray-800); max-width:62ch; margin:0;}
+.steps{display:flex; flex-wrap:wrap; gap:8px 32px; margin:32px 0 0; padding:0; list-style:none; font-size:14px;}
+.steps a{color:var(--color-gray-900); text-decoration:none; font-weight:500; display:inline-flex; align-items:center; gap:6px;}
+.steps a::after{content:"→"; color:var(--color-balluff-red); transition:transform .15s;}
+.steps a:hover::after{transform:translateX(4px);}
+
+/* ---------- Sections (1/3 + 2/3 asymmetric) ---------- */
+.section{border-top:1px solid var(--color-gray-200); padding-block:40px;}
+@media (min-width:768px){ .section{padding-block:56px;} }
+.section-grid{display:grid; gap:24px;}
+@media (min-width:1024px){ .section-grid{grid-template-columns:1fr 3fr; gap:48px;} }
+.section-intro .eyebrow{font-size:12px; line-height:1.4; letter-spacing:.08em; text-transform:uppercase; color:var(--color-gray-600); font-weight:600; margin:0 0 8px;}
+.section-intro h2{font-size:24px; line-height:1.25; margin:0 0 12px; font-weight:760; font-variation-settings:"wdth" 92;}
+@media (min-width:768px){ .section-intro h2{font-size:30px;} }
+.section-intro p{font-size:14px; line-height:1.5; color:var(--color-gray-600); margin:0 0 12px;}
+
+/* ---------- Forms ---------- */
+.field{display:flex; flex-direction:column; gap:6px; min-width:0;}
+.field label, .field .label{font-size:14px; font-weight:500; color:var(--color-gray-800);}
+.field .help{font-size:12px; line-height:1.4; color:var(--color-gray-600);}
+.input, select.input{
+  width:100%; min-height:40px; padding:8px 12px; font-size:16px; color:var(--color-gray-900);
+  background:var(--color-balluff-white); border:1px solid var(--color-gray-200); border-radius:var(--radius-sm);
+  outline:none; transition:border-color .12s;
+}
+.input:hover{border-color:var(--color-gray-400);}
+.input:focus{border:2px solid var(--color-balluff-red); padding:7px 11px;}
+.input.money, .input.pct{text-align:right; font-variant-numeric:tabular-nums;}
+.input.computed{color:var(--color-gray-600);}
+.adorn{position:relative;}
+.adorn > span{position:absolute; top:50%; transform:translateY(-50%); font-size:14px; color:var(--color-gray-600); pointer-events:none;}
+.adorn.pre > span{left:10px;} .adorn.pre .input{padding-left:22px;} .adorn.pre .input:focus{padding-left:21px;}
+.adorn.post > span{right:10px;} .adorn.post .input{padding-right:26px;} .adorn.post .input:focus{padding-right:25px;}
+select.input{appearance:none; padding-right:32px; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23414140' stroke-width='1.6'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 12px center;}
+.grid-2{display:grid; gap:16px;}
+@media (min-width:640px){ .grid-2{grid-template-columns:1fr 1fr;} }
+.grid-3{display:grid; gap:16px;}
+@media (min-width:640px){ .grid-3{grid-template-columns:repeat(3,1fr);} }
+.subhead{font-size:14px; font-weight:700; color:var(--color-gray-900); margin:32px 0 12px;}
+.subhead:first-child{margin-top:0;}
+
+/* ---------- Buttons ---------- */
+.btn{display:inline-flex; align-items:center; justify-content:center; gap:8px; min-height:40px; padding:8px 20px; font-size:16px; font-weight:700; border-radius:var(--radius-sm); border:1px solid transparent; cursor:pointer; white-space:nowrap; text-decoration:none; transition:background-color .12s, border-color .12s;}
+.btn-primary{background:var(--color-balluff-red); color:var(--color-balluff-white);}
+.btn-primary:hover{background:var(--color-balluff-red-hover);}
+.btn-primary[disabled]{background:var(--color-gray-200); color:var(--color-gray-400); cursor:not-allowed;}
+.btn-secondary{background:transparent; border-color:var(--color-gray-800); color:var(--color-gray-900); font-weight:500;}
+.btn-secondary:hover{background:var(--color-gray-50);}
+.btn-sm{min-height:32px; padding:4px 12px; font-size:14px;}
+.btn-text{background:none; border:0; padding:0; color:var(--color-balluff-red); font-size:14px; font-weight:500; cursor:pointer; display:inline-flex; gap:6px; align-items:center;}
+.btn-text:hover{text-decoration:underline;}
+.btn-quiet{background:none; border:0; padding:0; color:var(--color-gray-600); font-size:14px; cursor:pointer;}
+.btn-quiet:hover{text-decoration:underline; color:var(--color-gray-900);}
+.btn:focus-visible, .btn-text:focus-visible, .btn-quiet:focus-visible, .icon-btn:focus-visible, a:focus-visible{outline:2px solid var(--color-balluff-red); outline-offset:2px;}
+.icon-btn{width:40px; height:40px; display:inline-flex; align-items:center; justify-content:center; border:1px solid var(--color-gray-200); background:var(--color-balluff-white); border-radius:var(--radius-sm); cursor:pointer; padding:0;}
+.icon-btn:hover{background:var(--color-gray-50); border-color:var(--color-gray-400);}
+.icon-btn img{width:30px; height:auto;}
+
+/* ---------- Cost tables ---------- */
+.ctable{border-top:1px solid var(--color-gray-200);}
+.crow{display:grid; gap:8px 12px; align-items:center; padding:12px 0; border-bottom:1px solid var(--color-gray-200);}
+.ctable.up .crow{grid-template-columns:minmax(140px,1.3fr) 1fr 1fr 0.9fr minmax(120px,1.2fr);}
+.ctable.op .crow{grid-template-columns:minmax(140px,1.3fr) 1fr 0.7fr 1fr 0.9fr minmax(120px,1.2fr) 40px;}
+.crow.head{font-size:12px; line-height:1.3; font-weight:700; color:var(--color-gray-800); background:var(--color-gray-50); padding:10px 0;}
+.crow.head > div{padding-inline:4px;}
+.crow.head .r{text-align:right;}
+.crow.total{font-weight:700; border-bottom:2px solid var(--color-gray-900); font-size:14px;}
+.crow .cat{font-size:14px; font-weight:600; padding-left:4px;}
+.crow .diff{font-size:14px; text-align:right; padding-right:4px; font-variant-numeric:tabular-nums;}
+.crow .tot{text-align:right; padding-right:13px; font-variant-numeric:tabular-nums;}
+.crow .note-in{font-size:14px;}
+.crow .m-label{display:none;}
+.crow .calc-notes{grid-column:1 / -1; display:flex; flex-direction:column; gap:2px; padding-left:4px;}
+.calc-note{font-size:12px; line-height:1.4; color:var(--color-gray-600); display:flex; gap:8px; align-items:baseline;}
+.calc-note button{background:none; border:0; padding:0; color:var(--color-gray-600); cursor:pointer; font-size:12px; text-decoration:underline;}
+.neg{color:var(--color-error);}
+@media (max-width:899px){
+  .crow.head{display:none;}
+  .ctable.up .crow, .ctable.op .crow{grid-template-columns:1fr 1fr; padding:16px 0;}
+  .crow .cat{grid-column:1 / -1; font-size:16px; padding-left:0;}
+  .crow .m-label{display:block; font-size:12px; color:var(--color-gray-600); margin-bottom:2px;}
+  .crow .diff{text-align:left; padding:0; align-self:end;}
+  .crow .note-cell{grid-column:1 / -1;}
+  .crow .calc-cell{grid-column:1 / -1;}
+  .crow .calc-cell .icon-btn{width:auto; padding:0 12px; gap:6px; font-size:14px; color:var(--color-gray-900);}
+  .crow .calc-cell .icon-btn::after{content:"Frequency calculator";}
+  .crow.total .tot{text-align:left; padding:0;}
+  .crow.total > .spacer{display:none;}
+  .crow .calc-notes{padding-left:0;}
+}
+
+/* ---------- Results ---------- */
+.kpis{display:grid; gap:1px; background:var(--color-gray-200); border:1px solid var(--color-gray-200); grid-template-columns:1fr 1fr;}
+@media (min-width:1024px){ .kpis{grid-template-columns:repeat(5,1fr);} }
+.kpi{background:var(--color-balluff-white); padding:20px 20px 24px;}
+.kpi .k-label{font-size:14px; color:var(--color-gray-600); margin:0 0 6px;}
+.kpi .k-value{font-size:28px; line-height:1.15; font-weight:780; font-variation-settings:"wdth" 90; margin:0; font-variant-numeric:tabular-nums;}
+@media (min-width:1280px){ .kpi .k-value{font-size:30px;} }
+.kpi .k-sub{font-size:12px; color:var(--color-gray-600); margin:6px 0 0;}
+.alert{display:flex; gap:12px; align-items:flex-start; padding:16px; border-left:4px solid; font-size:14px; margin:24px 0 0;}
+.alert strong{display:block; font-size:16px;}
+.alert.success{border-color:var(--color-success); background:rgba(46,125,50,.08);}
+.alert.success strong{color:var(--color-success);}
+.alert.warning{border-color:var(--color-warning); background:rgba(249,168,37,.10);}
+.alert.warning strong{color:#8a5a00;}
+.alert.info{border-color:var(--color-info); background:rgba(106,157,198,.10);}
+.alert.info strong{color:#3d6d93;}
+.charts{display:grid; gap:40px; margin-top:40px;}
+@media (min-width:1024px){ .charts{grid-template-columns:1fr 1fr; gap:48px;} .charts .wide{grid-column:1 / -1;} }
+.chart-card h3{font-size:18px; line-height:1.4; margin:0 0 4px; font-weight:700;}
+.chart-card p{font-size:14px; color:var(--color-gray-600); margin:0 0 16px;}
+.chart-box{position:relative; height:300px;}
+.legend{display:flex; gap:20px; flex-wrap:wrap; font-size:12px; color:var(--color-gray-800); margin:0 0 12px;}
+.legend span{display:inline-flex; align-items:center; gap:6px;}
+.legend i{display:inline-block; width:14px; height:3px;}
+.legend i.sq{height:10px; width:10px;}
+.legend i.dot{width:10px; height:10px; border-radius:50%;}
+
+/* ---------- Frequency calculator ---------- */
+.fc{display:grid; gap:24px;}
+@media (min-width:900px){ .fc{grid-template-columns:3fr 2fr; gap:40px;} }
+.fc-out{background:var(--color-gray-50); padding:24px; display:flex; flex-direction:column; gap:16px; align-self:start;}
+.fc-out .k-label{font-size:14px; color:var(--color-gray-600); margin:0;}
+.fc-out .big{font-size:36px; line-height:1.1; font-weight:800; font-variation-settings:"wdth" 88; margin:2px 0 0; font-variant-numeric:tabular-nums;}
+.fc-out .mid{font-size:20px; font-weight:700; margin:2px 0 0; font-variant-numeric:tabular-nums;}
+.fc-out .formula{font-size:12px; color:var(--color-gray-600); line-height:1.5; margin:0;}
+.fc-apply{border-top:1px solid var(--color-gray-200); padding-top:16px; display:flex; flex-direction:column; gap:12px;}
+.fc-build{border:1px solid var(--color-gray-200); padding:16px; margin-top:4px;}
+.check{display:flex; gap:8px; align-items:center; font-size:14px; color:var(--color-gray-800); cursor:pointer;}
+.check input{accent-color:var(--color-balluff-red); width:16px; height:16px;}
+.seg{display:inline-flex; border:1px solid var(--color-gray-200); border-radius:var(--radius-sm); overflow:hidden;}
+.seg button{border:0; background:var(--color-balluff-white); padding:8px 14px; font-size:14px; cursor:pointer; color:var(--color-gray-800); min-height:38px;}
+.seg button + button{border-left:1px solid var(--color-gray-200);}
+.seg button[aria-pressed="true"]{background:var(--color-gray-900); color:var(--color-balluff-white); font-weight:600;}
+.seg button:focus-visible{outline:2px solid var(--color-balluff-red); outline-offset:-2px;}
+
+dialog.modal{border:0; padding:0; border-radius:var(--radius-md); box-shadow:var(--shadow-lg); width:min(880px, calc(100vw - 32px)); max-height:calc(100vh - 32px); color:var(--color-gray-900);}
+dialog.modal::backdrop{background:rgba(29,29,27,.45);}
+.modal-head{display:flex; justify-content:space-between; align-items:flex-start; gap:16px; padding:24px 24px 0;}
+.modal-head h2{font-size:24px; line-height:1.25; margin:0; font-weight:760; font-variation-settings:"wdth" 92;}
+.modal-head p{margin:4px 0 0; font-size:14px; color:var(--color-gray-600);}
+.modal-body{padding:24px;}
+
+/* ---------- Sticky summary bar ---------- */
+.sumbar{position:fixed; left:0; right:0; bottom:0; background:var(--color-balluff-white); border-top:1px solid var(--color-gray-200); box-shadow:var(--shadow-sm); z-index:20;}
+.sumbar-inner{display:flex; align-items:center; gap:16px 32px; min-height:72px; padding-block:12px; flex-wrap:wrap;}
+.sumbar .s{display:flex; flex-direction:column; line-height:1.25;}
+.sumbar .s span{font-size:12px; color:var(--color-gray-600);}
+.sumbar .s b{font-size:18px; font-weight:760; font-variant-numeric:tabular-nums;}
+.sumbar .actions{margin-left:auto; display:flex; gap:12px; align-items:center;}
+@media (max-width:639px){ body{padding-bottom:132px;} .toast{bottom:140px;} .sumbar .s.opt{display:none;} .sumbar-inner{gap:12px 20px;} .sumbar .s b{font-size:16px;} }
+.pill{display:inline-block; font-size:12px; font-weight:600; padding:2px 10px; border-radius:var(--radius-full); margin-left:6px; vertical-align:middle;}
+.pill.ok{background:rgba(46,125,50,.1); color:var(--color-success);}
+.pill.no{background:rgba(249,168,37,.16); color:#8a5a00;}
+
+.footer{border-top:1px solid var(--color-gray-200); padding-block:32px;}
+.footer-inner{display:flex; justify-content:space-between; align-items:flex-end; gap:24px; flex-wrap:wrap;}
+.footer-claim{width:160px; height:auto;}
+.footer-meta{font-size:12px; line-height:1.4; color:var(--color-gray-600); display:flex; gap:24px; flex-wrap:wrap;}
+.footer-meta a{color:var(--color-gray-600); text-decoration:none;}
+.footer-meta a:hover{text-decoration:underline;}
+
+.toast{position:fixed; bottom:96px; left:50%; transform:translateX(-50%); background:var(--color-gray-900); color:var(--color-balluff-white); font-size:14px; padding:10px 20px; border-radius:var(--radius-sm); opacity:0; pointer-events:none; transition:opacity .2s; box-shadow:var(--shadow-sm); z-index:50;}
+.toast.show{opacity:1;}
+.visually-hidden{position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0;}
+
+/* ---------- PDF report pages (rendered off-screen, captured to PDF) ---------- */
+#report{position:absolute; left:-12000px; top:0; width:816px;}
+.rp{width:816px; height:1056px; padding:56px 56px 40px; background:#fff; color:var(--color-gray-900); font-family:var(--font-sans); position:relative; overflow:hidden;}
+.rp-top{display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:22px;}
+.rp-top img{width:150px; height:auto;}
+.rp-eyebrow{font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--color-gray-600); font-weight:600;}
+.rp h1{font-size:30px; line-height:1.15; margin:0 0 6px; font-weight:800;}
+.rp .meta{font-size:12px; color:var(--color-gray-600); margin:0 0 18px;}
+.rp .lead{font-size:14px; line-height:1.5; margin:0 0 20px; max-width:80ch;}
+.rp .kpis{grid-template-columns:repeat(5,1fr);}
+.rp .kpi{padding:12px 14px 14px;}
+.rp .kpi .k-label{font-size:11px; margin-bottom:4px;}
+.rp .kpi .k-value{font-size:20px;}
+.rp .kpi .k-sub{font-size:10px; margin-top:4px;}
+.rp h3{font-size:14px; margin:20px 0 2px; font-weight:700;}
+.rp .cap{font-size:11px; color:var(--color-gray-600); margin:0 0 8px;}
+.rp .legend{font-size:11px; margin-bottom:6px;}
+.rp table{width:100%; border-collapse:collapse; font-size:11px;}
+.rp th{background:var(--color-gray-50); text-align:left; font-weight:700; padding:6px 8px;}
+.rp td{padding:5px 8px; border-bottom:1px solid var(--color-gray-200);}
+.rp td.n, .rp th.n{text-align:right; font-variant-numeric:tabular-nums;}
+.rp tr.grp td{font-weight:700; background:#fff; padding-top:10px; color:var(--color-gray-800); border-bottom:1px solid var(--color-gray-400);}
+.rp tr.sub td{font-weight:700;}
+.rp ul{margin:0; padding:0; list-style:none; font-size:11px; line-height:1.5;}
+.rp li{padding-left:12px; position:relative;}
+.rp li::before{content:""; position:absolute; left:0; top:7px; width:5px; height:5px; background:var(--color-gray-600);}
+.rp .foot{position:absolute; left:56px; right:56px; bottom:24px; display:flex; justify-content:space-between; font-size:10px; color:var(--color-gray-600); border-top:1px solid var(--color-gray-200); padding-top:8px;}
+.rp .disc{font-size:10px; color:var(--color-gray-600); line-height:1.45; margin-top:16px;}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="container nav-inner">
+    <a class="nav-logo" href="../" aria-label="Balluff Tools home"><img src="assets/balluff-wordmark-black.svg" alt="Balluff" width="120" height="16"></a>
+    <span class="nav-meta">Sales tool</span>
+  </div>
+</header>
+
+<main>
+  <div class="container page-head">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="../">Balluff Tools</a><span aria-hidden="true">&rsaquo;</span><span class="current">ROI Calculator</span></nav>
+    <h1>ROI Calculator</h1>
+    <p class="lede">Compare the cost of the current system with a proposed solution. Enter one-time and annual costs for both; the calculator returns the net investment, annual savings, payback period and a PDF summary for the customer.</p>
+    <ul class="steps">
+      <li><a href="#s-project">Project</a></li>
+      <li><a href="#s-upfront">Upfront costs</a></li>
+      <li><a href="#s-operating">Operating costs</a></li>
+      <li><a href="#s-results">Results</a></li>
+      <li><a href="#s-freq">Frequency calculator</a></li>
+    </ul>
+  </div>
+
+  <!-- 1. Project -->
+  <section class="section" id="s-project" aria-labelledby="h-project">
+    <div class="container section-grid">
+      <div class="section-intro">
+        <p class="eyebrow">Step 1</p>
+        <h2 id="h-project">Project</h2>
+        <p>These details appear on the PDF summary. Rename the two solutions to match the comparison you are making.</p>
+      </div>
+      <div>
+        <div class="grid-2">
+          <div class="field"><label for="p-customer">Customer</label><input class="input" id="p-customer" data-k="customer" autocomplete="off" placeholder="Company name"></div>
+          <div class="field"><label for="p-project">Project or application</label><input class="input" id="p-project" data-k="project" autocomplete="off" placeholder="e.g. Line 3 changeover"></div>
+          <div class="field"><label for="p-by">Prepared by</label><input class="input" id="p-by" data-k="preparedBy" autocomplete="off" placeholder="Your name"></div>
+          <div class="field"><label for="p-date">Date</label><input class="input" id="p-date" data-k="date" type="date"></div>
+        </div>
+        <p class="subhead">Solutions compared</p>
+        <div class="grid-2">
+          <div class="field"><label for="p-curname">Current system</label><input class="input" id="p-curname" data-k="curName" autocomplete="off"></div>
+          <div class="field"><label for="p-newname">Proposed solution</label><input class="input" id="p-newname" data-k="newName" autocomplete="off"></div>
+        </div>
+        <p class="subhead">Assumptions</p>
+        <div class="grid-3">
+          <div class="field"><label for="p-target">Target payback</label>
+            <div class="adorn post"><input class="input pct" id="p-target" data-k="target" inputmode="decimal"><span>yrs</span></div>
+            <span class="help">The customer's maximum acceptable payback.</span></div>
+          <div class="field"><label for="p-horizon">Analysis period</label>
+            <select class="input" id="p-horizon" data-k="horizon"><option value="3">3 years</option><option value="5">5 years</option><option value="7">7 years</option><option value="10">10 years</option></select>
+            <span class="help">Length of the payback timeline and net benefit.</span></div>
+          <div class="field"><label for="p-red">Default cost reduction</label>
+            <div class="adorn post"><input class="input pct" id="p-red" data-k="defReduction" inputmode="decimal"><span>%</span></div>
+            <span class="help">Applied to each operating cost unless you set a row value.</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. Upfront -->
+  <section class="section" id="s-upfront" aria-labelledby="h-upfront">
+    <div class="container section-grid">
+      <div class="section-intro">
+        <p class="eyebrow">Step 2</p>
+        <h2 id="h-upfront">Upfront costs</h2>
+        <p>One-time costs. The current system is usually $0 unless it needs a refresh or replacement anyway.</p>
+        <p>Net investment is the proposed upfront total minus the current upfront total.</p>
+      </div>
+      <div class="ctable up" id="t-up" role="table" aria-label="Upfront costs"></div>
+    </div>
+  </section>
+
+  <!-- 3. Operating -->
+  <section class="section" id="s-operating" aria-labelledby="h-operating">
+    <div class="container section-grid">
+      <div class="section-intro">
+        <p class="eyebrow">Step 3</p>
+        <h2 id="h-operating">Annual operating costs</h2>
+        <p>Enter what each cost runs per year today. The proposed cost follows the reduction %; type a proposed $ value directly to override it.</p>
+        <p>Not sure of an annual figure? Use the <img src="assets/icons/timer.svg" alt="" width="22" height="16" style="display:inline; vertical-align:-3px"> button on a row to work it out from cost per occurrence and frequency.</p>
+      </div>
+      <div class="ctable op" id="t-op" role="table" aria-label="Annual operating costs"></div>
+    </div>
+  </section>
+
+  <!-- 4. Results -->
+  <section class="section" id="s-results" aria-labelledby="h-results">
+    <div class="container">
+      <div class="section-intro" style="max-width:720px">
+        <p class="eyebrow">Results</p>
+        <h2 id="h-results">Payback and comparison</h2>
+      </div>
+      <div class="kpis" id="kpis" style="margin-top:16px"></div>
+      <div id="verdict"></div>
+      <div class="charts">
+        <div class="chart-card wide">
+          <h3>Payback timeline</h3>
+          <p id="cap-payback">Cumulative net position: annual savings minus net investment.</p>
+          <div class="legend"><span><i style="background:var(--color-chart-blue)"></i>Net position</span><span><i class="dot" style="background:var(--color-balluff-red)"></i>Payback point</span><span><i style="background:repeating-linear-gradient(90deg,var(--color-gray-800) 0 4px,transparent 4px 7px)"></i>Target payback</span></div>
+          <div class="chart-box"><canvas id="c-payback" role="img" aria-label="Payback timeline chart"></canvas></div>
+        </div>
+        <div class="chart-card">
+          <h3>Cumulative cost of ownership</h3>
+          <p>Upfront cost plus operating cost to date. The lines cross at payback.</p>
+          <div class="legend" id="lg-tco"></div>
+          <div class="chart-box"><canvas id="c-tco" role="img" aria-label="Cumulative cost of ownership chart"></canvas></div>
+        </div>
+        <div class="chart-card">
+          <h3>Annual operating cost by category</h3>
+          <p>Categories with a value in either column.</p>
+          <div class="legend" id="lg-cat"></div>
+          <div class="chart-box" id="box-cat"><canvas id="c-cat" role="img" aria-label="Annual operating cost by category chart"></canvas></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Frequency calculator -->
+  <section class="section" id="s-freq" aria-labelledby="h-freq">
+    <div class="container section-grid">
+      <div class="section-intro">
+        <p class="eyebrow">Helper</p>
+        <h2 id="h-freq">Frequency of occurrence calculator</h2>
+        <p>Turn a cost per event into an annual cost: downtime per stop, labor per changeover, MRO per replacement.</p>
+        <p>Set the operating schedule to match the plant. 24 h × 7 days counts every hour of the year.</p>
+      </div>
+      <div id="fc-main"></div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="container footer-inner">
+    <img class="footer-claim" src="assets/balluff-claim-black.png" alt="Balluff | innovating automation" width="160" height="38">
+    <div class="footer-meta">
+      <span>Estimates only, based on the values entered. Inputs are saved in this browser.</span>
+      <a href="../">Balluff Tools</a>
+      <a href="https://www.balluff.com" target="_blank" rel="noopener">balluff.com</a>
+    </div>
+  </div>
+</footer>
+
+<div class="sumbar" role="region" aria-label="Summary">
+  <div class="container sumbar-inner">
+    <div class="s"><span>Payback</span><b id="sb-payback">–</b></div>
+    <div class="s"><span>Annual savings</span><b id="sb-savings">–</b></div>
+    <div class="s opt"><span>Net investment</span><b id="sb-inv">–</b></div>
+    <div class="actions">
+      <button class="btn-quiet" id="btn-reset" type="button">Reset</button>
+      <button class="btn btn-primary" id="btn-pdf" type="button"><img src="assets/icons/simple-download.svg" alt="" width="22" height="16" style="filter:invert(1) brightness(2)">Export PDF</button>
+    </div>
+  </div>
+</div>
+
+<dialog class="modal" id="fc-dialog" aria-labelledby="fcd-title">
+  <div class="modal-head">
+    <div><h2 id="fcd-title">Frequency calculator</h2><p id="fcd-sub"></p></div>
+    <button class="icon-btn" type="button" id="fcd-close" aria-label="Close"><span aria-hidden="true" style="font-size:22px; line-height:1">&times;</span></button>
+  </div>
+  <div class="modal-body" id="fc-dlg"></div>
+</dialog>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<div id="report" aria-hidden="true"></div>
+
+<script>
+(() => {
+'use strict';
+
+/* =========================================================================
+   Model — mirrors INTCAI_ROI_Calculator_rev1.xlsx (Summary + Calculations)
+   ========================================================================= */
+const UPFRONT = [
+  {id:'hardware', label:'Hardware', cur:0, neu:50000},
+  {id:'software', label:'Software', cur:0, neu:5000},
+  {id:'labor',    label:'Labor',    cur:0, neu:0},
+  {id:'training', label:'Training', cur:0, neu:10000},
+];
+const OPERATING = [
+  {id:'downtime',   label:'Downtime', cur:25000},
+  {id:'opslabor',   label:'Operations labor'},
+  {id:'maint',      label:'Maintenance / PMs'},
+  {id:'energy',     label:'Energy / utilities'},
+  {id:'scrap',      label:'Scrap / rework / quality'},
+  {id:'mro',        label:'MRO'},
+  {id:'licenses',   label:'Licenses'},
+  {id:'expedites',  label:'Expedites'},
+  {id:'changeover', label:'Changeover'},
+  {id:'fines',      label:'Fines / penalties / liabilities'},
+  {id:'optraining', label:'Training'},
+  {id:'lostprod',   label:'Lost production'},
+];
+// Calculations!A7:H13 — annual occurrences per frequency, scaled by operating schedule.
+const FREQS = [
+  {id:'sec',   label:'Per second', unit:'second'},
+  {id:'min',   label:'Per minute', unit:'minute'},
+  {id:'hour',  label:'Per hour',   unit:'hour'},
+  {id:'day',   label:'Per day',    unit:'day'},
+  {id:'week',  label:'Per week',   unit:'week'},
+  {id:'month', label:'Per month',  unit:'month'},
+  {id:'year',  label:'Per year',   unit:'year'},
+];
+const STORE_KEY = 'balluff-roi-calculator-v1';
+
+function today(){ const d=new Date(); return new Date(d.getTime()-d.getTimezoneOffset()*60000).toISOString().slice(0,10); }
+function defaults(){
+  return {
+    customer:'', project:'', preparedBy:'', date:today(),
+    curName:'Current system', newName:'Proposed solution',
+    target:2, horizon:5, defReduction:80,
+    sched:{hpd:24, dpw:7},
+    up: Object.fromEntries(UPFRONT.map(r=>[r.id,{cur:r.cur, neu:r.neu, note:''}])),
+    op: Object.fromEntries(OPERATING.map(r=>[r.id,{cur:r.cur||0, mode:'pct', pct:null, neu:0, note:'', calc:{}}])),
+    fc:{cost:50, count:1, freq:'day', build:false, dur:30, rate:0, parts:0},
+  };
+}
+let S = load();
+function load(){
+  const d = defaults();
+  try{
+    const raw = localStorage.getItem(STORE_KEY);
+    if(!raw) return d;
+    const s = JSON.parse(raw);
+    const m = Object.assign(d, s);
+    m.sched = Object.assign(defaults().sched, s.sched||{});
+    m.fc = Object.assign(defaults().fc, s.fc||{});
+    for(const r of UPFRONT) m.up[r.id] = Object.assign(defaults().up[r.id], (s.up||{})[r.id]||{});
+    for(const r of OPERATING) m.op[r.id] = Object.assign(defaults().op[r.id], (s.op||{})[r.id]||{});
+    return m;
+  }catch(e){ return d; }
+}
+let saveT;
+function save(){ clearTimeout(saveT); saveT=setTimeout(()=>{ try{ localStorage.setItem(STORE_KEY, JSON.stringify(S)); }catch(e){} }, 250); }
+
+/* ---------- number helpers ---------- */
+const nf0 = new Intl.NumberFormat('en-US',{maximumFractionDigits:0});
+const nf1 = new Intl.NumberFormat('en-US',{maximumFractionDigits:1});
+const nf2 = new Intl.NumberFormat('en-US',{maximumFractionDigits:2});
+const usd = v => (v<0?'−$':'$') + nf0.format(Math.abs(Math.round(v)));
+const usdSigned = v => (v>0?'+':'') + usd(v);
+const usdCompact = v => { const a=Math.abs(v); const s=v<0?'−$':'$';
+  if(a>=1e6) return s+nf1.format(a/1e6)+'M'; if(a>=1e3) return s+nf0.format(a/1e3)+'k'; return s+nf0.format(a); };
+function parseNum(s){ if(typeof s==='number') return s; const v=parseFloat(String(s).replace(/[^0-9.\-]/g,'')); return isFinite(v)?v:0; }
+function fmtInput(v){ return v===null||v===undefined||v==='' ? '' : nf2.format(v); }
+function esc(s){ return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function yrs(v){ return nf1.format(v)+(Math.abs(v-1)<0.05?' year':' years'); }
+
+/* ---------- core calculations ---------- */
+function rowPct(r){ return r.pct===null||r.pct===undefined||r.pct==='' ? S.defReduction : r.pct; }
+function proposedOp(r){ return r.mode==='abs' ? (r.neu||0) : (r.cur||0)*(1-rowPct(r)/100); }
+function effPct(r){ if(r.mode!=='abs') return rowPct(r); return r.cur>0 ? (1-(r.neu||0)/r.cur)*100 : null; }
+
+function annualFactor(freq){
+  const opDays = 365*S.sched.dpw/7, opHrs = opDays*S.sched.hpd;
+  return {sec:opHrs*3600, min:opHrs*60, hour:opHrs, day:opDays, week:365/7, month:12, year:1}[freq] ?? 0;
+}
+
+function compute(){
+  let upCur=0, upNew=0, opCur=0, opNew=0;
+  for(const r of UPFRONT){ upCur+=S.up[r.id].cur||0; upNew+=S.up[r.id].neu||0; }
+  const cats=[];
+  for(const r of OPERATING){ const o=S.op[r.id]; const c=o.cur||0, n=proposedOp(o); opCur+=c; opNew+=n; cats.push({id:r.id,label:r.label,cur:c,neu:n}); }
+  const investment = upNew - upCur;           // Summary!C23 (net of current upfront)
+  const savings = opCur - opNew;              // Summary!C24
+  let payback = null;                         // Summary!C25
+  if(savings>0) payback = Math.max(0, investment/savings);
+  else if(investment<=0 && savings>=0) payback = 0;
+  const N = +S.horizon;
+  const netAt = t => savings*t - investment;  // Calculations!B3:G3
+  const netN = netAt(N);
+  const roi = investment>0 ? netN/investment*100 : null;
+  return {upCur, upNew, opCur, opNew, investment, savings, payback, N, netAt, netN, roi, cats,
+    meets: payback!==null && payback <= +S.target};
+}
+
+/* =========================================================================
+   Project fields
+   ========================================================================= */
+document.querySelectorAll('[data-k]').forEach(el=>{
+  const k=el.dataset.k;
+  const numeric = ['target','defReduction'].includes(k);
+  el.value = numeric ? fmtInput(S[k]) : S[k];
+  el.addEventListener('input',()=>{
+    if(numeric){ S[k] = parseNum(el.value); }
+    else if(k==='horizon'){ S[k] = +el.value; }
+    else S[k] = el.value;
+    if(k==='curName'||k==='newName') renderTables();
+    else if(k==='defReduction') refreshOpValues();
+    update();
+  });
+  if(numeric) el.addEventListener('blur',()=>{ el.value = fmtInput(S[k]); });
+});
+
+/* =========================================================================
+   Cost tables
+   ========================================================================= */
+function moneyInput(id, val, aria, cls=''){
+  return `<div class="adorn pre"><span>$</span><input class="input money ${cls}" id="${id}" inputmode="decimal" autocomplete="off" aria-label="${esc(aria)}" value="${fmtInput(val)}"></div>`;
+}
+function renderTables(){
+  const cn=esc(S.curName||'Current'), nn=esc(S.newName||'Proposed');
+  // Upfront
+  let h = `<div class="crow head" role="row"><div>Cost item</div><div class="r">${cn}</div><div class="r">${nn}</div><div class="r">Difference</div><div>Notes</div></div>`;
+  for(const r of UPFRONT){
+    const u=S.up[r.id];
+    h += `<div class="crow" role="row" data-up="${r.id}">
+      <div class="cat">${esc(r.label)}</div>
+      <div><span class="m-label">${cn}</span>${moneyInput('u-'+r.id+'-cur',u.cur,r.label+', '+(S.curName||'current'))}</div>
+      <div><span class="m-label">${nn}</span>${moneyInput('u-'+r.id+'-neu',u.neu,r.label+', '+(S.newName||'proposed'))}</div>
+      <div><span class="m-label">Difference</span><div class="diff" id="u-${r.id}-diff"></div></div>
+      <div class="note-cell"><input class="input note-in" id="u-${r.id}-note" placeholder="Notes" aria-label="${esc(r.label)} notes" value="${esc(u.note)}"></div>
+    </div>`;
+  }
+  h += `<div class="crow total" role="row"><div class="cat">Upfront total</div><div class="tot"><span class="m-label">${cn}</span><span id="u-tot-cur"></span></div><div class="tot"><span class="m-label">${nn}</span><span id="u-tot-neu"></span></div><div class="diff"><span class="m-label">Difference</span><span id="u-tot-diff"></span></div><div class="spacer"></div></div>`;
+  document.getElementById('t-up').innerHTML = h;
+
+  // Operating
+  h = `<div class="crow head" role="row"><div>Cost item</div><div class="r">${cn} / yr</div><div class="r">Reduction</div><div class="r">${nn} / yr</div><div class="r">Savings / yr</div><div>Notes</div><div></div></div>`;
+  for(const r of OPERATING){
+    const o=S.op[r.id];
+    h += `<div class="crow" role="row" data-op="${r.id}">
+      <div class="cat">${esc(r.label)}</div>
+      <div><span class="m-label">${cn} / yr</span>${moneyInput('o-'+r.id+'-cur',o.cur,r.label+', '+(S.curName||'current')+' per year')}</div>
+      <div><span class="m-label">Reduction</span><div class="adorn post"><input class="input pct" id="o-${r.id}-pct" inputmode="decimal" autocomplete="off" aria-label="${esc(r.label)} reduction percent"><span>%</span></div></div>
+      <div><span class="m-label">${nn} / yr</span>${moneyInput('o-'+r.id+'-neu',0,r.label+', '+(S.newName||'proposed')+' per year')}</div>
+      <div><span class="m-label">Savings / yr</span><div class="diff" id="o-${r.id}-diff"></div></div>
+      <div class="note-cell"><input class="input note-in" id="o-${r.id}-note" placeholder="Notes" aria-label="${esc(r.label)} notes" value="${esc(o.note)}"></div>
+      <div class="calc-cell"><button class="icon-btn" type="button" data-calc="${r.id}" title="Work out ${esc(r.label.toLowerCase())} with the frequency calculator" aria-label="Frequency calculator for ${esc(r.label)}"><img src="assets/icons/timer.svg" alt=""></button></div>
+      <div class="calc-notes" id="o-${r.id}-calc"></div>
+    </div>`;
+  }
+  h += `<div class="crow total" role="row"><div class="cat">Annual total</div><div class="tot"><span class="m-label">${cn} / yr</span><span id="o-tot-cur"></span></div><div class="spacer"></div><div class="tot"><span class="m-label">${nn} / yr</span><span id="o-tot-neu"></span></div><div class="diff"><span class="m-label">Savings / yr</span><span id="o-tot-diff"></span></div><div class="spacer"></div><div class="spacer"></div></div>`;
+  document.getElementById('t-op').innerHTML = h;
+
+  wireTables();
+  refreshOpValues();
+  renderCalcNotes();
+}
+
+function wireMoney(el, get, set){
+  el.addEventListener('input',()=>{ set(parseNum(el.value)); update(); });
+  el.addEventListener('blur',()=>{ el.value = fmtInput(get()); });
+}
+function wireTables(){
+  for(const r of UPFRONT){
+    const u=S.up[r.id];
+    wireMoney(document.getElementById(`u-${r.id}-cur`), ()=>u.cur, v=>{u.cur=v;});
+    wireMoney(document.getElementById(`u-${r.id}-neu`), ()=>u.neu, v=>{u.neu=v;});
+    document.getElementById(`u-${r.id}-note`).addEventListener('input',e=>{u.note=e.target.value; save();});
+  }
+  for(const r of OPERATING){
+    const o=S.op[r.id];
+    const cur=document.getElementById(`o-${r.id}-cur`), pct=document.getElementById(`o-${r.id}-pct`), neu=document.getElementById(`o-${r.id}-neu`);
+    cur.addEventListener('input',()=>{ o.cur=parseNum(cur.value); delete o.calc.cur; renderCalcNotes(r.id); refreshOpValues(r.id,'cur'); update(); });
+    cur.addEventListener('blur',()=>{ cur.value=fmtInput(o.cur); });
+    pct.addEventListener('input',()=>{
+      o.mode='pct'; o.pct = pct.value.trim()==='' ? null : Math.min(100, parseNum(pct.value)); delete o.calc.neu; renderCalcNotes(r.id);
+      refreshOpValues(r.id,'pct'); update(); });
+    pct.addEventListener('blur',()=>refreshOpValues(r.id));
+    neu.addEventListener('input',()=>{ o.mode='abs'; o.neu=Math.max(0,parseNum(neu.value)); delete o.calc.neu; renderCalcNotes(r.id); refreshOpValues(r.id,'neu'); update(); });
+    neu.addEventListener('blur',()=>refreshOpValues(r.id));
+    document.getElementById(`o-${r.id}-note`).addEventListener('input',e=>{o.note=e.target.value; save();});
+  }
+  document.querySelectorAll('[data-calc]').forEach(b=>b.addEventListener('click',()=>openCalcDialog(b.dataset.calc)));
+}
+
+// Push computed values into the operating-table inputs (skipping the field being typed in).
+function refreshOpValues(onlyId, typing){
+  for(const r of OPERATING){
+    if(onlyId && r.id!==onlyId) continue;
+    const o=S.op[r.id];
+    const pct=document.getElementById(`o-${r.id}-pct`), neu=document.getElementById(`o-${r.id}-neu`);
+    if(!pct) continue;
+    if(typing!=='pct'){
+      const p = effPct(o);
+      if(o.mode==='pct' && (o.pct===null||o.pct===undefined)){ pct.value=''; pct.placeholder=nf1.format(S.defReduction); }
+      else { pct.value = p===null ? '' : nf1.format(p); pct.placeholder = p===null?'–':''; }
+    }
+    pct.classList.toggle('computed', o.mode==='abs');
+    if(typing!=='neu') neu.value = fmtInput(Math.round(proposedOp(o)*100)/100);
+    neu.classList.toggle('computed', o.mode!=='abs');
+  }
+}
+
+function renderCalcNotes(onlyId){
+  for(const r of OPERATING){
+    if(onlyId && r.id!==onlyId) continue;
+    const o=S.op[r.id], box=document.getElementById(`o-${r.id}-calc`); if(!box) continue;
+    const parts=[];
+    for(const col of ['cur','neu']){
+      if(o.calc && o.calc[col]) parts.push(`<div class="calc-note"><span>${esc(col==='cur'?(S.curName||'Current'):(S.newName||'Proposed'))}: ${esc(o.calc[col])}</span><button type="button" data-clr="${r.id}:${col}">Clear</button></div>`);
+    }
+    box.innerHTML = parts.join('');
+    box.hidden = !parts.length;
+  }
+  document.querySelectorAll('[data-clr]').forEach(b=>b.onclick=()=>{
+    const [id,col]=b.dataset.clr.split(':'); delete S.op[id].calc[col]; renderCalcNotes(id); save();
+  });
+}
+
+/* =========================================================================
+   Frequency calculator (Summary!B27:C31 + Calculations time conversion)
+   ========================================================================= */
+const calcs=[];
+function FreqCalc(root, opts){
+  const p = opts.prefix;
+  const st = opts.state; // shared S.fc for main; own object for dialog
+  root.innerHTML = `
+  <div class="fc">
+    <div>
+      <div class="grid-2">
+        <div class="field"><label for="${p}-cost">Cost per occurrence</label>
+          <div class="adorn pre"><span>$</span><input class="input money" id="${p}-cost" inputmode="decimal" autocomplete="off"></div></div>
+        <div class="field"><label for="${p}-count">Occurrences</label>
+          <input class="input money" id="${p}-count" inputmode="decimal" autocomplete="off" style="text-align:right"></div>
+      </div>
+      <label class="check" style="margin-top:12px"><input type="checkbox" id="${p}-build"> Build up the cost per occurrence</label>
+      <div class="fc-build" id="${p}-buildbox">
+        <div class="grid-3">
+          <div class="field"><label for="${p}-dur">Duration</label><div class="adorn post"><input class="input pct" id="${p}-dur" inputmode="decimal"><span>min</span></div></div>
+          <div class="field"><label for="${p}-rate">Cost per hour</label><div class="adorn pre"><span>$</span><input class="input money" id="${p}-rate" inputmode="decimal"></div><span class="help">Lost margin, labor, overhead</span></div>
+          <div class="field"><label for="${p}-parts">Parts / materials</label><div class="adorn pre"><span>$</span><input class="input money" id="${p}-parts" inputmode="decimal"></div><span class="help">Per occurrence</span></div>
+        </div>
+      </div>
+      <div class="field" style="margin-top:16px"><span class="label" id="${p}-freq-l">Frequency</span>
+        <div class="seg" role="group" aria-labelledby="${p}-freq-l" id="${p}-freq" style="flex-wrap:wrap">${FREQS.map(f=>`<button type="button" data-f="${f.id}">${f.label.replace('Per ','')}</button>`).join('')}</div>
+      </div>
+      <p class="subhead" style="margin-top:24px">Operating schedule</p>
+      <div class="grid-2">
+        <div class="field"><label for="${p}-hpd">Hours per day</label><div class="adorn post"><input class="input pct" id="${p}-hpd" inputmode="decimal"><span>h</span></div></div>
+        <div class="field"><label for="${p}-dpw">Days per week</label><div class="adorn post"><input class="input pct" id="${p}-dpw" inputmode="decimal"><span>d</span></div></div>
+      </div>
+      <p class="help" id="${p}-sched" style="font-size:12px; color:var(--color-gray-600); margin:8px 0 0"></p>
+    </div>
+    <div class="fc-out" aria-live="polite">
+      <div><p class="k-label">Annual cost</p><p class="big" id="${p}-annual">–</p></div>
+      <div><p class="k-label">Occurrences per year</p><p class="mid" id="${p}-occ">–</p></div>
+      <p class="formula" id="${p}-formula"></p>
+      <div class="fc-apply">
+        <div class="field"><label for="${p}-row">Apply to</label>
+          <select class="input" id="${p}-row">${OPERATING.map(r=>`<option value="${r.id}">${esc(r.label)}</option>`).join('')}</select></div>
+        <div class="seg" role="group" aria-label="Column" id="${p}-col"><button type="button" data-c="cur" aria-pressed="true"></button><button type="button" data-c="neu" aria-pressed="false"></button></div>
+        <div><button class="btn btn-secondary" type="button" id="${p}-apply">Apply annual cost</button></div>
+      </div>
+    </div>
+  </div>`;
+  const $ = id => document.getElementById(`${p}-${id}`);
+  let col = opts.col || 'cur';
+  const numFields = {cost:'cost', count:'count', dur:'dur', rate:'rate', parts:'parts'};
+  for(const [fid,key] of Object.entries(numFields)){
+    const el=$(fid); el.value=fmtInput(st[key]);
+    el.addEventListener('input',()=>{ st[key]=parseNum(el.value); if(['dur','rate','parts'].includes(key)) syncCost(); recalc(); });
+    el.addEventListener('blur',()=>{ el.value=fmtInput(st[key]); });
+  }
+  $('cost').addEventListener('input',()=>{ if(st.build){ st.build=false; $('build').checked=false; $('buildbox').hidden=true; } });
+  $('build').checked=st.build; $('buildbox').hidden=!st.build;
+  $('build').addEventListener('change',()=>{ st.build=$('build').checked; $('buildbox').hidden=!st.build; if(st.build) syncCost(); recalc(); });
+  function syncCost(){ if(!st.build) return; st.cost = Math.round(((st.dur||0)/60*(st.rate||0) + (st.parts||0))*100)/100; $('cost').value=fmtInput(st.cost); }
+  $('freq').querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{ st.freq=b.dataset.f; recalc(); }));
+  for(const k of ['hpd','dpw']){
+    const el=$(k); el.value=fmtInput(S.sched[k]);
+    el.addEventListener('input',()=>{ let v=parseNum(el.value); v = k==='hpd'?Math.min(24,Math.max(0,v)):Math.min(7,Math.max(0,v)); S.sched[k]=v; calcs.forEach(c=>c!==api&&c.syncSched()); recalc(); });
+    el.addEventListener('blur',()=>{ el.value=fmtInput(S.sched[k]); });
+  }
+  if(opts.row) $('row').value=opts.row;
+  $('col').querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{ col=b.dataset.c; paintCol(); }));
+  function paintCol(){ $('col').querySelectorAll('button').forEach(b=>{ b.setAttribute('aria-pressed', String(b.dataset.c===col)); b.textContent = b.dataset.c==='cur' ? (S.curName||'Current') : (S.newName||'Proposed'); }); }
+  paintCol();
+
+  function result(){ const occ = (st.count||0)*annualFactor(st.freq); return {occ, annual:(st.cost||0)*occ}; }
+  function describe(){
+    const f=FREQS.find(x=>x.id===st.freq); const {occ,annual}=result();
+    return `${usd(st.cost)} × ${nf2.format(st.count)} per ${f.unit} = ${nf1.format(occ)} occurrences/yr → ${usd(annual)}/yr`
+      + (['sec','min','hour','day'].includes(st.freq) && (S.sched.hpd!==24||S.sched.dpw!==7) ? ` (${nf2.format(S.sched.hpd)} h/day, ${nf2.format(S.sched.dpw)} days/wk)` : '');
+  }
+  function recalc(){
+    $('freq').querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed', String(b.dataset.f===st.freq)));
+    const {occ,annual}=result();
+    $('annual').textContent=usd(annual);
+    $('occ').textContent=nf1.format(occ);
+    const f=FREQS.find(x=>x.id===st.freq);
+    $('formula').textContent = `${usd(st.cost)} per occurrence × ${nf2.format(st.count)} per ${f.unit} × ${nf2.format(annualFactor(st.freq)/1)} ${f.unit}s per year`;
+    const opDays=365*S.sched.dpw/7;
+    $('sched').textContent = `${nf0.format(opDays)} operating days and ${nf0.format(opDays*S.sched.hpd)} operating hours per year. Week, month and year frequencies use the calendar.`;
+    if(opts.state===S.fc) save();
+  }
+  $('apply').addEventListener('click',()=>{
+    const id=$('row').value, o=S.op[id], {annual}=result(), val=Math.round(annual*100)/100;
+    if(col==='cur'){ o.cur=val; }
+    else { o.mode='abs'; o.neu=val; }
+    o.calc = o.calc||{}; o.calc[col]=describe();
+    const curEl=document.getElementById(`o-${id}-cur`); if(curEl) curEl.value=fmtInput(o.cur);
+    refreshOpValues(id); renderCalcNotes(id); update();
+    const lbl=OPERATING.find(r=>r.id===id).label;
+    toast(`${lbl}: ${usd(val)}/yr applied to ${col==='cur'?(S.curName||'current'):(S.newName||'proposed')}`);
+    if(opts.onApplied) opts.onApplied();
+  });
+  const api = { syncSched(){ $('hpd').value=fmtInput(S.sched.hpd); $('dpw').value=fmtInput(S.sched.dpw); recalc(); }, paintCol, recalc };
+  calcs.push(api);
+  recalc();
+  return api;
+}
+
+const mainCalc = FreqCalc(document.getElementById('fc-main'), {prefix:'fcm', state:S.fc});
+const dlg = document.getElementById('fc-dialog');
+let dlgCalc=null;
+function openCalcDialog(rowId){
+  const lbl=OPERATING.find(r=>r.id===rowId).label;
+  document.getElementById('fcd-title').textContent = `${lbl}: frequency calculator`;
+  document.getElementById('fcd-sub').textContent = 'Work out the annual cost, then apply it to the row.';
+  if(dlgCalc){ const i=calcs.indexOf(dlgCalc); if(i>=0) calcs.splice(i,1); }
+  const st = Object.assign({}, S.fc);
+  dlgCalc = FreqCalc(document.getElementById('fc-dlg'), {prefix:'fcd', state:st, row:rowId, col:'cur', onApplied:()=>dlg.close()});
+  document.getElementById('fcd-row').disabled = true;
+  dlg.showModal();
+  setTimeout(()=>document.getElementById('fcd-cost').focus(),30);
+}
+document.getElementById('fcd-close').addEventListener('click',()=>dlg.close());
+dlg.addEventListener('click',e=>{ if(e.target===dlg) dlg.close(); });
+
+/* =========================================================================
+   Charts
+   ========================================================================= */
+const C = {blue:'#6A9DC6', gray:'#94A7B4', silver:'#BCBCBC', red:'#e73446', ink:'#1d1d1b', g600:'#6b6b6a', g800:'#414140', g200:'#e6e6e6'};
+const blueInk = '#4f82ab', grayInk='#73889a'; // darkened ink relatives for line work
+Chart.defaults.font.family = '"Roboto Flex", system-ui, sans-serif';
+Chart.defaults.font.size = 12;
+Chart.defaults.color = C.g600;
+
+const markerPlugin = {
+  id:'markers',
+  afterDatasetsDraw(chart, args, o){
+    const {ctx, chartArea:{top,bottom,left,right}, scales:{x,y}} = chart;
+    ctx.save();
+    for(const l of (o.lines||[])){
+      const px=x.getPixelForValue(l.x); if(px<left-1||px>right+1) continue;
+      ctx.strokeStyle=l.color; ctx.lineWidth=1.5; ctx.setLineDash([5,4]);
+      ctx.beginPath(); ctx.moveTo(px,top); ctx.lineTo(px,bottom); ctx.stroke(); ctx.setLineDash([]);
+      ctx.fillStyle=l.color; ctx.font=`600 ${o.fs||12}px "Roboto Flex"`;
+      const leftSide = px > left+(right-left)*0.75; ctx.textAlign = leftSide?'right':'left';
+      ctx.fillText(l.label, px+(leftSide?-6:6), top+12);
+    }
+    for(const p of (o.points||[])){
+      const px=x.getPixelForValue(p.x), py=y.getPixelForValue(p.y); if(px<left-1||px>right+1) continue;
+      ctx.beginPath(); ctx.arc(px,py,6,0,Math.PI*2); ctx.fillStyle=C.red; ctx.fill(); ctx.lineWidth=2; ctx.strokeStyle='#fff'; ctx.stroke();
+      if(p.label){ ctx.fillStyle=C.ink; ctx.font=`700 ${o.fs||12}px "Roboto Flex"`;
+        const leftSide = px > left+(right-left)*0.7; ctx.textAlign = leftSide?'right':'left';
+        ctx.fillText(p.label, px+(leftSide?-10:10), py+(p.above?-10:18)); }
+    }
+    ctx.restore();
+  }
+};
+
+function baseScales(N, fs){
+  return {
+    x:{type:'linear', min:0, max:N, ticks:{stepSize:1, font:{size:fs}, callback:v=>Number.isInteger(v)?('Yr '+v):''}, grid:{color:C.g200, drawTicks:false}, border:{color:C.g200}},
+    y:{ticks:{font:{size:fs}, callback:v=>usdCompact(v)}, grid:{color:C.g200, drawTicks:false}, border:{display:false}},
+  };
+}
+function paybackConfig(R, print){
+  const N=R.N, fs=print?10:12, pts=[];
+  for(let t=0;t<=N;t++) pts.push({x:t,y:R.netAt(t)});
+  const mk={lines:[{x:+S.target, color:C.g800, label:`Target ${nf1.format(+S.target)} yrs`}], points:[], fs};
+  if(R.payback!==null && R.payback>0 && R.payback<=N){ pts.push({x:R.payback,y:0}); pts.sort((a,b)=>a.x-b.x); mk.points.push({x:R.payback,y:0,label:`Payback ${nf1.format(R.payback)} yrs`, above:false}); }
+  return {
+    type:'line',
+    data:{datasets:[{data:pts, borderColor:blueInk, borderWidth:3, pointRadius:0, pointHoverRadius:4, tension:0,
+      fill:{target:'origin', above:'rgba(106,157,198,.22)', below:'rgba(188,188,188,.35)'}}]},
+    options:{responsive:!print, maintainAspectRatio:false, animation:print?false:{duration:250}, devicePixelRatio:print?3:undefined,
+      interaction:{mode:'nearest', intersect:false, axis:'x'},
+      scales:baseScales(N,fs),
+      plugins:{legend:{display:false}, markers:mk,
+        tooltip:{callbacks:{title:i=>`Year ${nf1.format(i[0].parsed.x)}`, label:i=>`Net position ${usd(i.parsed.y)}`}}}},
+    plugins:[markerPlugin]
+  };
+}
+function tcoConfig(R, print){
+  const N=R.N, fs=print?10:12, a=[], b=[];
+  for(let t=0;t<=N;t++){ a.push({x:t,y:R.upCur+R.opCur*t}); b.push({x:t,y:R.upNew+R.opNew*t}); }
+  const mk={points:[], fs};
+  if(R.payback!==null && R.payback>0 && R.payback<=N) mk.points.push({x:R.payback, y:R.upNew+R.opNew*R.payback, label:'', above:true});
+  return {
+    type:'line',
+    data:{datasets:[
+      {label:S.curName||'Current', data:a, borderColor:grayInk, backgroundColor:C.gray, borderWidth:3, pointRadius:print?0:3, pointBackgroundColor:grayInk, tension:0},
+      {label:S.newName||'Proposed', data:b, borderColor:blueInk, backgroundColor:C.blue, borderWidth:3, pointRadius:print?0:3, pointBackgroundColor:blueInk, tension:0},
+    ]},
+    options:{responsive:!print, maintainAspectRatio:false, animation:print?false:{duration:250}, devicePixelRatio:print?3:undefined,
+      interaction:{mode:'index', intersect:false},
+      scales:Object.assign(baseScales(N,fs), {y:{beginAtZero:true, ticks:{font:{size:fs}, callback:v=>usdCompact(v)}, grid:{color:C.g200, drawTicks:false}, border:{display:false}}}),
+      plugins:{legend:{display:false}, markers:mk,
+        tooltip:{callbacks:{title:i=>`Year ${i[0].parsed.x}`, label:i=>`${i.dataset.label}: ${usd(i.parsed.y)}`}}}},
+    plugins:[markerPlugin]
+  };
+}
+function catConfig(R, print){
+  const fs=print?10:12;
+  const rows=R.cats.filter(c=>c.cur||c.neu);
+  return {
+    type:'bar',
+    data:{labels:rows.map(r=>r.label), datasets:[
+      {label:S.curName||'Current', data:rows.map(r=>r.cur), backgroundColor:C.gray, borderRadius:0, barPercentage:.8, categoryPercentage:.75},
+      {label:S.newName||'Proposed', data:rows.map(r=>r.neu), backgroundColor:C.blue, borderRadius:0, barPercentage:.8, categoryPercentage:.75},
+    ]},
+    options:{indexAxis:'y', responsive:!print, maintainAspectRatio:false, animation:print?false:{duration:250}, devicePixelRatio:print?3:undefined,
+      scales:{x:{beginAtZero:true, ticks:{font:{size:fs}, callback:v=>usdCompact(v)}, grid:{color:C.g200, drawTicks:false}, border:{display:false}},
+              y:{ticks:{font:{size:fs}, color:C.ink}, grid:{display:false}, border:{color:C.g200}}},
+      plugins:{legend:{display:false}, tooltip:{callbacks:{label:i=>`${i.dataset.label}: ${usd(i.parsed.x)}/yr`}}}}
+  };
+}
+function legendHTML(){ return `<span><i style="background:${blueInk}"></i>${esc(S.newName||'Proposed')}</span><span><i style="background:${grayInk}"></i>${esc(S.curName||'Current')}</span>`; }
+function legendSq(){ return `<span><i class="sq" style="background:${C.gray}"></i>${esc(S.curName||'Current')}</span><span><i class="sq" style="background:${C.blue}"></i>${esc(S.newName||'Proposed')}</span>`; }
+
+let chPay, chTco, chCat;
+function drawCharts(R){
+  const set=(ch, cfg)=>{ ch.data=cfg.data; ch.options=cfg.options; ch.update(); };
+  const box=document.getElementById('box-cat');
+  const n=R.cats.filter(c=>c.cur||c.neu).length;
+  box.style.height = Math.max(300, 60 + n*44)+'px';
+  if(!chPay){ chPay=new Chart(document.getElementById('c-payback'), paybackConfig(R)); chTco=new Chart(document.getElementById('c-tco'), tcoConfig(R)); chCat=new Chart(document.getElementById('c-cat'), catConfig(R)); }
+  else { set(chPay,paybackConfig(R)); set(chTco,tcoConfig(R)); set(chCat,catConfig(R)); }
+  document.getElementById('lg-tco').innerHTML = legendHTML() + `<span><i class="dot" style="background:${C.red}"></i>Payback point</span>`;
+  document.getElementById('lg-cat').innerHTML = legendSq();
+  document.getElementById('cap-payback').textContent = `Cumulative net position over ${R.N} years: annual savings minus net investment. Above zero, the ${S.newName||'proposed solution'} has paid for itself.`;
+}
+
+/* =========================================================================
+   Results + summary
+   ========================================================================= */
+function paybackText(R){
+  if(R.payback===null) return 'No payback';
+  if(R.payback===0) return 'Immediate';
+  return yrs(R.payback);
+}
+function kpiHTML(R){
+  const months = R.payback!==null && R.payback>0 ? `${nf0.format(R.payback*12)} months` : (R.payback===0?'No net investment':'Savings do not cover the investment');
+  return `
+  <div class="kpi"><p class="k-label">Net investment</p><p class="k-value">${usd(R.investment)}</p><p class="k-sub">${usd(R.upNew)} proposed − ${usd(R.upCur)} current</p></div>
+  <div class="kpi"><p class="k-label">Annual savings</p><p class="k-value">${usd(R.savings)}</p><p class="k-sub">${R.opCur>0?nf0.format(R.savings/R.opCur*100)+'% lower operating cost':'Operating cost per year'}</p></div>
+  <div class="kpi"><p class="k-label">Payback</p><p class="k-value">${paybackText(R)}</p><p class="k-sub">${months}</p></div>
+  <div class="kpi"><p class="k-label">${R.N}-year net benefit</p><p class="k-value">${usd(R.netN)}</p><p class="k-sub">Savings minus investment</p></div>
+  <div class="kpi"><p class="k-label">${R.N}-year ROI</p><p class="k-value">${R.roi===null?'–':nf0.format(R.roi)+'%'}</p><p class="k-sub">Net benefit ÷ net investment</p></div>`;
+}
+function verdict(R){
+  const nn=S.newName||'the proposed solution', t=+S.target;
+  if(R.payback===null) return {cls:'warning', title:'No payback within any period', body:`Annual operating cost for ${nn} is not lower than the current system, so the ${usd(R.investment)} investment is not recovered.`};
+  if(R.payback===0) return {cls:'success', title:'Pays back immediately', body:`${nn} needs no net investment and saves ${usd(R.savings)} per year.`};
+  if(R.meets) return {cls:'success', title:`Pays back in ${yrs(R.payback)}, within the ${nf1.format(t)}-year target`, body:`${usd(R.savings)} in annual savings recovers the ${usd(R.investment)} net investment. Net benefit after ${R.N} years: ${usd(R.netN)}.`};
+  return {cls:'warning', title:`Pays back in ${yrs(R.payback)}, ${nf1.format(R.payback-t)} years beyond the ${nf1.format(t)}-year target`, body:`${usd(R.savings)} in annual savings recovers the ${usd(R.investment)} net investment. To meet the target, annual savings need to reach ${usd(R.investment/t)}, or the investment needs to fall to ${usd(R.savings*t)}.`};
+}
+
+function update(){
+  const R=compute();
+  // tables
+  for(const r of UPFRONT){ const u=S.up[r.id], d=(u.cur||0)-(u.neu||0); const el=document.getElementById(`u-${r.id}-diff`); el.textContent=usd(d); el.classList.toggle('neg',d<0); }
+  document.getElementById('u-tot-cur').textContent=usd(R.upCur);
+  document.getElementById('u-tot-neu').textContent=usd(R.upNew);
+  const ud=document.getElementById('u-tot-diff'); ud.textContent=usd(R.upCur-R.upNew); ud.classList.toggle('neg',R.upCur-R.upNew<0);
+  for(const r of OPERATING){ const o=S.op[r.id], d=(o.cur||0)-proposedOp(o); const el=document.getElementById(`o-${r.id}-diff`); el.textContent=usd(d); el.classList.toggle('neg',d<0); }
+  document.getElementById('o-tot-cur').textContent=usd(R.opCur);
+  document.getElementById('o-tot-neu').textContent=usd(R.opNew);
+  const od=document.getElementById('o-tot-diff'); od.textContent=usd(R.savings); od.classList.toggle('neg',R.savings<0);
+  // results
+  document.getElementById('kpis').innerHTML = kpiHTML(R);
+  const v=verdict(R);
+  document.getElementById('verdict').innerHTML = `<div class="alert ${v.cls}" role="status"><div><strong>${esc(v.title)}</strong>${esc(v.body)}</div></div>`;
+  // sticky bar
+  document.getElementById('sb-payback').innerHTML = esc(paybackText(R)) + (R.payback!==null && R.payback>0 ? `<span class="pill ${R.meets?'ok':'no'}">${R.meets?'Within target':'Over target'}</span>` : '');
+  document.getElementById('sb-savings').textContent = usd(R.savings)+'/yr';
+  document.getElementById('sb-inv').textContent = usd(R.investment);
+  drawCharts(R);
+  calcs.forEach(c=>c.paintCol());
+  save();
+  return R;
+}
+
+/* =========================================================================
+   PDF export — builds two Letter pages off-screen, rasterizes, downloads.
+   ========================================================================= */
+function loadScript(src){ return new Promise((res,rej)=>{ const s=document.createElement('script'); s.src=src; s.onload=res; s.onerror=()=>rej(new Error('Failed to load '+src)); document.head.appendChild(s); }); }
+async function ensurePdfLibs(){
+  if(!window.jspdf) await loadScript('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js');
+  if(!window.html2canvas) await loadScript('https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js');
+}
+function fmtDate(s){ if(!s) return ''; const [y,m,d]=s.split('-').map(Number); return new Date(y,m-1,d).toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'}); }
+
+function buildReport(R){
+  const cn=esc(S.curName||'Current system'), nn=esc(S.newName||'Proposed solution');
+  const title = esc(S.project || 'ROI comparison');
+  const metaBits=[S.customer, S.preparedBy && ('Prepared by '+S.preparedBy), fmtDate(S.date)].filter(Boolean).map(esc).join(' · ');
+  const v=verdict(R);
+  const top = `<div class="rp-top"><div class="rp-eyebrow">ROI summary · ${cn} vs ${nn}</div><img src="assets/balluff-wordmark-black.png" alt="Balluff"></div>`;
+  const foot = n => `<div class="foot"><span>${esc(S.customer||'')}${S.customer?' · ':''}${esc(fmtDate(S.date))}</span><span>Page ${n} of 2</span></div>`;
+
+  const p1 = `<div class="rp">${top}
+    <h1>${title}</h1><p class="meta">${metaBits||'&nbsp;'}</p>
+    <div class="alert ${v.cls}" style="margin:0 0 18px"><div><strong>${esc(v.title)}</strong>${esc(v.body)}</div></div>
+    <div class="kpis">${kpiHTML(R)}</div>
+    <h3>Payback timeline</h3><p class="cap">Cumulative net position over ${R.N} years. Above zero, the ${nn} has paid for itself.</p>
+    <div class="legend"><span><i style="background:${blueInk}"></i>Net position</span><span><i class="dot" style="background:${C.red}"></i>Payback point</span><span><i style="background:${C.g800}"></i>Target payback (${nf1.format(+S.target)} yrs)</span></div>
+    <div style="height:205px"><canvas id="rp-pay" width="704" height="205"></canvas></div>
+    <h3>Cumulative cost of ownership</h3><p class="cap">Upfront cost plus operating cost to date. The lines cross at payback.</p>
+    <div class="legend">${legendHTML()}</div>
+    <div style="height:205px"><canvas id="rp-tco" width="704" height="205"></canvas></div>
+    ${foot(1)}</div>`;
+
+  const rows = (list, src, isOp) => list.map(r=>{
+    const o=src[r.id]; const c=o.cur||0, n=isOp?proposedOp(o):(o.neu||0);
+    if(!c && !n) return '';
+    return `<tr><td>${esc(r.label)}</td><td class="n">${usd(c)}</td><td class="n">${usd(n)}</td><td class="n">${usd(c-n)}</td><td>${esc(o.note||'')}</td></tr>`;
+  }).join('');
+  const nCats = R.cats.filter(c=>c.cur||c.neu).length;
+  const catH = Math.min(300, Math.max(120, 36 + nCats*26));
+  const basis=[];
+  for(const r of OPERATING){ const o=S.op[r.id];
+    if(o.calc?.cur) basis.push(`<li><b>${esc(r.label)}</b>, ${cn}: ${esc(o.calc.cur)}</li>`);
+    if(o.calc?.neu) basis.push(`<li><b>${esc(r.label)}</b>, ${nn}: ${esc(o.calc.neu)}</li>`);
+    if((o.cur||0)>0 && o.mode!=='abs' && !o.calc?.neu) basis.push(`<li><b>${esc(r.label)}</b>, ${nn}: ${nf1.format(rowPct(o))}% reduction from ${cn}</li>`);
+  }
+  const p2 = `<div class="rp">${top}
+    <h3 style="margin-top:0">Cost comparison</h3>
+    <table><thead><tr><th>Cost item</th><th class="n">${cn}</th><th class="n">${nn}</th><th class="n">Difference</th><th>Notes</th></tr></thead><tbody>
+      <tr class="grp"><td colspan="5">Upfront costs (one time)</td></tr>${rows(UPFRONT,S.up,false)}
+      <tr class="sub"><td>Upfront total</td><td class="n">${usd(R.upCur)}</td><td class="n">${usd(R.upNew)}</td><td class="n">${usd(R.upCur-R.upNew)}</td><td></td></tr>
+      <tr class="grp"><td colspan="5">Operating costs (per year)</td></tr>${rows(OPERATING,S.op,true)}
+      <tr class="sub"><td>Annual total</td><td class="n">${usd(R.opCur)}</td><td class="n">${usd(R.opNew)}</td><td class="n">${usd(R.savings)}</td><td></td></tr>
+    </tbody></table>
+    ${nCats?`<h3>Annual operating cost by category</h3><div class="legend" style="margin-top:6px">${legendSq()}</div><div style="height:${catH}px"><canvas id="rp-cat" width="704" height="${catH}"></canvas></div>`:''}
+    ${basis.length?`<h3>Basis for estimates</h3><ul>${basis.slice(0,14).join('')}</ul>`:''}
+    <p class="disc">Estimates are based on the values entered and are not a guarantee of results. Net investment = ${nn} upfront total − ${cn} upfront total. Payback = net investment ÷ annual savings. ROI = (annual savings × ${R.N} years − net investment) ÷ net investment.</p>
+    ${foot(2)}</div>`;
+
+  const host=document.getElementById('report');
+  host.innerHTML = p1 + p2;
+  const made=[];
+  const mk=(id,cfg)=>{ const el=document.getElementById(id); if(el) made.push(new Chart(el,cfg)); };
+  mk('rp-pay', paybackConfig(R,true));
+  mk('rp-tco', tcoConfig(R,true));
+  mk('rp-cat', catConfig(R,true));
+  return {pages:[...host.querySelectorAll('.rp')], charts:made};
+}
+
+async function exportPdf(){
+  const btn=document.getElementById('btn-pdf');
+  btn.disabled=true; const label=btn.innerHTML; btn.textContent='Preparing PDF…';
+  let built=null;
+  try{
+    await ensurePdfLibs();
+    if(document.fonts && document.fonts.ready) await document.fonts.ready;
+    const R=compute();
+    built=buildReport(R);
+    await Promise.all([...document.querySelectorAll('#report img')].map(img=>img.complete?0:new Promise(r=>{img.onload=img.onerror=r;})));
+    const {jsPDF}=window.jspdf;
+    const pdf=new jsPDF({unit:'pt', format:'letter', orientation:'portrait', compress:true});
+    for(let i=0;i<built.pages.length;i++){
+      const canvas=await html2canvas(built.pages[i],{scale:2, backgroundColor:'#ffffff', useCORS:true, logging:false, windowWidth:1280});
+      if(i>0) pdf.addPage('letter','portrait');
+      pdf.addImage(canvas.toDataURL('image/jpeg',0.92),'JPEG',0,0,612,792,undefined,'FAST');
+    }
+    pdf.setProperties({title:`ROI summary – ${S.project||S.customer||'Balluff'}`, creator:'Balluff ROI Calculator'});
+    const slug=s=>String(s||'').trim().replace(/[^a-z0-9]+/gi,'-').replace(/^-|-$/g,'');
+    pdf.save(['ROI-Summary', slug(S.customer), slug(S.project), S.date].filter(Boolean).join('_')+'.pdf');
+    toast('PDF downloaded');
+  }catch(err){
+    console.error(err); toast('PDF export failed. Check your connection and try again.');
+  }finally{
+    if(built){ built.charts.forEach(c=>c.destroy()); document.getElementById('report').innerHTML=''; }
+    btn.disabled=false; btn.innerHTML=label;
+  }
+}
+document.getElementById('btn-pdf').addEventListener('click', exportPdf);
+
+/* ---------- reset / toast ---------- */
+document.getElementById('btn-reset').addEventListener('click',()=>{
+  if(!confirm('Clear all inputs and return to the default example values?')) return;
+  try{ localStorage.removeItem(STORE_KEY); }catch(e){}
+  location.reload();
+});
+let toastT;
+function toast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(toastT); toastT=setTimeout(()=>t.classList.remove('show'),2600); }
+
+renderTables();
+update();
+window.__roi = {compute, S}; // inspection hook for QA
+})();
+</script>
+</body>
+</html>
