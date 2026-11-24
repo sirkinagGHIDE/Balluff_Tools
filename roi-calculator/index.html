@@ -268,6 +268,8 @@ dialog.modal::backdrop{background:rgba(29,29,27,.45);}
 .rp ul{margin:0; padding:0; list-style:none; font-size:11px; line-height:1.5;}
 .rp li{padding-left:12px; position:relative;}
 .rp li::before{content:""; position:absolute; left:0; top:7px; width:5px; height:5px; background:var(--color-gray-600);}
+.rp.flow{display:flex; flex-direction:column; padding-bottom:64px;}
+.rp-body{flex:1; min-height:0; overflow:hidden;}
 .rp .foot{position:absolute; left:56px; right:56px; bottom:24px; display:flex; justify-content:space-between; font-size:10px; color:var(--color-gray-600); border-top:1px solid var(--color-gray-200); padding-top:8px;}
 .rp .disc{font-size:10px; color:var(--color-gray-600); line-height:1.45; margin-top:16px;}
 </style>
@@ -1044,8 +1046,8 @@ function buildReport(R){
   const title = esc(S.project || 'ROI comparison');
   const metaBits=[S.customer, S.preparedBy && ('Prepared by '+S.preparedBy), fmtDate(S.date)].filter(Boolean).map(esc).join(' · ');
   const v=verdict(R);
-  const top = `<div class="rp-top"><div class="rp-eyebrow">ROI summary · ${cn} vs ${nn}</div><img src="assets/balluff-wordmark-black.png" alt="Balluff"></div>`;
-  const foot = n => `<div class="foot"><span>${esc(S.customer||'')}${S.customer?' · ':''}${esc(fmtDate(S.date))}</span><span>Page ${n} of 2</span></div>`;
+  const top = `<div class="rp-top"><div class="rp-eyebrow">ROI summary · ${cn} vs ${nn}</div><img src="assets/balluff-wordmark-black.png" alt="Balluff" width="150" height="33"></div>`;
+  const foot = (n,total) => `<div class="foot"><span>${esc(S.customer||'')}${S.customer?' · ':''}${esc(fmtDate(S.date))}</span><span>Page ${n} of ${total}</span></div>`;
 
   const p1 = `<div class="rp">${top}
     <h1>${title}</h1><p class="meta">${metaBits||'&nbsp;'}</p>
@@ -1057,13 +1059,13 @@ function buildReport(R){
     <h3>Cumulative cost of ownership</h3><p class="cap">Upfront cost plus operating cost to date, labelled at each year. The lines cross at payback.</p>
     <div class="legend">${legendHTML()}</div>
     <div style="height:205px"><canvas id="rp-tco" width="704" height="205"></canvas></div>
-    ${foot(1)}</div>`;
+    </div>`;
 
-  const rows = (list, src, isOp) => list.map(r=>{
+  const rowHTML = (list, src, isOp) => list.map(r=>{
     const o=src[r.id]; const c=o.cur||0, n=isOp?proposedOp(o):(o.neu||0);
-    if(!c && !n) return '';
+    if(!c && !n) return null;
     return `<tr><td>${esc(r.label)}</td><td class="n">${usd(c)}</td><td class="n">${usd(n)}</td><td class="n">${usd(c-n)}</td><td>${esc(o.note||'')}</td></tr>`;
-  }).join('');
+  }).filter(Boolean);
   const nCats = R.cats.filter(c=>c.cur||c.neu).length;
   const catH = Math.min(300, Math.max(120, 36 + nCats*26));
   const basis=[];
@@ -1072,21 +1074,56 @@ function buildReport(R){
     if(o.calc?.neu) basis.push(`<li><b>${esc(r.label)}</b>, ${nn}: ${esc(o.calc.neu)}</li>`);
     if((o.cur||0)>0 && o.mode!=='abs' && !o.calc?.neu) basis.push(`<li><b>${esc(r.label)}</b>, ${nn}: ${nf1.format(rowPct(o))}% reduction from ${cn}</li>`);
   }
-  const p2 = `<div class="rp">${top}
-    <h3 style="margin-top:0">Cost comparison</h3>
-    <table><thead><tr><th>Cost item</th><th class="n">${cn}</th><th class="n">${nn}</th><th class="n">Difference</th><th>Notes</th></tr></thead><tbody>
-      <tr class="grp"><td colspan="5">Upfront costs (one time)</td></tr>${rows(UPFRONT,S.up,false)}
-      <tr class="sub"><td>Upfront total</td><td class="n">${usd(R.upCur)}</td><td class="n">${usd(R.upNew)}</td><td class="n">${usd(R.upCur-R.upNew)}</td><td></td></tr>
-      <tr class="grp"><td colspan="5">Operating costs (per year)</td></tr>${rows(OPERATING,S.op,true)}
-      <tr class="sub"><td>Annual total</td><td class="n">${usd(R.opCur)}</td><td class="n">${usd(R.opNew)}</td><td class="n">${usd(R.savings)}</td><td></td></tr>
-    </tbody></table>
-    ${nCats?`<h3>Annual operating cost by category</h3><div class="legend" style="margin-top:6px">${legendSq()}</div><div style="height:${catH}px"><canvas id="rp-cat" width="704" height="${catH}"></canvas></div>`:''}
-    ${basis.length?`<h3>Basis for estimates</h3><ul>${basis.slice(0,14).join('')}</ul>`:''}
-    <p class="disc">Estimates are based on the values entered and are not a guarantee of results. Net investment = ${nn} upfront total − ${cn} upfront total. Payback = net investment ÷ annual savings. ROI = (annual savings × ${R.N} years − net investment) ÷ net investment.</p>
-    ${foot(2)}</div>`;
 
   const host=document.getElementById('report');
-  host.innerHTML = p1 + p2;
+  host.innerHTML = p1;
+
+  /* ---- Flowing pages: content is placed piece by piece; anything that does not fit
+     moves to a new page, with the table header / section heading repeated. ---- */
+  let body=null;
+  const newPage = () => {
+    const pg=document.createElement('div'); pg.className='rp flow';
+    pg.innerHTML = top + '<div class="rp-body"></div>';
+    host.appendChild(pg); body=pg.querySelector('.rp-body'); return body;
+  };
+  const fits = () => body.scrollHeight <= body.clientHeight + 1;
+  const frag = html => { const t=document.createElement('template'); t.innerHTML=html.trim(); return t.content.firstElementChild; };
+  // Place a whole block; if it overflows a page that already has content, move it to a new page.
+  const placeBlock = html => {
+    let el=frag(html); body.appendChild(el);
+    if(!fits() && body.children.length>1){ el.remove(); newPage(); body.appendChild(el); }
+    return el;
+  };
+  // Place list-like items (table rows, bullets) one at a time, continuing on new pages.
+  const flowItems = (items, makeContainer) => {
+    let box = placeBlock(makeContainer(false));     // heading + empty container
+    let target = box.querySelector('[data-slot]');
+    items.forEach((html, i)=>{
+      const el=frag(html); target.appendChild(el);
+      if(!fits()){
+        el.remove();
+        if(i===0){ box.remove(); newPage(); box=placeBlock(makeContainer(false)); }   // keep heading with its first item
+        else { newPage(); box=placeBlock(makeContainer(true)); }
+        target = box.querySelector('[data-slot]'); target.appendChild(el);
+      }
+    });
+  };
+  const thead = `<thead><tr><th>Cost item</th><th class="n">${cn}</th><th class="n">${nn}</th><th class="n">Difference</th><th>Notes</th></tr></thead>`;
+  const tableRows = [
+    `<tr class="grp"><td colspan="5">Upfront costs (one time)</td></tr>`, ...rowHTML(UPFRONT,S.up,false),
+    `<tr class="sub"><td>Upfront total</td><td class="n">${usd(R.upCur)}</td><td class="n">${usd(R.upNew)}</td><td class="n">${usd(R.upCur-R.upNew)}</td><td></td></tr>`,
+    `<tr class="grp"><td colspan="5">Operating costs (per year)</td></tr>`, ...rowHTML(OPERATING,S.op,true),
+    `<tr class="sub"><td>Annual total</td><td class="n">${usd(R.opCur)}</td><td class="n">${usd(R.opNew)}</td><td class="n">${usd(R.savings)}</td><td></td></tr>`];
+
+  newPage();
+  flowItems(tableRows, cont => `<div><h3 style="margin-top:0">Cost comparison${cont?' (continued)':''}</h3><table>${thead}<tbody data-slot></tbody></table></div>`);
+  if(nCats) placeBlock(`<div><h3>Annual operating cost by category</h3><div class="legend" style="margin-top:6px">${legendSq()}</div><div style="height:${catH}px"><canvas id="rp-cat" width="704" height="${catH}"></canvas></div></div>`);
+  if(basis.length) flowItems(basis, cont => `<div><h3${cont?' style="margin-top:0"':''}>Basis for estimates${cont?' (continued)':''}</h3><ul data-slot></ul></div>`);
+  placeBlock(`<p class="disc">Estimates are based on the values entered and are not a guarantee of results. Net investment = ${nn} upfront total − ${cn} upfront total. Payback = net investment ÷ annual savings. ROI = (annual savings × ${R.N} years − net investment) ÷ net investment.</p>`);
+
+  const pages=[...host.querySelectorAll('.rp')];
+  pages.forEach((pg,i)=>pg.insertAdjacentHTML('beforeend', foot(i+1, pages.length)));
+
   const made=[];
   const mk=(id,cfg)=>{ const el=document.getElementById(id); if(el) made.push(new Chart(el,cfg)); };
   mk('rp-pay', paybackConfig(R,true));
